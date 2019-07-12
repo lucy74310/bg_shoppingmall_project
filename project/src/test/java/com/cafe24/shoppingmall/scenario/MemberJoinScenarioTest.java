@@ -150,26 +150,6 @@ public class MemberJoinScenarioTest {
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data[0].defaultMessage", is("may not be empty")));
 		
-		
-		// 필수 데이터를 다 넣었을 때 (validation 통과 성공 시나리오 )
-		Map<String, String> userValid = new HashMap<String, String>();
-		userValid.put("id", "test");
-		userValid.put("name", "user1");
-		userValid.put("password", "1234");
-		userValid.put("telephone", "010-1111-2222");
-		userValid.put("email", "test@gmail.com");
-		userValid.put("gender", "female");
-		userValid.put("birthday", "1999-07-10");
-		
-		// 필수 데이터 다 넣었으므로  11. 회원 등록 요청 & 12. 회원정보 저장 
-		resultAction = mockMvc.perform(post("/api/user/join").param("id", userValid.get("id"))
-						.param("name", userValid.get("name"))
-						.param("password", userValid.get("password"))
-						.param("telephone", userValid.get("telephone"))
-						.param("email", userValid.get("email"))
-						.param("gender", userValid.get("gender"))
-						.param("birthday", userValid.get("birthday"))
-						);
 	}
 	
 	// 9-2. 필수 데이터를 다 넣었을 때 (validation 통과 성공 시나리오 ) -> 10.유효성검사 통과 ->  11. DB에 회원 등록 요청 -> 12. 회원정보 저장 
