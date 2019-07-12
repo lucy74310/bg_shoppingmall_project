@@ -50,71 +50,83 @@ public class MemberJoinScenarioTest {
 	/*
 	 *  1. 회원 가입 요청
 	 *  2. 회원 약관 페이지 
-	 *  3. 회원 약관 동의 
+	 *  3. 회원 약관 동의  - 
 	 *  4. 회원정보 입력 페이지 
-	 *  5. 아이디 중복 체크 요청 
+	 *  5. 아이디 중복 체크 요청 -  
 	 *  6. 아이디 중복 조회
 	 *  7. 아이디 중복 여부 결과
 	 *  8. 아이디 중복 시 재시도 
-	 *  9. 회원 등록 요청 
+	 *  9. 회원 등록 요청 -
 	 *  10. 입력 정보 유효성 검사 
 	 *  11. 회원 등록 요청
 	 *  12. 회원 정보 저장 
 	 *  13. 회원 가입 완료 페이지 반환
 	 */
 	
+	//
+	//3. 회원 약관 동의 
+	//
+	
+	//3-1. 약관에 동의x 
 	@Test
-	public void memberJoinScenarioTest() throws Exception{
-		
-		
-		// 1. 회원 가입 요청  
-		mockMvc.perform(get("/api/user/join/agree"))
-			.andExpect(status().isOk())
-			.andDo(print())
-			// 2. 회원 약관 페이지
-			.andExpect(content().string("\"user/agreement\""));
-		    
-			//assertThat(result.getResponse().getContentAsString(), is("\"약관동의 페이지\""));
-		
-		// 3. 회원 약관 동의
-		// 약관에 동의하지 않으면 약관동의 페이지 반환
+	public void joinNotAgreeTest() throws Exception {
 		mockMvc.perform(get("/api/user/agreecheck").param("agree", "false"))
-						.andExpect(status().is3xxRedirection())
+						.andExpect(status().isOk())
 						.andDo(print())
-						.andExpect(redirectedUrl("/api/user/join/agree"));
-						
-		
-		// 약관에 동의하면 회원가입 페이지 반환
-		// 4. 회원정보 입력 페이지 
+						.andExpect(jsonPath("$.result", is("fail")))
+						.andExpect(jsonPath("$.message", is("약관에 동의해야 회원가입이 가능합니다.")));
+	}
+	
+	//3-2. 약관 동의
+	@Test
+	public void joinAgreeTest() throws Exception {
 		mockMvc.perform(get("/api/user/agreecheck").param("agree", "true"))
-				.andExpect(status().is3xxRedirection())
-				.andDo(print())
-				.andExpect(redirectedUrl("/api/user/joinform"));
-		
-
-		// 5. 아이디 중복 체크 요청 & 6. 아이디 중복 조회 & 7. 아이디 중복 여부 결과 8. 아이디 중복 시 재시도
-		
-		// 중복되는 ID가 없을 때까지 반복 
-		// ID 중복될 때 
-		mockMvc.perform(get("/api/user/checkemail").param("email", "lucy74310@gmail.com"))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data", is(true)));
-		// ID 중복 없을 때까지 반복 요청 
+				.andExpect(jsonPath("$.data", is(Boolean.TRUE)));
+				
+	}
+	
+	
+	//
+	// 5. 아이디 중복 체크 요청 -> 6. 아이디 중복 조회 -> 7. 아이디 중복 여부 결과  ->  8. 아이디 중복 시 재시도
+	//
+	
+	// 5-1. ID 중복될 때 
+	@Test
+	public void idDuplicateTrueTest() throws Exception {
 		
-		// ID 중복되지 않을 때 
-		mockMvc.perform(get("/api/user/checkemail").param("email", "test@gmail.com"))
+		String email = "lucy74310@gmail.com";
+		
+		mockMvc.perform(get("/api/user/checkemail").param("email", email ))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andExpect(jsonPath("$.result", is("success"))) // 통신성공
+				.andExpect(jsonPath("$.data", is(true))); // 중복있음 
+		
+	}
+	
+	// 5-2. ID 중복되지 않을 때 
+	@Test
+	public void idDuplicateFalseTest() throws Exception {
+		
+		String email = "test@gmail.com";
+		
+		mockMvc.perform(get("/api/user/checkemail").param("email", email))
 			.andExpect(status().isOk())
 			.andDo(print())
-			.andExpect(jsonPath("$.result", is("success")))
-			.andExpect(jsonPath("$.data", is(false)));
-		 
-
-		
-		// 9. 회원 등록 요청 &  10. 입력 정보 유효성 검사
-		
-		// 필수 데이터를 다 넣지 않았을 때 (validation 통과 실패 시나리오 )
+			.andExpect(jsonPath("$.result", is("success"))) // 통신성공
+			.andExpect(jsonPath("$.data", is(false))); // 중복없음
+	}
+	
+	//
+	// 9. 회원 등록 요청  ->  10. 입력 정보 유효성 검사
+	//
+	
+	// 9-1. 필수 데이터를 다 넣지 않았을 때 (validation 통과 실패 시나리오 )
+	@Test
+	public void joinRequestFailTest() throws Exception {
 		Map<String, String> userNotValid = new HashMap<String, String>();
 		userNotValid.put("id", "test");
 		userNotValid.put("name", "user1");
@@ -137,7 +149,6 @@ public class MemberJoinScenarioTest {
 		.andDo(print())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data[0].defaultMessage", is("may not be empty")));
-		// 다시 회원가임폼 리턴 (생략)
 		
 		
 		// 필수 데이터를 다 넣었을 때 (validation 통과 성공 시나리오 )
@@ -159,21 +170,35 @@ public class MemberJoinScenarioTest {
 						.param("gender", userValid.get("gender"))
 						.param("birthday", userValid.get("birthday"))
 						);
-		// 13. 회원 가입 성공시 회원 가입 완료 페이지 반환
+	}
+	
+	// 9-2. 필수 데이터를 다 넣었을 때 (validation 통과 성공 시나리오 ) -> 10.유효성검사 통과 ->  11. DB에 회원 등록 요청 -> 12. 회원정보 저장 
+	@Test
+	public void joinRequestSuccessTest() throws Exception {
+		Map<String, String> userValid = new HashMap<String, String>();
+		userValid.put("id", "test");
+		userValid.put("name", "user1");
+		userValid.put("password", "1234");
+		userValid.put("telephone", "010-1111-2222");
+		userValid.put("email", "test@gmail.com");
+		userValid.put("gender", "female");
+		userValid.put("birthday", "1999-07-10");
+		
+		// 10~12
+		ResultActions resultAction = mockMvc.perform(post("/api/user/join").param("id", userValid.get("id"))
+						.param("name", userValid.get("name"))
+						.param("password", userValid.get("password"))
+						.param("telephone", userValid.get("telephone"))
+						.param("email", userValid.get("email"))
+						.param("gender", userValid.get("gender"))
+						.param("birthday", userValid.get("birthday"))
+						);
+		
 		resultAction
-			.andExpect(status().is3xxRedirection())
+			.andExpect(status().isOk())
 			.andDo(print())
-			.andExpect(redirectedUrl("/api/user/join/success"))
 			.andExpect(jsonPath("$.result", is("success")))
 			.andExpect(jsonPath("$.data.no", is(notNullValue())));
-		
-		
-		
-
-		// json to object 할때 참고 
-		// MvcResult result = resultAction.andReturn();
-		// String contentAsString = result.getResponse().getContentAsString();
-		// JSONResult jsonResult = new ObjectMapper().readValue(contentAsString, JSONResult.class);
-		
 	}
+	
 }

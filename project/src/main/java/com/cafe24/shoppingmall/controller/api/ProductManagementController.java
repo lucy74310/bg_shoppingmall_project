@@ -34,27 +34,12 @@ public class ProductManagementController {
 			
 			//insert 성공시 
 			productVo.setNo(1L);
-			response.sendRedirect("/api/manage/product/list");
 			return JSONResult.success(productVo);
 		}
 	}
 	
-	
-	@RequestMapping(value="/add", method=RequestMethod.GET)
-	public String productAddForm() {
-		
-		String view = "productManage/addForm";
-		
-		return view;
-	}
-	
-	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public String productList() {
-		
-		String view = "productManage/list";
-		
-		return view;
-	}
+
+
 	
 	
 	

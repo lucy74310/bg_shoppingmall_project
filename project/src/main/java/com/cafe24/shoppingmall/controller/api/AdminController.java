@@ -15,14 +15,6 @@ import com.cafe24.shoppingmall.dto.JSONResult;
 @RequestMapping("/api/admin")
 public class AdminController {
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String loginForm() {
-		
-		String view = "admin/login";
-		
-		return view;
-	}
-	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public JSONResult login(
 			@RequestParam("id") String id,
@@ -32,7 +24,6 @@ public class AdminController {
 		
 		if("admin".equals(id)) {
 			if("1234".equals(password)) {
-				response.sendRedirect("/api/admin/home");
 				return JSONResult.success(true);
 			} else {
 				return JSONResult.fail("비밀번호가 틀렸습니다.", false);
@@ -42,12 +33,6 @@ public class AdminController {
 			return JSONResult.fail("아이디가 틀렸습니다.", false);
 		}
 		
-	}
-	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public String adminHome() {
-		
-		String view = "admin/index";
-		return view;
 	}
 	
 }
