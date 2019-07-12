@@ -16,9 +16,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.hamcrest.Matchers.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -29,6 +31,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
+import com.cafe24.shoppingmall.vo.UserVo;
+import com.google.gson.Gson;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
@@ -72,7 +77,6 @@ public class MemberJoinScenarioTest {
 	public void joinNotAgreeTest() throws Exception {
 		mockMvc.perform(get("/api/user/agreecheck").param("agree", "false"))
 						.andExpect(status().isOk())
-						.andDo(print())
 						.andExpect(jsonPath("$.result", is("fail")))
 						.andExpect(jsonPath("$.message", is("약관에 동의해야 회원가입이 가능합니다.")));
 	}
@@ -82,7 +86,6 @@ public class MemberJoinScenarioTest {
 	public void joinAgreeTest() throws Exception {
 		mockMvc.perform(get("/api/user/agreecheck").param("agree", "true"))
 				.andExpect(status().isOk())
-				.andDo(print())
 				.andExpect(jsonPath("$.result", is("success")))
 				.andExpect(jsonPath("$.data", is(Boolean.TRUE)));
 				
@@ -101,9 +104,8 @@ public class MemberJoinScenarioTest {
 		
 		mockMvc.perform(get("/api/user/checkemail").param("email", email ))
 				.andExpect(status().isOk())
-				.andDo(print())
-				.andExpect(jsonPath("$.result", is("success"))) // 통신성공
-				.andExpect(jsonPath("$.data", is(true))); // 중복있음 
+				.andExpect(jsonPath("$.result", is("fail"))) 
+				.andExpect(jsonPath("$.message", is("존재하는 이메일입니다.")));
 		
 	}
 	
@@ -115,70 +117,117 @@ public class MemberJoinScenarioTest {
 		
 		mockMvc.perform(get("/api/user/checkemail").param("email", email))
 			.andExpect(status().isOk())
-			.andDo(print())
-			.andExpect(jsonPath("$.result", is("success"))) // 통신성공
-			.andExpect(jsonPath("$.data", is(false))); // 중복없음
+			.andExpect(jsonPath("$.result", is("success"))) 
+			.andExpect(jsonPath("$.data", is(false))); 
 	}
 	
 	//
 	// 9. 회원 등록 요청  ->  10. 입력 정보 유효성 검사
 	//
+	// 9-1. 필수 입력 사항입니다. : id, password, name, telephone, email, address, birthday
 	
-	// 9-1. 필수 데이터를 다 넣지 않았을 때 (validation 통과 실패 시나리오 )
 	@Test
-	public void joinRequestFailTest() throws Exception {
+	public void joinNotEmptyFailTest() throws Exception {
 		Map<String, String> userNotValid = new HashMap<String, String>();
-		userNotValid.put("id", "test");
-		userNotValid.put("name", "user1");
-		userNotValid.put("password", "1234");
-		userNotValid.put("telephone", "010-1111-2222");
-		userNotValid.put("gender", "female");
-		userNotValid.put("birthday", "1999-07-10");
-		
-		ResultActions resultAction = 
-				mockMvc.perform(post("/api/user/join").param("id", userNotValid.get("id"))
-						.param("name", userNotValid.get("name"))
-						.param("password", userNotValid.get("password"))
-						.param("telephone", userNotValid.get("telephone"))
-						.param("gender", userNotValid.get("gender"))
-						.param("birthday", userNotValid.get("birthday"))
-						);
-		
-		resultAction
-		.andExpect(status().isBadRequest())
-		.andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.data[0].defaultMessage", is("may not be empty")));
-		
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(userNotValid)))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.result", is("fail")))
+				.andExpect(jsonPath("$.data.id", is("필수 입력 사항입니다.")))
+				.andExpect(jsonPath("$.data.password", is("필수 입력 사항입니다.")))
+				.andExpect(jsonPath("$.data.telephone", is("필수 입력 사항입니다.")))
+				.andExpect(jsonPath("$.data.email", is("필수 입력 사항입니다.")))
+				.andExpect(jsonPath("$.data.address", is("필수 입력 사항입니다.")))
+				.andExpect(jsonPath("$.data.birthday", is("필수 입력 사항입니다.")));
 	}
+		
+		
+	// 9-2. id : 영문소문자/숫자, 4~16자
+	
+	@Test
+	public void joinIDFailTest() throws Exception {
+		// 성공조건 vo
+		UserVo vo = new UserVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
+		// 4자 미만
+		vo.setId("tes");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.id", is("영문소문자/숫자, 4~16자")));
+		
+		// 16자 초과
+		vo.setId("testtesttesttest0");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.id", is("영문소문자/숫자, 4~16자")));
+		
+		//영소문자 아닐때 
+		vo.setId("TEST입니다.");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.id", is("영문소문자/숫자, 4~16자")));
+	}
+	
+	// 9-3. 영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가
+	@Test
+	public void joinPasswordFailTest() throws Exception {
+		// 성공조건 vo
+		UserVo vo = new UserVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
+		
+		// 8자 미만
+		vo.setPassword("!Tt1");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")));
+		
+		// 16자 초과
+		vo.setPassword("!TesttestTest1234");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")));
+		
+		// 공백포함
+		vo.setPassword("Test! test@");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")));
+		
+		// 3가지 이상 조합 안되었을 경우 
+		vo.setPassword("testistest1");
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")));
+	}
+	
+	/*
+	 * userNotValid.put("name", "user1"); userNotValid.put("password", "1234");
+	 * userNotValid.put("telephone", "010-1111-2222"); userNotValid.put("gender",
+	 * "female"); userNotValid.put("birthday", "1999-07-10");
+	 */
 	
 	// 9-2. 필수 데이터를 다 넣었을 때 (validation 통과 성공 시나리오 ) -> 10.유효성검사 통과 ->  11. DB에 회원 등록 요청 -> 12. 회원정보 저장 
 	@Test
 	public void joinRequestSuccessTest() throws Exception {
-		Map<String, String> userValid = new HashMap<String, String>();
-		userValid.put("id", "test");
-		userValid.put("name", "user1");
-		userValid.put("password", "1234");
-		userValid.put("telephone", "010-1111-2222");
-		userValid.put("email", "test@gmail.com");
-		userValid.put("gender", "female");
-		userValid.put("birthday", "1999-07-10");
-		
-		// 10~12
-		ResultActions resultAction = mockMvc.perform(post("/api/user/join").param("id", userValid.get("id"))
-						.param("name", userValid.get("name"))
-						.param("password", userValid.get("password"))
-						.param("telephone", userValid.get("telephone"))
-						.param("email", userValid.get("email"))
-						.param("gender", userValid.get("gender"))
-						.param("birthday", userValid.get("birthday"))
-						);
-		
-		resultAction
-			.andExpect(status().isOk())
-			.andDo(print())
+		UserVo vo = new UserVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
+		// 성공
+		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
+			.content(new Gson().toJson(vo)))
 			.andExpect(jsonPath("$.result", is("success")))
-			.andExpect(jsonPath("$.data.no", is(notNullValue())));
+			.andExpect(jsonPath("$.data.addr_no", is(1)))
+			.andExpect(jsonPath("$.data.user_no", notNullValue()));
 	}
 	
 }

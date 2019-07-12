@@ -1,48 +1,61 @@
 package com.cafe24.shoppingmall.vo;
 
+
+
+import javax.validation.constraints.Pattern;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserVo {
 	
 	private Long no;
 	
-	@NotEmpty
+	@NotEmpty(message="필수 입력 사항입니다.")
+	@Pattern(regexp = "(([a-z0-9])(?=\\S+$).{4,15})", message="영문소문자/숫자, 4~16자")
 	private String id;
 	
-	@NotEmpty
+	@NotEmpty(message="필수 입력 사항입니다.")
 	private String name;
 	
-	@NotEmpty
+	@NotEmpty(message="필수 입력 사항입니다.")
+	@Pattern(regexp = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,15})", message="영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")
 	private String password;
 	
 	private String phone;
 	
-	@NotEmpty
+	@NotEmpty(message="필수 입력 사항입니다.")
 	private String telephone;
 	
-	@NotEmpty
+	@NotEmpty(message="필수 입력 사항입니다.")
 	private String email;
 	
 	private String gender;
 	
+	@NotEmpty(message="필수 입력 사항입니다.")
 	private String birthday;
 	
 	private String join_date;
 	
+	@NotEmpty(message="필수 입력 사항입니다.")
+	private String address;
 	
 	public UserVo() {}
-	public UserVo(String id, String name, String password, String phone, String telephone,
-			String email, String gender, String birthday) {
+	public UserVo(String id, String name, String password, String telephone,
+			String email, String birthday, String address) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
-		this.phone = phone;
 		this.telephone = telephone;
 		this.email = email;
-		this.gender = gender;
+		this.address = address;
 		this.birthday = birthday;
 		
 	}
+	
+	
+	
+	
+	
 	
 	
 	public Long getNo() {
@@ -105,12 +118,21 @@ public class UserVo {
 	public void setJoin_date(String join_date) {
 		this.join_date = join_date;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return "UserVo [no=" + no + ", id=" + id + ", name=" + name + ", password=" + password + ", phone=" + phone
 				+ ", telephone=" + telephone + ", email=" + email + ", gender=" + gender + ", birthday=" + birthday
-				+ ", join_date=" + join_date + "]";
+				+ ", join_date=" + join_date + ", address=" + address + "]";
 	}
+	
+	
+	
 	
 	
 

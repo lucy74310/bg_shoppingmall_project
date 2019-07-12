@@ -1,12 +1,16 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.UserService;
+import com.cafe24.shoppingmall.vo.AddressVo;
 import com.cafe24.shoppingmall.vo.UserVo;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,7 +38,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@ApiOperation(value="이메일 존재 여부")
+	@ApiOperation(value="중복 이메일 체크")
     @ApiImplicitParam(name="email", value="이메일주소", required = true, dataType="string")
 	@RequestMapping(value="/checkemail", method=RequestMethod.GET)
 	public JSONResult emailCheck(
@@ -42,7 +47,7 @@ public class UserController {
 		
 		if("lucy74310@gmail.com".equals(email)) {
 			// 이메일 존재 
-			return JSONResult.success(true); 
+			return JSONResult.fail("존재하는 이메일입니다."); 
 		} else {
 			// DB에 존재하는 이메일과 다름
 			return JSONResult.success(false);
@@ -50,10 +55,10 @@ public class UserController {
 		
 	}
 	
-	
+	@ApiOperation(value="약관 동의")
 	@ApiImplicitParam(name="agree", value="동의여부", required = true, dataType="Boolean")
 	@RequestMapping(value="/agreecheck", method=RequestMethod.GET)
-	public JSONResult joinForm(@RequestParam(value="agree", required=true) Boolean agree,
+	public JSONResult agreeCheck(@RequestParam(value="agree", required=true) Boolean agree,
 			HttpServletResponse response) throws IOException {
 		
 		if(false == agree) {
@@ -65,43 +70,40 @@ public class UserController {
 		}
 	}
 	
-	
+	@ApiOperation(value="회원 가입")
 	@ApiModelProperty(required = true, value = "id")
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public JSONResult join(
-		@ModelAttribute @Valid UserVo userVo,
-		BindingResult result,
+		@RequestBody @Valid UserVo userVo,
+		BindingResult valid,
 		HttpServletResponse response
 	) throws IOException {
-		System.out.println(userVo.toString());
-		/**
-		 * 200 ok
-		 * {
-		 * 		reault : "fail",
-		 * 		message: "이메일 형식이 맞지 않습니다",
-		 * 		data: null
-		 * }
-		 * 
-		 * --이게 restful 한 응답임 
-		 * 400 bad request
-		 * {
-		 * 		reault : "fail",
-		 * 		message: "이메일 형식이 맞지 않습니다",
-		 * 		data: null
-		 * }
-		 * */
-	
-		if(result.hasErrors()) {
+		
+		if(valid.hasErrors()) {
+			
+			Map<String, String> errMap = new HashMap<String, String>();
+			for(ObjectError err : valid.getAllErrors()) {
+				FieldError f = (FieldError) err;
+				errMap.put(f.getField(), f.getDefaultMessage());
+			}
+			
 			response.setStatus(400);
-			return JSONResult.fail("필수 요구사항이 만족되지 않았습니다.",result.getAllErrors());
+			return JSONResult.fail("필수 요구사항이 만족되지 않았습니다.", errMap);
+			
 		}
 		
-		UserVo insertVo = userService.join(userVo);
-		if(null != userVo.getEmail()) {
-			//no 넣어서 배송지 저장 
-		} 
+		Long user_no = userService.join(userVo);
+		 
+		AddressVo addressVo = 
+			new AddressVo(userVo.getAddress(), userVo.getName(), userVo.getName(), userVo.getTelephone(), 'Y');
 		
-		return JSONResult.success(insertVo);
+		Long addr_no = userService.addAddress(addressVo);
+		
+		Map<String, Long> data = new HashMap<String, Long>();
+		data.put("user_no", user_no);
+		data.put("addr_no", addr_no);
+		
+		return JSONResult.success(data);
 	}
 	
 	
