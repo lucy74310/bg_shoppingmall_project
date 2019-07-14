@@ -1,5 +1,6 @@
 package com.cafe24.shoppingmall.scenario;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -25,6 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -60,6 +62,8 @@ public class ProductRegistrationScenarioTest {
 	7. 상품을 입력하고 제출
 	8. 상품 저장 ( 상품, 상품옵션, 옵션,세부옵션)
 	9. 상품 목록 페이지
+	10. 상품 수정
+	11. 상품 삭제 
 	 * @throws Exception 
 	 */
 	
@@ -167,7 +171,7 @@ public class ProductRegistrationScenarioTest {
 		
 	}
 	
-	// 7-2. 요효성 검사 통과 시나리오  -> 8. 상품 저장 ( 상품, 상품옵션, 옵션,세부옵션)
+	// 7-2. 요효성 검사 통과 시나리오  -> 8. 상품 저장 & 상품 업데이트( 상품, 상품옵션, 옵션,세부옵션) 
 	@Test
 	public void produectAddRequestSuccessTest() throws Exception {
 		ProductVo vo = new ProductVo();
@@ -207,6 +211,19 @@ public class ProductRegistrationScenarioTest {
 			.andDo(print())
 			.andExpect(jsonPath("$.result", is("success")))
 			.andExpect(jsonPath("$.data.no", notNullValue()));
+	}
+	
+	@Test
+	public void productDeleteTest() throws Exception{
+		Long deleteNo = 1L;
+		
+		ResultActions ra = mockMvc.perform(delete("/api/manage/product/delete/{no}", deleteNo).param("test", "true"));
+		
+		ra.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")))
+			.andExpect(jsonPath("$.data", is(1)));
+		
+		
 	}
 	
 	
