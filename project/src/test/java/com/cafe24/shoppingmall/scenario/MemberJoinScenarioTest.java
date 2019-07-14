@@ -52,6 +52,7 @@ public class MemberJoinScenarioTest {
 				build();
 	}
 	
+	
 	/*
 	 *  1. 회원 가입 요청
 	 *  2. 회원 약관 페이지 
