@@ -203,7 +203,7 @@ public class MemberJoinScenarioTest {
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")));
 		
-		// 3가지 이상 조합 안되었을 경우 
+		// 3가지 이상 조합 안되었을 경우 -- 다시 하기 
 		vo.setPassword("testistest1");
 		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
 			.content(new Gson().toJson(vo)))

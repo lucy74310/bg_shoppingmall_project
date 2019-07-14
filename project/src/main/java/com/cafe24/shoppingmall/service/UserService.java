@@ -14,7 +14,9 @@ public class UserService {
 	public UserDao userDao;
 	
 	public Long join(UserVo userVo) {
-		return userDao.insertMember(userVo).getNo();
+		userVo.setNo(1L);
+		//return userDao.insertMember(userVo).getNo();
+		return userVo.getNo();
 	}
 
 	public Long addAddress(AddressVo addressVo) {
