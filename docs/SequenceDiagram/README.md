@@ -3,7 +3,7 @@
 #### 1. 사용자
 
 ##### 회원가입
-![](./1.고객-회원가입.PNG)
+![회원가입](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/1.%EA%B3%A0%EA%B0%9D-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85.PNG)
 
 ```
 [회원가입 입력 정책]
@@ -40,7 +40,7 @@
 #### 2. 관리자
 
 ##### 상품관리
-![](./2.관리자-상품등록.PNG)
+![상품관리](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/2.%EA%B4%80%EB%A6%AC%EC%9E%90-%EC%83%81%ED%92%88%EB%93%B1%EB%A1%9D.PNG)
 
 ```
 1. 관리자 인증 요구
