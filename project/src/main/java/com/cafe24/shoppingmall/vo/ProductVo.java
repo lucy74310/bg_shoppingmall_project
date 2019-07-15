@@ -7,21 +7,21 @@ public class ProductVo {
 	@NotEmpty
 	private String product_name;
 	@NotEmpty
-	private String product_price;
+	private Long product_price;
 	@NotEmpty
 	private String product_short_explain;
 	private String product_detail;
 	@NotEmpty
-	private String displayed;
+	private char displayed;
 	@NotEmpty
-	private String selling;
+	private char selling;
 	@NotEmpty
-	private String use_option;
+	private char use_option;
 	@NotEmpty
-	private String use_stock;
+	private char use_stock;
 	private int stock;
 	@NotEmpty
-	private String soldout_mark;
+	private char soldout_mark;
 	private String reg_date;
 	private int save_percentage;
 	private int shipping_price;
@@ -34,9 +34,32 @@ public class ProductVo {
 	
 	
 	
-	public ProductVo(String product_name, String product_price, String product_short_explain, String product_detail,
-			String displayed, String selling, String use_option, String use_stock, int stock, String soldout_mark,
-			String reg_date, int save_percentage, int shipping_price) {
+	public ProductVo(Long no, String product_name, Long product_price, String product_short_explain,
+			String product_detail, char displayed, char selling, char use_option, char use_stock, int stock,
+			char soldout_mark, int save_percentage, int shipping_price) {
+		super();
+		this.no = no;
+		this.product_name = product_name;
+		this.product_price = product_price;
+		this.product_short_explain = product_short_explain;
+		this.product_detail = product_detail;
+		this.displayed = displayed;
+		this.selling = selling;
+		this.use_option = use_option;
+		this.use_stock = use_stock;
+		this.stock = stock;
+		this.soldout_mark = soldout_mark;
+		this.save_percentage = save_percentage;
+		this.shipping_price = shipping_price;
+	}
+
+
+
+
+	
+	public ProductVo(String product_name, Long product_price, String product_short_explain, String product_detail,
+			char displayed, char selling, char use_option, char use_stock, int stock, char soldout_mark,
+			int save_percentage, int shipping_price) {
 		super();
 		this.product_name = product_name;
 		this.product_price = product_price;
@@ -48,10 +71,12 @@ public class ProductVo {
 		this.use_stock = use_stock;
 		this.stock = stock;
 		this.soldout_mark = soldout_mark;
-		this.reg_date = reg_date;
 		this.save_percentage = save_percentage;
 		this.shipping_price = shipping_price;
 	}
+
+
+
 
 
 
@@ -67,10 +92,10 @@ public class ProductVo {
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
-	public String getProduct_price() {
+	public Long getProduct_price() {
 		return product_price;
 	}
-	public void setProduct_price(String product_price) {
+	public void setProduct_price(Long product_price) {
 		this.product_price = product_price;
 	}
 	public String getProduct_short_explain() {
@@ -85,29 +110,35 @@ public class ProductVo {
 	public void setProduct_detail(String product_detail) {
 		this.product_detail = product_detail;
 	}
-	public String getDisplayed() {
+	public char getDisplayed() {
 		return displayed;
 	}
-	public void setDisplayed(String displayed) {
+	public void setDisplayed(char displayed) {
 		this.displayed = displayed;
 	}
-	public String getSelling() {
+	public char getSelling() {
 		return selling;
 	}
-	public void setSelling(String selling) {
+	public void setSelling(char selling) {
 		this.selling = selling;
 	}
-	public String getUse_option() {
+	public char getUse_option() {
 		return use_option;
 	}
-	public void setUse_option(String use_option) {
+	public void setUse_option(char use_option) {
 		this.use_option = use_option;
 	}
-	public String getUse_stock() {
+	public char getUse_stock() {
 		return use_stock;
 	}
-	public void setUse_stock(String use_stock) {
+	public void setUse_stock(char use_stock) {
 		this.use_stock = use_stock;
+	}
+	public char getSoldout_mark() {
+		return soldout_mark;
+	}
+	public void setSoldout_mark(char soldout_mark) {
+		this.soldout_mark = soldout_mark;
 	}
 	public int getStock() {
 		return stock;
@@ -115,12 +146,7 @@ public class ProductVo {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	public String getSoldout_mark() {
-		return soldout_mark;
-	}
-	public void setSoldout_mark(String soldout_mark) {
-		this.soldout_mark = soldout_mark;
-	}
+
 	public String getReg_date() {
 		return reg_date;
 	}

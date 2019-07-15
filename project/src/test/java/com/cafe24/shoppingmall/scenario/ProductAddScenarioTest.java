@@ -38,7 +38,7 @@ import com.google.gson.Gson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
 @WebAppConfiguration
-public class ProductRegistrationScenarioTest {
+public class ProductAddScenarioTest {
 	
 	private MockMvc mockMvc;
 	
@@ -131,7 +131,7 @@ public class ProductRegistrationScenarioTest {
 	@Test
 	public void produectAddRequestFailTest() throws Exception {
 		ProductVo vo = new ProductVo();
-		vo.setProduct_price("12500");
+		vo.setProduct_price(12500L);
 		vo.setProduct_short_explain("여름 필수템! 시원한 재질의 무지 티셔츠!");
 		vo.setProduct_detail(""
 				+ "<div style=\"width:1000px;margin:0 auto;\">"
@@ -152,12 +152,12 @@ public class ProductRegistrationScenarioTest {
 				+ "</div></div></div>"
 				+ "<br style=\"display: block;content: ' ';height:50px;\">\r\n" + 
 				"</div>");
-		vo.setDisplayed("Y");
-		vo.setSelling("Y");
-		vo.setUse_option("Y");
-		vo.setUse_stock("Y");
+		vo.setDisplayed('Y');
+		vo.setSelling('Y');
+		vo.setUse_option('Y');
+		vo.setUse_stock('Y');
 		vo.setStock(30);
-		vo.setSoldout_mark("Y");
+		vo.setSoldout_mark('Y');
 		vo.setSave_percentage(5);
 		vo.setShipping_price(2500);
 		
@@ -175,7 +175,7 @@ public class ProductRegistrationScenarioTest {
 	@Test
 	public void produectAddRequestSuccessTest() throws Exception {
 		ProductVo vo = new ProductVo();
-		vo.setProduct_price("12500");
+		vo.setProduct_price(12500L);
 		vo.setProduct_short_explain("여름 필수템! 시원한 재질의 무지 티셔츠!");
 		vo.setProduct_detail(""
 				+ "<div style=\"width:1000px;margin:0 auto;\">"
@@ -196,12 +196,12 @@ public class ProductRegistrationScenarioTest {
 				+ "</div></div></div>"
 				+ "<br style=\"display: block;content: ' ';height:50px;\">\r\n" + 
 				"</div>");
-		vo.setDisplayed("Y");
-		vo.setSelling("Y");
-		vo.setUse_option("Y");
-		vo.setUse_stock("Y");
+		vo.setDisplayed('Y');
+		vo.setSelling('Y');
+		vo.setUse_option('Y');
+		vo.setUse_stock('Y');
 		vo.setStock(30);
-		vo.setSoldout_mark("Y");
+		vo.setSoldout_mark('Y');
 		vo.setSave_percentage(5);
 		vo.setShipping_price(2500);
 		

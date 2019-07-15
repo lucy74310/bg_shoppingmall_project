@@ -28,11 +28,8 @@ public class UserControllerTest {
 	
 	private MockMvc mockMvc;
 	
-	
-	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
-	
 	
 	@Before
 	public void setUp() {

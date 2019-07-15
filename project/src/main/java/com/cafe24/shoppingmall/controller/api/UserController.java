@@ -112,32 +112,32 @@ public class UserController {
 		return JSONResult.success("login");
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public JSONResult userInfoUpdate() {
-		return JSONResult.success("userInfoUpdate");
-	}
-	
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public JSONResult deleteUser() {
-		return JSONResult.success("deleteUser");
-	}
-	
-	
-	@RequestMapping(value="/address/add", method=RequestMethod.POST)
-	public JSONResult addressAdd() {
-		return JSONResult.success("addressAdd");
-	}
-	
-	@RequestMapping(value="/address/update", method=RequestMethod.POST)
-	public JSONResult addressUpdate() {
-		return JSONResult.success("addressUpdate");
-	}
-	
-	@RequestMapping(value="/address/delete", method=RequestMethod.POST)
-	public JSONResult addressDelete() {
-		return JSONResult.success("addressDelete");
-	}
-	
+//	@RequestMapping(value="/update", method=RequestMethod.POST)
+//	public JSONResult userInfoUpdate() {
+//		return JSONResult.success("userInfoUpdate");
+//	}
+//	
+//	@RequestMapping(value="/delete", method=RequestMethod.POST)
+//	public JSONResult deleteUser() {
+//		return JSONResult.success("deleteUser");
+//	}
+//	
+//	
+//	@RequestMapping(value="/address/add", method=RequestMethod.POST)
+//	public JSONResult addressAdd() {
+//		return JSONResult.success("addressAdd");
+//	}
+//	
+//	@RequestMapping(value="/address/update", method=RequestMethod.POST)
+//	public JSONResult addressUpdate() {
+//		return JSONResult.success("addressUpdate");
+//	}
+//	
+//	@RequestMapping(value="/address/delete", method=RequestMethod.POST)
+//	public JSONResult addressDelete() {
+//		return JSONResult.success("addressDelete");
+//	}
+//	
 	
 	
 	
