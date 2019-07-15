@@ -34,7 +34,8 @@
 	 
 ```
 
-
+##### 필요api
+- 로그인api
 
 #### 2. 관리자
 
@@ -54,6 +55,10 @@
 10. 상품 수정
 11. 상품 삭제
 ```
+##### 필요api
+- 관리자 가입 api
+- 관리자 로그인 api
+
 
 #### 3.고객&관리자-상품목록&상품조회
 ![고객&관리자-상품목록&상품조회](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/3.%EA%B3%A0%EA%B0%9D%26%EA%B4%80%EB%A6%AC%EC%9E%90-%EC%83%81%ED%92%88%EB%AA%A9%EB%A1%9D%26%EC%83%81%ED%92%88%EC%A1%B0%ED%9A%8C.PNG)
