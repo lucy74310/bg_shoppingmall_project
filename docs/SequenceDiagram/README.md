@@ -72,7 +72,7 @@
 ```
 
 #### 4. 장바구니 관리
-![장바구니 관리]()
+![장바구니 관리](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/4.%EC%9E%A5%EB%B0%94%EA%B5%AC%EB%8B%88%20%EA%B4%80%EB%A6%AC-3.png)
 ```
 1. 장바구니 담기 요청
 2. 상품 재고정보요청
@@ -99,7 +99,7 @@
 ```
 
 #### 5.주문하기
-![주문하기](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/5.%EC%A3%BC%EB%AC%B8.png)
+![주문하기](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/5.%EC%A3%BC%EB%AC%B8-1.png)
 
 ```
 1. 주문 요청
@@ -127,8 +127,7 @@ alt ----- 회원일때
 
 
 #### 6.주문내역보기
-![주문내역보기](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/6.%EC%A3%BC%EB%AC%B8%EB%82%B4%EC%97%AD.png)
-
+![주문내역보기](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/6.%EC%A3%BC%EB%AC%B8%EB%82%B4%EC%97%AD-1.png)
 ```
 1. 주문내역요청
 2. 사용자인증요구
