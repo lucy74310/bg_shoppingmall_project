@@ -35,11 +35,11 @@
 ```
 
 ##### 필요api
-- 로그인api
+- 회원가입 api
 
 #### 2. 관리자
 
-##### 상품등록
+##### 상품관리
 ![](./2.관리자-상품등록.PNG)
 
 ```
@@ -58,6 +58,13 @@
 ##### 필요api
 - 관리자 가입 api
 - 관리자 로그인 api
+- 상품 등록 api
+- 상품 수정 api
+- 상품 삭제 api
+(++ 카테고리관리 시나리오 만든다면 
+   - 카테고리 등록 api 
+   - 카테고리 수정 api
+   - 카테고리 삭제 api )
 
 
 #### 3.고객&관리자-상품목록&상품조회
@@ -75,6 +82,10 @@
 9. 상품 옵션 정보 조회
 10. 상품 상세 정보 반환
 ```
+##### 필요api
+- 상품리스트 api
+- 상품상세정보 api (상품+상품옵션)
+- 상품 옵션정보 api
 
 #### 4. 장바구니 관리
 ![장바구니 관리](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/4.%EC%9E%A5%EB%B0%94%EA%B5%AC%EB%8B%88%20%EA%B4%80%EB%A6%AC-3.png)
@@ -102,6 +113,12 @@
 21. 삭제완료
 
 ```
+##### 필요api
+- 상품, 상품옵션 재고 api
+- 상품옵션재고 api
+- 장바구니추가 api
+- 장바구니수정 api
+- 장바구니삭제 api
 
 #### 5.주문하기
 ![주문하기](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/5.%EC%A3%BC%EB%AC%B8-1.png)
@@ -130,6 +147,15 @@ alt ----- 회원일때
 18. 주문완료
 ```
 
+##### 필요api
+- 상품옵션 재고 api
+- 로그인 api
+- 비회원주문로그인 api
+- 상품 재고변경 api
+- 상품옵션 재고변경 api
+- 주문서, 주문상품 추가 api 
+
+
 
 #### 6.주문내역보기
 ![주문내역보기](https://github.com/lucy74310/bg_shoppingmall_project/blob/master/docs/SequenceDiagram/6.%EC%A3%BC%EB%AC%B8%EB%82%B4%EC%97%AD-1.png)
@@ -153,3 +179,15 @@ alt ----- 회원일때
 ----------------
 
 ```
+##### 필요api
+- 로그인 api
+- 회원 주문내역 리스트 api
+- 비회원주문조회 api 
+
+
+
+
+
+
+
+
