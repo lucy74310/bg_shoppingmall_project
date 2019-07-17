@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasSize;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ProductControllerTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
-	
+	@Ignore
 	@Test
 	public void getProductListTest() throws Exception {
 		mockMvc.perform(get("/api/product/list"))
@@ -55,7 +56,7 @@ public class ProductControllerTest {
 			.andExpect(jsonPath("$.result",is("success")))
 			.andExpect(jsonPath("$.data", hasSize(2)));
 	}
-	
+	@Ignore
 	@Test
 	public void getDetailInfoTest() throws Exception {
 		mockMvc.perform(get("/api/product/{no}", 1L))
@@ -92,7 +93,7 @@ public class ProductControllerTest {
 				.andExpect(jsonPath("$.data", notNullValue()));
 	}
 	
-	
+	@Ignore
 	@Rollback(false)
 	@Test
 	public void updateTest() throws Exception {
