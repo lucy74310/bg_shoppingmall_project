@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shoppingmall.backend.repository.ProductDao;
 import com.cafe24.shoppingmall.backend.vo.OptionDetailVo;
@@ -35,7 +36,8 @@ public class ProductService {
 	public Long deleteProduct(Long deleteNo) {
 		return 1L;
 	}
-
+	
+	@Transactional
 	public Long addProduct(ProductVo productVo) {
 		System.out.println(productVo);
 		Long no = productDao.insertProduct(productVo);

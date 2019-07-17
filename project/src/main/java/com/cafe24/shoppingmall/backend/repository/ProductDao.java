@@ -20,6 +20,7 @@ public class ProductDao {
 	
 	public Long insertProduct(ProductVo productVo) {
 		int count = sqlSession.insert("product.insert", productVo);
+		System.out.println(productVo);
 		if(count == 1) {
 			return productVo.getNo();
 		} else {
@@ -29,19 +30,19 @@ public class ProductDao {
 	}
 
 	public Long insertOption(OptionVo option) {
-		sqlSession.insert("product.opinsert", option);
+		sqlSession.insert("product.op_insert", option);
 		return option.getNo();
 	}
 
 	public boolean insertOptionDetail(OptionDetailVo od) {
-		return 1 == sqlSession.insert("product.opdinsert", od);
+		return 1 == sqlSession.insert("product.opd_insert", od);
 	}
 
 	public boolean insertProductCategort(Long no, Long categoryNo) {
 		Map<String,Long> data = new HashMap<String,Long>();
 		data.put("product_no", no);
 		data.put("category_no", categoryNo);
-		return 1 == sqlSession.insert("product.productcategoryinsert",data);
+		return 1 == sqlSession.insert("product.product_category_insert",data);
 	}
 
 }

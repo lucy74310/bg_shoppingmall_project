@@ -22,7 +22,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="opinsert" parameterType="optionvo">
+	<insert id="op_insert" parameterType="optionvo">
 		<![CDATA[
 			insert into op  (op_name, op_explain, op_order, product_no)
 			values (#{op_name}, #{op_explain}, #{op_order}, #{product_no});
@@ -35,10 +35,25 @@
 			
 		</selectKey>
 	</insert>
-	<insert id="opdinsert" parameterType="optiondetailvo">
+	<insert id="opd_insert" parameterType="optiondetailvo">
 		<![CDATA[
 			insert into opd  (opd_name, opd_order, plus_price, option_no)
 			values (#{opd_name}, #{opd_order}, #{plus_price}, #{option_no})
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="product_category_insert" parameterType="map">
+		<![CDATA[
+			insert into product_category (category_no, product_no)
+			values(#{category_no}, #{product_no})
 		
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
