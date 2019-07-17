@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@PropertySource("classpath:config/web/properties/multipart.properties")
+@PropertySource("classpath:com/cafe24/config/web/properties/multipart.properties")
 public class FileuploadConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired

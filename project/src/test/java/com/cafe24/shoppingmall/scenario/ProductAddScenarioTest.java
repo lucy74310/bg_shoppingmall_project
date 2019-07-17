@@ -30,9 +30,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.cafe24.shoppingmall.backend.vo.ProductVo;
 import com.cafe24.shoppingmall.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
-import com.cafe24.shoppingmall.vo.ProductVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -131,18 +131,9 @@ public class ProductAddScenarioTest {
 	@Test
 	public void produectAddRequestFailTest() throws Exception {
 		ProductVo vo = new ProductVo();
-		vo.setProduct_price(12500L);
+		vo.setProduct_price("12500");
 		vo.setProduct_short_explain("여름 필수템! 시원한 재질의 무지 티셔츠!");
 		vo.setProduct_detail(""
-				+ "<div style=\"width:1000px;margin:0 auto;\">"
-				+ "<div type=\"application/json\" class=\"-edibot-metadata\" "
-				+ "data-version=\"2.0.0\" data-api=\"1.0.0\" "
-				+ "data-created=\"2019-07-11 21:21:18\" "
-				+ "data-projectid=\"N190711_2120\" data-groupid=\"g000001\" "
-				+ "data-sessionid=\"1\" data-classid=\"undefined\" data-shopno=\"1\""
-				+ "data-shoplang=\"ko_KR\">"
-				+ "<!--{\"api\":\"1.0.0\",\"groupid\":\"g000001\",\"mallid\":\"neomart\",\"projectid\":\"N190711_2120\",\"sessionid\":1,\"version\":\"2.0.0\",\"shopno\":1,\"shoplang\":\"ko_KR\",\"created\":\"2019-07-11 21:21:18\"}--></div>\r\n" + 
-				"<div>"
 				+ "<div style=\"width:100%;height:100%;position:relative;font-family:verdana,sans-serif;"
 				+ "font-size:14px;color:#000000;font-style:normal;font-weight:400;text-align:center;"
 				+ "line-height:1.5;letter-spacing:0;word-spacing:0;background-color:rgba(255,255,255,0);\">"
@@ -175,7 +166,7 @@ public class ProductAddScenarioTest {
 	@Test
 	public void produectAddRequestSuccessTest() throws Exception {
 		ProductVo vo = new ProductVo();
-		vo.setProduct_price(12500L);
+		vo.setProduct_price("12500");
 		vo.setProduct_short_explain("여름 필수템! 시원한 재질의 무지 티셔츠!");
 		vo.setProduct_detail(""
 				+ "<div style=\"width:1000px;margin:0 auto;\">"

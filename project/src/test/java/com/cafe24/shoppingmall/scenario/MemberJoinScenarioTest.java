@@ -27,11 +27,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.cafe24.shoppingmall.backend.vo.UserVo;
 import com.cafe24.shoppingmall.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
-import com.cafe24.shoppingmall.vo.UserVo;
 import com.google.gson.Gson;
 
 
@@ -77,7 +78,7 @@ public class MemberJoinScenarioTest {
 	@Test
 	public void joinNotAgreeTest() throws Exception {
 		mockMvc.perform(get("/api/user/agreecheck").param("agree", "false"))
-						.andExpect(status().isOk())
+						.andExpect(status().isBadRequest())
 						.andExpect(jsonPath("$.result", is("fail")))
 						.andExpect(jsonPath("$.message", is("약관에 동의해야 회원가입이 가능합니다.")));
 	}
@@ -104,7 +105,7 @@ public class MemberJoinScenarioTest {
 		String email = "lucy74310@gmail.com";
 		
 		mockMvc.perform(get("/api/user/checkemail").param("email", email ))
-				.andExpect(status().isOk())
+				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.result", is("fail"))) 
 				.andExpect(jsonPath("$.message", is("존재하는 이메일입니다.")));
 		
