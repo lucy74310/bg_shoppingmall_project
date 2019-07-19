@@ -43,20 +43,20 @@ public class ProductController {
 	@PutMapping("/add")
 	public ResponseEntity<JSONResult> productAdd(
 			@RequestBody @Valid ProductVo productVo,
-			BindingResult valid) throws IOException {
-		System.out.println(productVo);
-		
+			BindingResult valid
+	) throws IOException {
 		if(valid.hasErrors()) {
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(JSONResult.fail(f.getDefaultMessage()));
+						.body(JSONResult.fail(f.getDefaultMessage(), null));
 			}
 		} 
-		
 		Long productNo = productService.addProduct(productVo);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productNo));
 	}
+	
+	
 	
 	@ApiOperation("상품수정")
 	@PostMapping("/update")
@@ -76,22 +76,23 @@ public class ProductController {
 		}
 	}
 	
+	
+	
 	@ApiOperation("상품삭제")
 	@DeleteMapping("/delete/{deleteNo}")
 	public ResponseEntity<JSONResult> productDelete(
-			@PathVariable(value="deleteNo") Long deleteNo,
-			@RequestParam Boolean test
+			@PathVariable(value="deleteNo") Long deleteNo
 	) {
-		Long result;
-		if(test) {
-			result =  productService.deleteProduct(deleteNo);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(result));
+		int deleterowcount = productService.deleteProduct(deleteNo);
+		if(deleterowcount == 1 ) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleterowcount));
 		} else {
-			result = null;
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("fail", result));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+					JSONResult.fail("상품이 삭제되지 않았습니다.", null));
 		}
 	}
+	
+	
 	
 	@ApiOperation("재고수량변경")
 	@GetMapping("/stock/update/{optionNo}/{count}")
@@ -100,28 +101,39 @@ public class ProductController {
 			@PathVariable(value="count") int count,
 			@RequestParam Boolean test
 	) {
-		Long result;
+		boolean result;
 		if(test) {
-			result =  productService.deleteProduct(deleteNo);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(result));
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(true));
 		} else {
-			result = null;
+			result = false;
 			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(JSONResult.fail("fail", result));
 		}
 	}
 	
+	
+	
+	
+	
 	@ApiOperation("상품목록")
 	@GetMapping("/list")
 	public ResponseEntity<JSONResult> getList() {
 		
-		List<ProductVo> list = new ArrayList<ProductVo>();
+		List<ProductVo> list = productService.getList();
 		
-		list.add(new ProductVo("test_product1", "5000", "test1입니다", "<h1>Test1입니다</h1>", 'Y', 'Y', 'N', 'Y', 20, 'Y', 5, 2000));
-		list.add(new ProductVo("test_product2", "12000L", "test2입니다", "<h1>Test2입니다</h1>", 'Y', 'Y', 'N', 'Y', 20, 'Y', 5, 2000));
-		return ResponseEntity.status(HttpStatus.OK)
+		if(list.size() > 0) {
+			return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(list));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("등록된 상품이 없습니다", null));
+		}
+		
 	}
+	
+	
+	
+	
 	@ApiOperation("상세보기")
 	@GetMapping("/{no}")
 	public ResponseEntity<JSONResult> getProductInfo(
@@ -137,6 +149,9 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(data));
 	}
+	
+	
+	
 	
 	@ApiOperation("재고정보")
 	@GetMapping("/stock/list/{productNo}")

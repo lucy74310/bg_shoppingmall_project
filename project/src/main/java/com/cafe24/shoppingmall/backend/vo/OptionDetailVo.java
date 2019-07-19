@@ -11,9 +11,7 @@ public class OptionDetailVo {
 	private String opd_name;
 	@NotEmpty
 	private Long plus_price;
-	@NotEmpty
 	private int opd_order;
-	@NotEmpty
 	private Long option_no;
 	
 	

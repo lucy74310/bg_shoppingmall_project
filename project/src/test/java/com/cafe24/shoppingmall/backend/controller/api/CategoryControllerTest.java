@@ -67,7 +67,7 @@ public class CategoryControllerTest {
 	
 	
 	/* 카테고리추가 - 성공 */
-	@Rollback(true)
+	@Rollback(false)
 	@Test
 	public void categoryAddSuccessTest() throws Exception {
 		CategoryVo categoryVo = new CategoryVo("액세서리");

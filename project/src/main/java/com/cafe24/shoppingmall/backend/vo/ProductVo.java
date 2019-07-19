@@ -12,11 +12,10 @@ import javafx.beans.DefaultProperty;
 public class ProductVo {
 	private Long no;
 	
-	@NotEmpty(message="상품명을 입력해 주세요.")
-	@Length(min=1, max=20)
+	@NotEmpty(message="상품명을 입력해 주세요.(1~20자)")
+	@Length(min=1, max=20, message="상품명을 입력해 주세요.(1~20자)")
 	private String product_name;
-	@NotEmpty(message="판매가를 입력해 주세요.")
-	private String product_price;
+	private Long product_price;
 	
 	private String product_short_explain;
 	private String product_detail;
@@ -25,28 +24,28 @@ public class ProductVo {
 	private char selling;
 	private char use_option;
 	private char use_stock;
-	
 	private int stock;
 	private char soldout_mark;
+	
 	private String reg_date;
 	private int save_percentage;
-	private int shipping_price;
+	private int shipping_price = 2500;
 	
-	private List<OptionVo> po_list; 
+	private List<OptionVo> o_list; 
 	
-	private List<Long> category_list;
+	private List<ProductCategoryVo> category_list;
 	
+	private List<ImageVo> image_list;
 	
+	private List<ProductOptionVo> po_list;
 	
 	public ProductVo() {
 	}
-	
-	
-	
-	
-	public ProductVo(String product_name, String product_price, String product_short_explain, char displayed,
+	//테스트에서 사용
+	public ProductVo(String product_name, Long product_price, String product_short_explain, char displayed,
 			char selling, char use_option, char use_stock, int stock, char soldout_mark, int shipping_price,
-			List<OptionVo> po_list, List<Long> category_list) {
+			List<OptionVo> o_list, List<ProductCategoryVo> category_list, List<ImageVo> image_list, 
+			List<ProductOptionVo> po_list) {
 		this.product_name = product_name;
 		this.product_price = product_price;
 		this.product_short_explain = product_short_explain;
@@ -57,57 +56,25 @@ public class ProductVo {
 		this.stock = stock;
 		this.soldout_mark = soldout_mark;
 		this.shipping_price = shipping_price;
-		this.po_list = po_list;
+		this.o_list = o_list;
 		this.category_list = category_list;
+		this.image_list = image_list;
+		this.po_list = po_list;
 	}
-
-
-
-
-	public ProductVo(Long no, String product_name, String product_price, String product_short_explain,
-			String product_detail, char displayed, char selling, char use_option, char use_stock, int stock,
-			char soldout_mark, int save_percentage, int shipping_price) {
-		this.no = no;
-		this.product_name = product_name;
-		this.product_price = product_price;
-		this.product_short_explain = product_short_explain;
-		this.product_detail = product_detail;
-		this.displayed = displayed;
-		this.selling = selling;
-		this.use_option = use_option;
-		this.use_stock = use_stock;
-		this.stock = stock;
-		this.soldout_mark = soldout_mark;
-		this.save_percentage = save_percentage;
-		this.shipping_price = shipping_price;
-	}
-
-
-
 
 	
-	public ProductVo(String product_name, String product_price, String product_short_explain, String product_detail,
-			char displayed, char selling, char use_option, char use_stock, int stock, char soldout_mark,
-			int save_percentage, int shipping_price) {
+
+	public ProductVo(String product_name, Long product_price, char displayed, char selling, char use_option,
+			char use_stock, char soldout_mark) {
+		super();
 		this.product_name = product_name;
 		this.product_price = product_price;
-		this.product_short_explain = product_short_explain;
-		this.product_detail = product_detail;
 		this.displayed = displayed;
 		this.selling = selling;
 		this.use_option = use_option;
 		this.use_stock = use_stock;
-		this.stock = stock;
 		this.soldout_mark = soldout_mark;
-		this.save_percentage = save_percentage;
-		this.shipping_price = shipping_price;
 	}
-
-
-
-
-
-
 	public Long getNo() {
 		return no;
 	}
@@ -120,10 +87,10 @@ public class ProductVo {
 	public void setProduct_name(String product_name) {
 		this.product_name = product_name;
 	}
-	public String getProduct_price() {
+	public Long getProduct_price() {
 		return product_price;
 	}
-	public void setProduct_price(String product_price) {
+	public void setProduct_price(Long product_price) {
 		this.product_price = product_price;
 	}
 	public String getProduct_short_explain() {
@@ -194,35 +161,43 @@ public class ProductVo {
 		this.shipping_price = shipping_price;
 	}
 
-	public List<OptionVo> getPo_list() {
-		return po_list;
+	public List<OptionVo> getO_list() {
+		return o_list;
 	}
 
-	public void setPo_list(List<OptionVo> po_list) {
-		this.po_list = po_list;
+	public void setO_list(List<OptionVo> o_list) {
+		this.o_list = o_list;
 	}
 
-	public List<Long> getCategory_list() {
+	public List<ProductCategoryVo> getCategory_list() {
 		return category_list;
 	}
 
-	public void setCategory_list(List<Long> category_list) {
+	public void setCategory_list(List<ProductCategoryVo> category_list) {
 		this.category_list = category_list;
 	}
+	public List<ImageVo> getImage_list() {
+		return image_list;
+	}
+	public void setImage_list(List<ImageVo> image_list) {
+		this.image_list = image_list;
+	}
 
+	public List<ProductOptionVo> getPo_list() {
+		return po_list;
+	}
+	public void setPo_list(List<ProductOptionVo> po_list) {
+		this.po_list = po_list;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", product_name=" + product_name + ", product_price=" + product_price
 				+ ", product_short_explain=" + product_short_explain + ", product_detail=" + product_detail
 				+ ", displayed=" + displayed + ", selling=" + selling + ", use_option=" + use_option + ", use_stock="
 				+ use_stock + ", stock=" + stock + ", soldout_mark=" + soldout_mark + ", reg_date=" + reg_date
-				+ ", save_percentage=" + save_percentage + ", shipping_price=" + shipping_price + ", po_list=" + po_list
-				+ ", category_list=" + category_list + "]";
+				+ ", save_percentage=" + save_percentage + ", shipping_price=" + shipping_price + ", o_list=" + o_list
+				+ ", category_list=" + category_list + ", image_list=" + image_list + ", po_list=" + po_list + "]";
 	}
-
-
-
-	
 	
 	
 	

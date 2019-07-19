@@ -6,10 +6,41 @@ public class ProductOptionVo {
 	private String po_code;
 	private int stock;
 	private char use_stock;
+	private char displayed;
+	private char selling;
 	private Long plus_price;
+	private int po_order;
 	private Long product_no;
 	
+	public ProductOptionVo() {
+		
+	}
+	public ProductOptionVo(String po_name, char displayed, char selling, Long plus_price, int po_order) {
+		this.po_name = po_name;
+		this.displayed = displayed;
+		this.selling = selling;
+		this.plus_price = plus_price;
+		this.po_order = po_order;
+	}
 	
+	public char getDisplayed() {
+		return displayed;
+	}
+	public void setDisplayed(char displayed) {
+		this.displayed = displayed;
+	}
+	public char getSelling() {
+		return selling;
+	}
+	public void setSelling(char selling) {
+		this.selling = selling;
+	}
+	public int getPo_order() {
+		return po_order;
+	}
+	public void setPo_order(int po_order) {
+		this.po_order = po_order;
+	}
 	public Long getNo() {
 		return no;
 	}
@@ -46,19 +77,31 @@ public class ProductOptionVo {
 	public void setPlus_price(Long plus_price) {
 		this.plus_price = plus_price;
 	}
+	public int getOrder() {
+		return po_order;
+	}
+	public void setOrder(int order) {
+		this.po_order = order;
+	}
 	public Long getProduct_no() {
 		return product_no;
 	}
 	public void setProduct_no(Long product_no) {
 		this.product_no = product_no;
 	}
-	@Override
-	public String toString() {
-		return "ProductOptionVo [no=" + no + ", po_name=" + po_name + ", po_code=" + po_code + ", stock=" + stock
-				+ ", use_stock=" + use_stock + ", plus_price=" + plus_price + ", product_no=" + product_no + "]";
+	public ProductOptionVo(Long no, String po_name, String po_code, int stock, char use_stock, char displayed,
+			char selling, Long plus_price, int po_order, Long product_no) {
+		this.no = no;
+		this.po_name = po_name;
+		this.po_code = po_code;
+		this.stock = stock;
+		this.use_stock = use_stock;
+		this.displayed = displayed;
+		this.selling = selling;
+		this.plus_price = plus_price;
+		this.po_order = po_order;
+		this.product_no = product_no;
 	}
-	
-	
-	
+
 	
 }

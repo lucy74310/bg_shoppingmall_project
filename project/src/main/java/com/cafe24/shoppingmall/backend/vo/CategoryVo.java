@@ -11,7 +11,7 @@ public class CategoryVo {
 	private String category_name;
 	private String category_explain;
 	private Long upper_no;
-	
+	private int in_order;
 	
 	public CategoryVo() {
 	}
@@ -68,12 +68,21 @@ public class CategoryVo {
 		this.upper_no = upper_no;
 	}
 
+	public int getIn_order() {
+		return in_order;
+	}
+
+	public void setIn_order(int in_order) {
+		this.in_order = in_order;
+	}
+
 	@Override
 	public String toString() {
 		return "CategoryVo [no=" + no + ", category_name=" + category_name + ", category_explain=" + category_explain
-				+ ", upper_no=" + upper_no + "]";
+				+ ", upper_no=" + upper_no + ", in_order=" + in_order + "]";
 	}
 
+	
 
 	
 }
