@@ -16,7 +16,7 @@ import com.cafe24.config.web.SwaggerConfig;
 @EnableAspectJAutoProxy
 // spring-servlet.xml의 <context:component-scan base-package="com.cafe24.springex.controller" />
 @ComponentScan({"com.cafe24.shoppingmall.backend.controller.api"})
-@Import({TestMVCConfig.class, SecurityConfig.class, MessageConfig.class, FileuploadConfig.class, SwaggerConfig.class})
+@Import({TestMVCConfig.class, SecurityConfig.class, MessageConfig.class, SwaggerConfig.class})
 public class TestWebConfig {
 	
 	
