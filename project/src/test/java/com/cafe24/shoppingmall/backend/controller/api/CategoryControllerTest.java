@@ -5,14 +5,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.hamcrest.Matchers.*;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +54,10 @@ public class CategoryControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	
-	
+	@Test
+	public void mockMvcNotNullTest() {
+		assertNotNull(mockMvc);		
+	}
 	
 	@Test
 	public void categoryListTest() throws Exception {
@@ -70,7 +77,19 @@ public class CategoryControllerTest {
 	@Rollback(false)
 	@Test
 	public void categoryAddSuccessTest() throws Exception {
-		CategoryVo categoryVo = new CategoryVo("액세서리");
+		CategoryVo subCateVo1_1 = new CategoryVo("크롭티", 1);
+		CategoryVo subCateVo1_2 = new CategoryVo("오버핏", 2);
+		List<CategoryVo> sub_cate_list_1 = new ArrayList<CategoryVo>();
+		sub_cate_list_1.add(subCateVo1_1);
+		sub_cate_list_1.add(subCateVo1_2);
+		CategoryVo subCateVo1 = new CategoryVo("셔츠", 1, sub_cate_list_1);
+		CategoryVo subCateVo2 = new CategoryVo("블라우스", 2);
+		List<CategoryVo> sub_cate_list = new ArrayList<CategoryVo>();
+		sub_cate_list.add(subCateVo1);
+		sub_cate_list.add(subCateVo2);
+		
+		CategoryVo categoryVo = new CategoryVo("상의", 1, sub_cate_list);
+		
 		mockMvc.perform(post("/api/category/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
 			.andExpect(status().isOk())
@@ -100,6 +119,7 @@ public class CategoryControllerTest {
 	
 	
 	/* 카테고리수정 - 성공 */
+	@Ignore
 	@Rollback(true)
 	@Test
 	public void categoryUpdateTest() throws Exception {
@@ -154,6 +174,7 @@ public class CategoryControllerTest {
 	}
 	
 	/* 카테고리수정 - 실패 - DB에러 */
+	@Ignore
 	@Test
 	public void categoryUpdateFailDBTest() throws Exception {
 		CategoryVo categoryVo = new CategoryVo("ThisIsAccessary");
@@ -168,6 +189,7 @@ public class CategoryControllerTest {
 	
 	
 	/* 카테고리 삭제 - 성공 */
+	@Ignore
 	@Rollback(true)
 	@Test
 	public void categoryDeleteSuccessTest() throws Exception {
@@ -194,6 +216,7 @@ public class CategoryControllerTest {
 	
 	/* 카테고리 삭제 - DB에러 
 	 * 없는 no  */
+	@Ignore
 	@Test
 	public void categoryDeleteFailTest() throws Exception {
 		//없는 no 삭제 요청 

@@ -88,7 +88,7 @@ public class ProductControllerTest {
 			
 	}
 	
-	@Rollback(true)
+	@Rollback(false)
 	@Test
 	public void addSuccessTest() throws Exception {
 		insertProcess();
@@ -149,10 +149,10 @@ public class ProductControllerTest {
 	
 	private Long insertProcess() throws Exception {
 		List<ImageVo> image_list = new ArrayList<ImageVo>();
-		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", 'Y'));
-		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", 'N'));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", 'N'));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", 'N'));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", 'Y', 1));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", 'N', 2));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", 'N', 3));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", 'N', 4));
 		
 		
 		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
@@ -172,7 +172,7 @@ public class ProductControllerTest {
 		
 		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
 		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
-		category_list.add(new ProductCategoryVo(3L));
+		category_list.add(new ProductCategoryVo(10L));
 		
 		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
 		
@@ -197,7 +197,7 @@ public class ProductControllerTest {
 		String contentAsString = result.getResponse().getContentAsString();
 		JSONResult jsonResult = new ObjectMapper().readValue(contentAsString, JSONResult.class);
 		
-		Long insert_product_no = (Long) jsonResult.getData();
+		Long insert_product_no = new Long(jsonResult.getData().toString());
 		
 		return insert_product_no;
 	}

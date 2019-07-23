@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.backend.vo;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -11,7 +13,12 @@ public class CategoryVo {
 	private String category_name;
 	private String category_explain;
 	private Long upper_no;
-	private int in_order;
+	private int category_order;
+	
+	
+	
+	private List<CategoryVo> sub_categories;
+	private String flag;
 	
 	public CategoryVo() {
 	}
@@ -24,7 +31,18 @@ public class CategoryVo {
 	public CategoryVo(String category_name) {
 		this.category_name = category_name;
 	}
-	
+
+	public CategoryVo(String category_name, int category_order) {
+		super();
+		this.category_name = category_name;
+		this.category_order = category_order;
+	}
+
+	public CategoryVo(String category_name, int category_order, List<CategoryVo> sub_categories) {
+		this.category_name = category_name;
+		this.category_order = category_order;
+		this.sub_categories = sub_categories;
+	}
 
 	public CategoryVo(String category_name, String category_explain) {
 		this.category_name = category_name;
@@ -67,20 +85,46 @@ public class CategoryVo {
 	public void setUpper_no(Long upper_no) {
 		this.upper_no = upper_no;
 	}
-
 	public int getIn_order() {
-		return in_order;
+		return category_order;
+	}
+	public void setIn_order(int category_order) {
+		this.category_order = category_order;
+	}
+	
+	public List<CategoryVo> getSub_categories() {
+		return sub_categories;
 	}
 
-	public void setIn_order(int in_order) {
-		this.in_order = in_order;
+	public void setSub_categories(List<CategoryVo> sub_categories) {
+		this.sub_categories = sub_categories;
+	}
+
+	public int getCategory_order() {
+		return category_order;
+	}
+
+	public void setCategory_order(int category_order) {
+		this.category_order = category_order;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 	@Override
 	public String toString() {
 		return "CategoryVo [no=" + no + ", category_name=" + category_name + ", category_explain=" + category_explain
-				+ ", upper_no=" + upper_no + ", in_order=" + in_order + "]";
+				+ ", upper_no=" + upper_no + ", category_order=" + category_order + ", sub_categories=" + sub_categories
+				+ ", flag=" + flag + "]";
 	}
+
+	
+	
 
 	
 

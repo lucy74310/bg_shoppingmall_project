@@ -13,7 +13,7 @@ public class OptionDetailVo {
 	private Long plus_price;
 	private int opd_order;
 	private Long option_no;
-	
+	private String flag;
 	
 	
 	public OptionDetailVo() {
@@ -30,18 +30,13 @@ public class OptionDetailVo {
 		this.option_no = option_no;
 	}
 
-
-
-
 	public Long getNo() {
 		return no;
 	}
 
-
 	public void setNo(Long no) {
 		this.no = no;
 	}
-
 
 	public Long getPlus_price() {
 		return plus_price;
@@ -75,17 +70,18 @@ public class OptionDetailVo {
 	public void setOption_no(Long option_no) {
 		this.option_no = option_no;
 	}
-
-
-
-
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 	@Override
 	public String toString() {
 		return "OptionDetailVo [no=" + no + ", opd_name=" + opd_name + ", plus_price=" + plus_price + ", opd_order="
-				+ opd_order + ", option_no=" + option_no + "]";
+				+ opd_order + ", option_no=" + option_no + ", flag=" + flag + "]";
 	}
 
-	
 	
 	
 	

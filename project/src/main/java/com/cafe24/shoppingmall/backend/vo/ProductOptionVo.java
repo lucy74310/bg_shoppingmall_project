@@ -11,6 +11,7 @@ public class ProductOptionVo {
 	private Long plus_price;
 	private int po_order;
 	private Long product_no;
+	private String flag;
 	
 	public ProductOptionVo() {
 		
@@ -89,6 +90,12 @@ public class ProductOptionVo {
 	public void setProduct_no(Long product_no) {
 		this.product_no = product_no;
 	}
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
 	public ProductOptionVo(Long no, String po_name, String po_code, int stock, char use_stock, char displayed,
 			char selling, Long plus_price, int po_order, Long product_no) {
 		this.no = no;
@@ -101,6 +108,12 @@ public class ProductOptionVo {
 		this.plus_price = plus_price;
 		this.po_order = po_order;
 		this.product_no = product_no;
+	}
+	@Override
+	public String toString() {
+		return "ProductOptionVo [no=" + no + ", po_name=" + po_name + ", po_code=" + po_code + ", stock=" + stock
+				+ ", use_stock=" + use_stock + ", displayed=" + displayed + ", selling=" + selling + ", plus_price="
+				+ plus_price + ", po_order=" + po_order + ", product_no=" + product_no + ", flag=" + flag + "]";
 	}
 
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shoppingmall.backend.repository.ProductDao;
+import com.cafe24.shoppingmall.backend.vo.CategoryVo;
 import com.cafe24.shoppingmall.backend.vo.ImageVo;
 import com.cafe24.shoppingmall.backend.vo.OptionDetailVo;
 import com.cafe24.shoppingmall.backend.vo.OptionVo;
@@ -26,11 +27,18 @@ public class ProductService {
 		return null;
 	}
 
+	
 	public List<ProductOptionVo> getProductOptionInfo(Long no) {
 		List<ProductOptionVo> po_list = new ArrayList<ProductOptionVo>();
 		return po_list;
 	}
 	
+	//상품 리스트 가져오기 
+	public List<ProductVo> getList() {
+		return productDao.getList();
+	}
+	
+	//상품 삭제
 	@Transactional
 	public int deleteProduct(Long deleteNo) {
 		// 상품 카테고리 삭제
@@ -40,28 +48,29 @@ public class ProductService {
 		
 		for(Long no : option_no) {
 			//세부옵션 삭제
-			productDao.deleteOptionDetail(no);
+			productDao.deleteOptionDetailByOptionNo(no);
 		}
 		//옵션 삭제
-		productDao.deleteOption(deleteNo);
+		productDao.deleteOptionByProductNo(deleteNo);
+		
 		// 상품옵션 삭제
-		productDao.deleteProductOption(deleteNo);
+		productDao.deleteProductOptionByProductNo(deleteNo);
 		
 		// 이미지 삭제
-		productDao.deleteImage(deleteNo);
-		
+		productDao.deleteImageByProductNo(deleteNo);
 		
 		// 상품삭제
 		int deleteSuccess = productDao.deleteProduct(deleteNo);
+		
 		return deleteSuccess;
 	}
 	
+	// 상품 등록
 	@Transactional
 	public Long addProduct(ProductVo productVo) {
 		
 		// 상품 insert
 		Long no = productDao.insertProduct(productVo);
-		
 		
 		if (no != null) {
 			// 옵션,세부옵션,상품옵션 insert
@@ -74,24 +83,39 @@ public class ProductService {
 			if( !insertImage(productVo, no)) return null;
 		}
 		
-		
 		return no;
 	}
 
+	// 상품 수정
 	@Transactional
 	public boolean updateProduct(ProductVo productVo) {
 		Long no = productVo.getNo();
-		if (no != null) {
-			// 옵션,세부옵션,상품옵션 insert
+		
+		// 상품 update
+		if(productVo.getUse_option() == 'N') {
+			// 옵션,세부옵션,상품옵션 delete
+			deleteAboutOption(productVo);
+			// 상품 => 상품옵션 일때 insert
+			insertSameProductOption(productVo);
+		} else {
+			// 옵션,세부옵션,상품옵션 update
 			updateAboutOption(productVo, no);
-			
-			// 카테고리 insert
-			updateCategory(productVo, no);
-			
-			// 이미지 insert
-			updateImage(productVo, no);
-			
 		}
+		
+		if(productVo.getUse_stock() == 'Y') {
+			productVo.setStock(0);
+			productVo.setSoldout_mark('N');
+		}
+		
+		
+		// 카테고리 update
+		updateAboutCategory(productVo, no);
+					
+		// 이미지 update
+		updateAboutImage(productVo, no);
+		
+		// 상품 update
+		productDao.updateProduct(productVo);	
 		
 		
 		return true;
@@ -131,36 +155,89 @@ public class ProductService {
 				productDao.insertProductOption(po);
 			}
 		} else {
-			ProductOptionVo productOptionVo = new ProductOptionVo(productVo.getProduct_name(), productVo.getDisplayed(),
-					productVo.getSelling(), productVo.getProduct_price(), 1);
-			productOptionVo.setUse_stock(productVo.getUse_stock());
-			productOptionVo.setNo(no);
-			productDao.insertProductOption(productOptionVo);
-			
+			productVo.setNo(no);
+			// 상품 => 상품옵션 일때 insert
+			insertSameProductOption(productVo);
 		}
 		
 		
 		
+		return true;
+	}
+	
+	// 옵션 삭제 ( 상품 수정 시 옵션 사용 여부 N일때 ) 
+	private boolean deleteAboutOption(ProductVo productVo) {
+		// 세부옵션 delete
+		List<OptionVo> option_list = productVo.getO_list();
+		for(OptionVo o : option_list) {
+			productDao.deleteOptionDetailByOptionNo(o.getNo());
+		}
+		// 옵션 delete 
+		productDao.deleteOptionByProductNo(productVo.getNo());
+		
+		// 상품옵션 delete
+		productDao.deleteProductOptionByProductNo(productVo.getNo());
+		return true;
+	}
+	
+	// 상품 => 상품옵션 일때 insert
+	private boolean insertSameProductOption(ProductVo productVo) {
+		ProductOptionVo productOptionVo = new ProductOptionVo(productVo.getProduct_name(), productVo.getDisplayed(),
+				productVo.getSelling(), productVo.getProduct_price(), 1);
+		productOptionVo.setUse_stock(productVo.getUse_stock());
+		productOptionVo.setStock(productVo.getStock());
+		productOptionVo.setProduct_no(productVo.getNo());
+		productDao.insertProductOption(productOptionVo);
 		return true;
 	}
 	
 	
 	// 옵션,세부옵션,상품옵션 update
 	private boolean updateAboutOption(ProductVo productVo, Long no) {
-		if(productVo.getUse_option() == 'Y') {
-			for (OptionVo option : productVo.getO_list() ) {
-				productDao.updateOption(option);
-				for(OptionDetailVo od : option.getOd_list()) {
+		// 옵션, 세부옵션 update를 다룸		
+		for (OptionVo o : productVo.getO_list() ) {
+			// flag 검사 - insert, delete, update 실행, 비어있으면 아무것도 실행하지 않는다.
+			if("insert" == o.getFlag()) {
+				// 옵션 insert
+				Long option_no = productDao.insertOption(o);
+				for( OptionDetailVo od : o.getOd_list() ) {
+					// 세부옵션 insert
+					od.setOption_no(option_no);
+					productDao.insertOptionDetail(od);
+				}
+			} else if("update" == o.getFlag()) {
+				// 옵션 update
+				productDao.updateOption(o);
+				for( OptionDetailVo od : o.getOd_list() ) {
+					// 세부옵션 update
 					productDao.updateOptionDetail(od);
 				}
+			} else if("delete" == o.getFlag()) {
+				//부모인 option_no 넘김 - 세부옵션 delete
+				productDao.deleteOptionDetailByOptionNo(o.getNo());
+				// 옵션 delete
+				productDao.deleteOptionByOptionNo(o.getNo());
 			}
 		}
+		for(ProductOptionVo povo : productVo.getPo_list()) {
+			if("insert" == povo.getFlag()) {
+				productDao.insertProductOption(povo);
+			} else if("update" == povo.getFlag()) {
+				productDao.updateProductOption(povo);
+			} else if("delete" == povo.getFlag()) {
+				productDao.deleteProductOptionByNo(povo.getNo());
+			}
+				
+		}
+		
+		
+		
 		return true;
 	}
 	
 	
 	
-	// 카테고리 insert
+	// 상품카테고리 insert
 	private boolean insertCategory(ProductVo productVo, Long no) {
 		if(productVo.getCategory_list() != null) {
 			for(ProductCategoryVo pcVo : productVo.getCategory_list()) {
@@ -172,8 +249,14 @@ public class ProductService {
 		return true;
 	}
 	
+	// 상품카테고리 delete 
+	private boolean deleteCategory(Long product_no) {
+		productDao.deleteProductCategory(product_no);
+		return true;
+	}
+	
 	// 카테고리 update
-	private boolean updateCategory(ProductVo productVo, Long no) {
+	private boolean updateAboutCategory(ProductVo productVo, Long no) {
 		// 기존에 product_no = no로 갖고 있는 로우 삭제
 		// 인서트 
 		
@@ -190,15 +273,10 @@ public class ProductService {
 		return true;
 	}
 	
-	// 상품카테고리 delete 
-	private boolean deleteCategory(Long product_no) {
-		productDao.deleteProductCategory(product_no);
-		
-		return true;
-	}
+	
 	
 	// 이미지 insert
-	public boolean insertImage(ProductVo productVo, Long no) {
+	private boolean insertImage(ProductVo productVo, Long no) {
 		if(productVo.getImage_list() != null) {
 			for(ImageVo image : productVo.getImage_list()) {
 				image.setProduct_no(no);
@@ -209,21 +287,43 @@ public class ProductService {
 		return true;
 	}
 	
+
 	// 이미지 update
-	private boolean updateImage(ProductVo productVo, Long no) {
+	private boolean updateAboutImage(ProductVo productVo, Long no) {
 		if(productVo.getImage_list() != null) {
 			for(ImageVo image : productVo.getImage_list()) {
-				image.setProduct_no(no);
-				productDao.updateImage(image);
+				if("insert".contentEquals(image.getFlag())) {
+					image.setProduct_no(no);
+					productDao.insertImage(image);
+				} else if("update".contentEquals(image.getFlag())) {
+					productDao.updateImage(image);
+				} else if("delete".contentEquals(image.getFlag())) {
+					productDao.deleteImageByNo(image.getNo());
+				}
+				
 			}
 		}
 		return true;
 	}
 
-	
-	//상품 리스트 가져오기 
-	public List<ProductVo> getList() {
-		return productDao.getList();
+
+	public List<OptionVo> getOptionList(Long no) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+
+	public List<ImageVo> getImageList(Long no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public List<CategoryVo> getCatetoryInfo(Long no) {
+		
+		return null;
+	}
+	
+	
 	
 }

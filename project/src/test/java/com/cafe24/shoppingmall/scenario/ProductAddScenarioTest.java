@@ -131,7 +131,7 @@ public class ProductAddScenarioTest {
 	@Test
 	public void produectAddRequestFailTest() throws Exception {
 		ProductVo vo = new ProductVo();
-		vo.setProduct_price("12500");
+		vo.setProduct_price(12500L);
 		vo.setProduct_short_explain("여름 필수템! 시원한 재질의 무지 티셔츠!");
 		vo.setProduct_detail(""
 				+ "<div style=\"width:100%;height:100%;position:relative;font-family:verdana,sans-serif;"
@@ -166,7 +166,7 @@ public class ProductAddScenarioTest {
 	@Test
 	public void produectAddRequestSuccessTest() throws Exception {
 		ProductVo vo = new ProductVo();
-		vo.setProduct_price("12500");
+		vo.setProduct_price(12500L);
 		vo.setProduct_short_explain("여름 필수템! 시원한 재질의 무지 티셔츠!");
 		vo.setProduct_detail(""
 				+ "<div style=\"width:1000px;margin:0 auto;\">"

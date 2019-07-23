@@ -48,6 +48,11 @@ public class ProductDao {
 		return (1 == sqlSession.insert("product.image_insert", image));
 	}
 	
+	public Long insertProductOption(ProductOptionVo povo) {
+		sqlSession.insert("product.product_option_insert", povo);
+		return povo.getNo(); 
+	}
+	
 	
 	/* update */
 	
@@ -70,30 +75,39 @@ public class ProductDao {
 		return count;
 		
 	}
-	
-	public Long insertProductOption(ProductOptionVo povo) {
-		sqlSession.insert("product.product_option_insert", povo);
-		return povo.getNo(); 
+	public int updateProductOption(ProductOptionVo povo) {
+		return sqlSession.update("product.product_option_update", povo);
 	}
+
+	
+	
 	
 	/* delete */
 	public int deleteProductCategory(Long product_no) {
 		return sqlSession.insert("product.product_category_delete", product_no);
 	}
 
-	public int deleteOptionDetail(Long option_no) {
+	public int deleteOptionDetailByOptionNo(Long option_no) {
 		return sqlSession.delete("product.delete_option_detail", option_no);
 		
 	}
-	public int deleteOption(Long product_no) {
+	public int deleteOptionByProductNo(Long product_no) {
 		return sqlSession.delete("product.delete_option", product_no);
 	}
-	public int deleteProductOption(Long product_no) {
-		return sqlSession.delete("product.delete_product_option", product_no);
-		
+	public int deleteOptionByOptionNo(Long product_no) {
+		return sqlSession.delete("product.delete_option", product_no);
 	}
-	public int deleteImage(Long product_no) {
+	public int deleteProductOptionByProductNo(Long product_no) {
+		return sqlSession.delete("product.delete_product_option", product_no);
+	}
+	public int deleteProductOptionByNo(Long po_no) {
+		return sqlSession.delete("product.delete_product_option_by_no", po_no);
+	}
+	public int deleteImageByProductNo(Long product_no) {
 		return sqlSession.delete("product.delete_image", product_no);
+	}
+	public int deleteImageByNo(Long no) {
+		return sqlSession.delete("product.delete_image_by_no", no);
 	}
 	public int deleteProduct(Long product_no) {
 		return sqlSession.delete("product.delete_product", product_no);
@@ -109,6 +123,7 @@ public class ProductDao {
 	public List<Long> getOptionNoByProductNo(Long product_no) {
 		return sqlSession.selectList("product.get_option_no_list", product_no);
 	}
+
 
 	
 

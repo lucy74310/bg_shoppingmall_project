@@ -27,6 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.ProductService;
+import com.cafe24.shoppingmall.backend.vo.CategoryVo;
+import com.cafe24.shoppingmall.backend.vo.ImageVo;
+import com.cafe24.shoppingmall.backend.vo.OptionVo;
+import com.cafe24.shoppingmall.backend.vo.ProductCategoryVo;
 import com.cafe24.shoppingmall.backend.vo.ProductOptionVo;
 import com.cafe24.shoppingmall.backend.vo.ProductVo;
 
@@ -140,11 +144,13 @@ public class ProductController {
 			@PathVariable(value="no") Long no
 	) {
 		ProductVo productVo = productService.getProductInfo(no);
-		List<ProductOptionVo> productOptionList = productService.getProductOptionInfo(productVo.getNo());
-		
+		List<ProductOptionVo> product_option_list = productService.getProductOptionInfo(no);
+		List<OptionVo> option_list = productService.getOptionList(no);
+		List<ImageVo> image_list = productService.getImageList(no);
+		List<CategoryVo> category = productService.getCatetoryInfo(no);
 		Map<String, Object> data = new HashMap<String, Object>();
+		
 		data.put("product", productVo);
-		data.put("product_option", productOptionList);
 		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(data));

@@ -15,7 +15,7 @@ public class OptionVo {
 	private int op_order;
 	private Long product_no;
 	private List<OptionDetailVo> od_list;
-	
+	private String flag;
 	
 	
 	
@@ -85,13 +85,22 @@ public class OptionVo {
 		this.od_list = od_list;
 	}
 
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
+	}
+
 
 	@Override
 	public String toString() {
 		return "OptionVo [no=" + no + ", op_name=" + op_name + ", op_explain=" + op_explain + ", op_order=" + op_order
-				+ ", product_no=" + product_no + ", od_list=" + od_list + "]";
+				+ ", product_no=" + product_no + ", od_list=" + od_list + ", flag=" + flag + "]";
 	}
 
+	
 	
 	
 	
