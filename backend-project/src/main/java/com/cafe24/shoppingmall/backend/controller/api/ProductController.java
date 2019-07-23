@@ -143,14 +143,7 @@ public class ProductController {
 	public ResponseEntity<JSONResult> getProductInfo(
 			@PathVariable(value="no") Long no
 	) {
-		ProductVo productVo = productService.getProductInfo(no);
-		List<ProductOptionVo> product_option_list = productService.getProductOptionInfo(no);
-		List<OptionVo> option_list = productService.getOptionList(no);
-		List<ImageVo> image_list = productService.getImageList(no);
-		List<CategoryVo> category = productService.getCatetoryInfo(no);
-		Map<String, Object> data = new HashMap<String, Object>();
-		
-		data.put("product", productVo);
+		Map<String, Object> data = productService.getProductInfo(no);
 		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(data));
@@ -158,22 +151,6 @@ public class ProductController {
 	
 	
 	
-	
-	@ApiOperation("재고정보")
-	@GetMapping("/stock/list/{productNo}")
-	public ResponseEntity<JSONResult> getProductOptionInfo(
-			@PathVariable(value="productNo") Long no
-	) {
-		ProductVo productVo = productService.getProductInfo(no);
-		List<ProductOptionVo> productOptionList = productService.getProductOptionInfo(productVo.getNo());
-		
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("product", productVo);
-		data.put("product_option", productOptionList);
-		
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(data));
-	}
 	
 	
 }

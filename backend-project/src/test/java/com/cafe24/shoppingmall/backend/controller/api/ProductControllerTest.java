@@ -61,7 +61,6 @@ public class ProductControllerTest {
 	@Test
 	public void getProductListTest() throws Exception {
 		mockMvc.perform(get("/api/product/list"))
-			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result",is("success")));
 	}
@@ -71,7 +70,6 @@ public class ProductControllerTest {
 	@Test
 	public void getProductListNoDataTest() throws Exception {
 		mockMvc.perform(get("/api/product/list"))
-			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result",is("fail")))
 			.andExpect(jsonPath("$.message",is("등록된 상품이 없습니다")));
@@ -81,7 +79,6 @@ public class ProductControllerTest {
 	@Test
 	public void getDetailInfoTest() throws Exception {
 		mockMvc.perform(get("/api/product/{deleteNo}", 1L))
-//			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")))
 			.andExpect(jsonPath("$.data.product.no" , is(1)));
@@ -121,12 +118,11 @@ public class ProductControllerTest {
 	
 	
 	//상품 삭제 성공
-	@Ignore
 	@Rollback(false)
 	@Test
 	public void deleteSuccessTest() throws Exception {
 		
-		mockMvc.perform(delete("/api/product/delete/{no}", 7L))
+		mockMvc.perform(delete("/api/product/delete/{no}", 2L))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
@@ -156,8 +152,8 @@ public class ProductControllerTest {
 		
 		
 		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
-		od_list.add(new OptionDetailVo("아이보리", 0L));
-		od_list.add(new OptionDetailVo("검정", 0L));
+		od_list.add(new OptionDetailVo("아이보리", 500L, 1, "Y"));
+		od_list.add(new OptionDetailVo("검정", 500L, 2, "Y"));
 		
 		
 		List<OptionVo> option_list = new ArrayList<OptionVo>();
@@ -165,14 +161,14 @@ public class ProductControllerTest {
 		
 		od_list = new ArrayList<OptionDetailVo>();
 		
-		od_list.add(new OptionDetailVo("90", 0L));
-		od_list.add(new OptionDetailVo("95", 0L));
+		od_list.add(new OptionDetailVo("90", 0L, 1, "Y"));
+		od_list.add(new OptionDetailVo("95", 0L, 1, "Y"));
 		
 		option_list.add(new OptionVo("사이즈", od_list));
 		
 		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
 		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
-		category_list.add(new ProductCategoryVo(10L));
+		category_list.add(new ProductCategoryVo(4L));
 		
 		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
 		

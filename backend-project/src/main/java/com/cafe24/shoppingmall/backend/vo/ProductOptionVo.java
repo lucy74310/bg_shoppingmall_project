@@ -6,8 +6,8 @@ public class ProductOptionVo {
 	private String po_code;
 	private int stock;
 	private char use_stock;
-	private char displayed;
 	private char selling;
+	private char displayed;
 	private Long plus_price;
 	private int po_order;
 	private Long product_no;

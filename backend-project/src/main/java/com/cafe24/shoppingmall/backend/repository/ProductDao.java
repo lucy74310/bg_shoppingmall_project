@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.shoppingmall.backend.vo.CategoryVo;
 import com.cafe24.shoppingmall.backend.vo.ImageVo;
 import com.cafe24.shoppingmall.backend.vo.OptionDetailVo;
 import com.cafe24.shoppingmall.backend.vo.OptionVo;
@@ -26,30 +27,30 @@ public class ProductDao {
 	/* insert */
 	
 	public Long insertProduct(ProductVo productVo) {
-		sqlSession.insert("product.product_insert", productVo);
+		sqlSession.insert("product.insert_product", productVo);
 		return productVo.getNo();
 	}
 
 	public Long insertOption(OptionVo option) {
-		sqlSession.insert("product.option_insert", option);
+		sqlSession.insert("product.insert_option", option);
 		return option.getNo();
 	}
 
 	public Long insertOptionDetail(OptionDetailVo od) {
-		sqlSession.insert("product.option_detail_insert", od);
+		sqlSession.insert("product.insert_option_detail", od);
 		return od.getNo();
 	}
 
 	public boolean insertProductCategory(ProductCategoryVo pcVo) {
-		return 1 == sqlSession.insert("product.product_category_insert",pcVo);
+		return 1 == sqlSession.insert("product.insert_product_category",pcVo);
 	}
 
 	public boolean insertImage(ImageVo image) {
-		return (1 == sqlSession.insert("product.image_insert", image));
+		return (1 == sqlSession.insert("product.insert_image", image));
 	}
 	
 	public Long insertProductOption(ProductOptionVo povo) {
-		sqlSession.insert("product.product_option_insert", povo);
+		sqlSession.insert("product.insert_product_option", povo);
 		return povo.getNo(); 
 	}
 	
@@ -57,26 +58,26 @@ public class ProductDao {
 	/* update */
 	
 	public int updateProduct(ProductVo productVo) {
-		int count = sqlSession.update("product.product_update", productVo);
+		int count = sqlSession.update("product.update_product", productVo);
 		return count; 
 	}
 	public int updateOption(OptionVo option) {
-		int count = sqlSession.update("product.option_update", option);
+		int count = sqlSession.update("product.update_option", option);
 		return count;
 	}
 
 	public int updateOptionDetail(OptionDetailVo od) {
-		int count = sqlSession.update("product.option_detail_update", od);
+		int count = sqlSession.update("product.update_option_detail", od);
 		return count;
 	}
 
 	public int updateImage(ImageVo image) {
-		int count = sqlSession.update("product.image_update", image);
+		int count = sqlSession.update("product.update_image", image);
 		return count;
 		
 	}
 	public int updateProductOption(ProductOptionVo povo) {
-		return sqlSession.update("product.product_option_update", povo);
+		return sqlSession.update("product.update_product_option", povo);
 	}
 
 	
@@ -84,7 +85,7 @@ public class ProductDao {
 	
 	/* delete */
 	public int deleteProductCategory(Long product_no) {
-		return sqlSession.insert("product.product_category_delete", product_no);
+		return sqlSession.insert("product.delete_product_category", product_no);
 	}
 
 	public int deleteOptionDetailByOptionNo(Long option_no) {
@@ -116,14 +117,46 @@ public class ProductDao {
 	/*select*/
 	
 	public List<ProductVo> getList(){
-		return sqlSession.selectList("product.getlist");
+		return sqlSession.selectList("product.get_list");
 	}
 
-	//상품지울때 상품에 연결되어 있는 옵션번호 리스트
+	//상품지울때 상품에 연결되어 있는 옵션번호 리스트 getlist
 	public List<Long> getOptionNoByProductNo(Long product_no) {
 		return sqlSession.selectList("product.get_option_no_list", product_no);
 	}
+	
+	//상품정보 get 
+	public ProductVo getProductOne(Long product_no) {
+		return sqlSession.selectOne("product.get_product", product_no);
+	}
+	
+	//상품옵션 정보 get
+	public List<ProductOptionVo> getProductOption(Long product_no) {
+		return sqlSession.selectList("product.get_product_option_list",product_no );
+	}
 
+	public List<OptionVo> getOptionList(Long product_no) {
+		return sqlSession.selectList("product.get_option_list",product_no );
+	}
+	
+	public List<OptionDetailVo> getOptionDetailList(Long option_no) {
+		return sqlSession.selectList("product.get_option_detail_list", option_no );
+	}
+
+	public List<ImageVo> getImageList(Long product_no) {
+		return sqlSession.selectList("product.get_image_list", product_no );
+	}
+
+	public List<CategoryVo> getCategoryList(Long product_no) {
+		return sqlSession.selectList("product.get_category_list", product_no );
+	}
+	
+	//상위카테고리 하나 가져오기
+	public CategoryVo getUpperCateogry(Long upper_no2) {
+		return sqlSession.selectOne("product.get_upper_category", upper_no2);
+	}
+
+	
 
 	
 

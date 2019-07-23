@@ -6,8 +6,8 @@
 	<insert id="insert" parameterType="categoryvo">
 		<![CDATA[
 			insert into category
-				(category_name, category_explain, upper_no)
-				values (#{category_name}, #{category_explain}, #{upper_no});
+				(category_name, category_explain, category_order, upper_no)
+				values (#{category_name}, #{category_explain}, #{category_order}, #{upper_no});
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
 			<![CDATA[
@@ -23,6 +23,7 @@
 				set 
 					category_name = #{category_name}, 
 					category_explain= #{category_explain}, 
+					category_order = #{category_order},
 					upper_no= #{upper_no}
 				where no = #{no}
 		]]>
@@ -37,7 +38,7 @@
 	
 	<select id="getlist" resultType="categoryvo">
 		<![CDATA[
-			select no, category_name, category_explain, upper_no from category
+			select no, category_name, category_explain, category_order, upper_no from category
 		]]>
 	</select>
 </mapper>

@@ -14,7 +14,8 @@ public class CategoryVo {
 	private String category_explain;
 	private Long upper_no;
 	private int category_order;
-	
+	private String upper_category_name;
+	private Long upper_no2;
 	
 	
 	private List<CategoryVo> sub_categories;
@@ -33,7 +34,6 @@ public class CategoryVo {
 	}
 
 	public CategoryVo(String category_name, int category_order) {
-		super();
 		this.category_name = category_name;
 		this.category_order = category_order;
 	}
@@ -85,12 +85,6 @@ public class CategoryVo {
 	public void setUpper_no(Long upper_no) {
 		this.upper_no = upper_no;
 	}
-	public int getIn_order() {
-		return category_order;
-	}
-	public void setIn_order(int category_order) {
-		this.category_order = category_order;
-	}
 	
 	public List<CategoryVo> getSub_categories() {
 		return sub_categories;
@@ -115,12 +109,26 @@ public class CategoryVo {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+	
+	public String getUpper_category_name() {
+		return upper_category_name;
+	}
+	public void setUpper_category_name(String upper_category_name) {
+		this.upper_category_name = upper_category_name;
+	}
+	public Long getUpper_no2() {
+		return upper_no2;
+	}
+	public void setUpper_no2(Long upper_no2) {
+		this.upper_no2 = upper_no2;
+	}
 
 	@Override
 	public String toString() {
 		return "CategoryVo [no=" + no + ", category_name=" + category_name + ", category_explain=" + category_explain
-				+ ", upper_no=" + upper_no + ", category_order=" + category_order + ", sub_categories=" + sub_categories
-				+ ", flag=" + flag + "]";
+				+ ", upper_no=" + upper_no + ", category_order=" + category_order + ", upper_category_name="
+				+ upper_category_name + ", upper_no2=" + upper_no2 + ", sub_categories=" + sub_categories + ", flag="
+				+ flag + "]";
 	}
 
 	

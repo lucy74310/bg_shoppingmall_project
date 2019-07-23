@@ -8,6 +8,8 @@ public class CartVo {
 	private Long price;
 	private int count;
 	private String flag;
+	
+	
 	public Long getCart_no() {
 		return cart_no;
 	}

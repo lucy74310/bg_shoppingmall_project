@@ -1,7 +1,9 @@
 package com.cafe24.shoppingmall.backend.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,20 +25,7 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 	
-	public ProductVo getProductInfo(Long no) {
-		return null;
-	}
-
 	
-	public List<ProductOptionVo> getProductOptionInfo(Long no) {
-		List<ProductOptionVo> po_list = new ArrayList<ProductOptionVo>();
-		return po_list;
-	}
-	
-	//상품 리스트 가져오기 
-	public List<ProductVo> getList() {
-		return productDao.getList();
-	}
 	
 	//상품 삭제
 	@Transactional
@@ -306,24 +295,79 @@ public class ProductService {
 		return true;
 	}
 
-
-	public List<OptionVo> getOptionList(Long no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public List<ImageVo> getImageList(Long no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public List<CategoryVo> getCatetoryInfo(Long no) {
+	public Map<String, Object> getStockInfo(Long no) {
 		
 		return null;
 	}
 	
+	public Map<String, Object> getProductInfo(Long product_no) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("product", productDao.getProductOne(product_no));
+		
+		data.put("product_option_list", getProductOptionInfo(product_no));
+		
+		List<OptionVo> option_list = getOptionList(product_no);
+		for(OptionVo o : option_list) {
+			List<OptionDetailVo> option_detail_list = getOptionDetailList(o.getNo());
+			o.setOd_list(option_detail_list);
+		}
+				
+		data.put("option_list", option_list);
+		
+		
+		data.put("image_list", getImageList(product_no));
+		
+		data.put("category", getCatetoryInfo(product_no));
+		
+		return data;
+	}
+
+	private List<OptionDetailVo> getOptionDetailList(Long option_no) {
+		return productDao.getOptionDetailList(option_no);
+	}
+
+	private List<OptionVo> getOptionList(Long product_no) {
+		return productDao.getOptionList(product_no);
+	}
+
+
+	private List<ImageVo> getImageList(Long product_no) {
+		return productDao.getImageList(product_no);
+	}
+
+	
+	private List<CategoryVo> getCatetoryInfo(Long product_no) {
+		List<CategoryVo> c_list = productDao.getCategoryList(product_no);
+		for(CategoryVo c : c_list) {
+			
+			if(c.getUpper_no() != null) {
+				c.setCategory_name(c.getUpper_category_name() + " > " + c.getCategory_name());
+			}
+			
+			while(c.getUpper_no2() != null) {
+				CategoryVo upper_c = productDao.getUpperCateogry(c.getUpper_no2());
+				c.setCategory_name(upper_c.getCategory_name() + " > " + c.getCategory_name() );
+				c.setUpper_no2(upper_c.getUpper_no2());
+			}
+		}
+		
+		return c_list;
+		
+	}
+	
+	
+	
+	
+	private List<ProductOptionVo> getProductOptionInfo(Long product_no) {
+		return  productDao.getProductOption(product_no);
+	}
+	
+	//상품 리스트 가져오기 
+	public List<ProductVo> getList() {
+		return productDao.getList();
+	}
+
 	
 	
 }
