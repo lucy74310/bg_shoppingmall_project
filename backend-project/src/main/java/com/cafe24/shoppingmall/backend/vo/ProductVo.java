@@ -20,12 +20,12 @@ public class ProductVo {
 	private String product_short_explain;
 	private String product_detail;
 	
-	private char displayed;
-	private char selling;
-	private char use_option;
-	private char use_stock;
+	private String displayed;
+	private String selling;
+	private String use_option;
+	private String use_stock;
 	private int stock;
-	private char soldout_mark;
+	private String soldout_mark;
 	
 	private String reg_date;
 	private int save_percentage;
@@ -35,6 +35,8 @@ public class ProductVo {
 	
 	private List<ProductCategoryVo> category_list;
 	
+	private List<CategoryVo> category_list_with_name;
+	
 	private List<ImageVo> image_list;
 	
 	private List<ProductOptionVo> po_list;
@@ -42,8 +44,8 @@ public class ProductVo {
 	public ProductVo() {
 	}
 	//테스트에서 사용
-	public ProductVo(String product_name, Long product_price, String product_short_explain, char displayed,
-			char selling, char use_option, char use_stock, int stock, char soldout_mark, int shipping_price,
+	public ProductVo(String product_name, Long product_price, String product_short_explain, String displayed,
+			String selling, String use_option, String use_stock, int stock, String soldout_mark, int shipping_price,
 			List<OptionVo> o_list, List<ProductCategoryVo> category_list, List<ImageVo> image_list, 
 			List<ProductOptionVo> po_list) {
 		this.product_name = product_name;
@@ -64,8 +66,8 @@ public class ProductVo {
 
 	
 
-	public ProductVo(String product_name, Long product_price, char displayed, char selling, char use_option,
-			char use_stock, char soldout_mark) {
+	public ProductVo(String product_name, Long product_price, String displayed, String selling, String use_option,
+			String use_stock, String soldout_mark) {
 		super();
 		this.product_name = product_name;
 		this.product_price = product_price;
@@ -105,34 +107,34 @@ public class ProductVo {
 	public void setProduct_detail(String product_detail) {
 		this.product_detail = product_detail;
 	}
-	public char getDisplayed() {
+	public String getDisplayed() {
 		return displayed;
 	}
-	public void setDisplayed(char displayed) {
+	public void setDisplayed(String displayed) {
 		this.displayed = displayed;
 	}
-	public char getSelling() {
+	public String getSelling() {
 		return selling;
 	}
-	public void setSelling(char selling) {
+	public void setSelling(String selling) {
 		this.selling = selling;
 	}
-	public char getUse_option() {
+	public String getUse_option() {
 		return use_option;
 	}
-	public void setUse_option(char use_option) {
+	public void setUse_option(String use_option) {
 		this.use_option = use_option;
 	}
-	public char getUse_stock() {
+	public String getUse_stock() {
 		return use_stock;
 	}
-	public void setUse_stock(char use_stock) {
+	public void setUse_stock(String use_stock) {
 		this.use_stock = use_stock;
 	}
-	public char getSoldout_mark() {
+	public String getSoldout_mark() {
 		return soldout_mark;
 	}
-	public void setSoldout_mark(char soldout_mark) {
+	public void setSoldout_mark(String soldout_mark) {
 		this.soldout_mark = soldout_mark;
 	}
 	public int getStock() {
@@ -189,6 +191,13 @@ public class ProductVo {
 	public void setPo_list(List<ProductOptionVo> po_list) {
 		this.po_list = po_list;
 	}
+	
+	public List<CategoryVo> getCategory_list_with_name() {
+		return category_list_with_name;
+	}
+	public void setCategory_list_with_name(List<CategoryVo> category_list_with_name) {
+		this.category_list_with_name = category_list_with_name;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", product_name=" + product_name + ", product_price=" + product_price
@@ -196,7 +205,8 @@ public class ProductVo {
 				+ ", displayed=" + displayed + ", selling=" + selling + ", use_option=" + use_option + ", use_stock="
 				+ use_stock + ", stock=" + stock + ", soldout_mark=" + soldout_mark + ", reg_date=" + reg_date
 				+ ", save_percentage=" + save_percentage + ", shipping_price=" + shipping_price + ", o_list=" + o_list
-				+ ", category_list=" + category_list + ", image_list=" + image_list + ", po_list=" + po_list + "]";
+				+ ", category_list=" + category_list + ", category_list_with_name=" + category_list_with_name
+				+ ", image_list=" + image_list + ", po_list=" + po_list + "]";
 	}
 	
 	

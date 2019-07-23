@@ -5,9 +5,9 @@ public class ProductOptionVo {
 	private String po_name;
 	private String po_code;
 	private int stock;
-	private char use_stock;
-	private char selling;
-	private char displayed;
+	private String use_stock;
+	private String selling;
+	private String displayed;
 	private Long plus_price;
 	private int po_order;
 	private Long product_no;
@@ -16,7 +16,7 @@ public class ProductOptionVo {
 	public ProductOptionVo() {
 		
 	}
-	public ProductOptionVo(String po_name, char displayed, char selling, Long plus_price, int po_order) {
+	public ProductOptionVo(String po_name, String displayed, String selling, Long plus_price, int po_order) {
 		this.po_name = po_name;
 		this.displayed = displayed;
 		this.selling = selling;
@@ -24,16 +24,16 @@ public class ProductOptionVo {
 		this.po_order = po_order;
 	}
 	
-	public char getDisplayed() {
+	public String getDisplayed() {
 		return displayed;
 	}
-	public void setDisplayed(char displayed) {
+	public void setDisplayed(String displayed) {
 		this.displayed = displayed;
 	}
-	public char getSelling() {
+	public String getSelling() {
 		return selling;
 	}
-	public void setSelling(char selling) {
+	public void setSelling(String selling) {
 		this.selling = selling;
 	}
 	public int getPo_order() {
@@ -66,10 +66,10 @@ public class ProductOptionVo {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	public char getUse_stock() {
+	public String getUse_stock() {
 		return use_stock;
 	}
-	public void setUse_stock(char use_stock) {
+	public void setUse_stock(String use_stock) {
 		this.use_stock = use_stock;
 	}
 	public Long getPlus_price() {
@@ -96,8 +96,8 @@ public class ProductOptionVo {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
-	public ProductOptionVo(Long no, String po_name, String po_code, int stock, char use_stock, char displayed,
-			char selling, Long plus_price, int po_order, Long product_no) {
+	public ProductOptionVo(Long no, String po_name, String po_code, int stock, String use_stock, String displayed,
+			String selling, Long plus_price, int po_order, Long product_no) {
 		this.no = no;
 		this.po_name = po_name;
 		this.po_code = po_code;

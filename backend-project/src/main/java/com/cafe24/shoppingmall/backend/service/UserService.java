@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.cafe24.shoppingmall.backend.repository.UserDao;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
+import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
 import com.cafe24.shoppingmall.backend.vo.UserVo;
 
 @Service
@@ -21,6 +22,10 @@ public class UserService {
 	public Long addAddress(AddressVo addressVo) {
 		addressVo.setNo(1L);
 		return addressVo.getNo();
+	}
+
+	public NonMemberVo addNonMember(NonMemberVo nonMemberVo) {
+		return userDao.insertNonMember(nonMemberVo); 
 	}
 	
 }

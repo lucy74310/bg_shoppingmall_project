@@ -143,13 +143,21 @@ public class ProductController {
 	public ResponseEntity<JSONResult> getProductInfo(
 			@PathVariable(value="no") Long no
 	) {
-		Map<String, Object> data = productService.getProductInfo(no);
+		ProductVo pvo = productService.getProductInfo(no);
 		
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(data));
+				.body(JSONResult.success(pvo));
 	}
 	
-	
+	@ApiOperation("재고정보")
+	@GetMapping("/stock/{productNo}")
+	public ResponseEntity<JSONResult> getProductOptionInfo(
+			@PathVariable(value="productNo") Long no
+	) {
+		ProductVo pvo = productService.getStockInfo(no);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(pvo));
+	}
 	
 	
 	

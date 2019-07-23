@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.CartService;
 import com.cafe24.shoppingmall.backend.vo.CartVo;
+import com.cafe24.shoppingmall.backend.vo.ProductVo;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,6 +42,7 @@ public class CartController {
 	public ResponseEntity<JSONResult> addProductToCart(
 		@RequestBody CartVo cartVo
 	) {
+		cartVo = cartService.addCart(cartVo);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(true));
 	}
 	@ApiOperation("장바구니 상품수정")
@@ -59,14 +61,5 @@ public class CartController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(true));
 	}
 	
-	@ApiOperation("재고정보")
-	@GetMapping("/stock/{productNo}")
-	public ResponseEntity<JSONResult> getProductOptionInfo(
-			@PathVariable(value="productNo") Long no
-	) {
-		Map<String, Object> data = cartService.getStockInfo(no);
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(""));
-	}
 	
 }

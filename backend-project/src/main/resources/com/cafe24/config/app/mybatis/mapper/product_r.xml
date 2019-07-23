@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product_r">
+	
+	<!-- SELECT -->
+	
+	<select id="get_list" resultType="productvo">
+		<![CDATA[
+		select 
+			no, product_name, product_price, product_short_explain, 
+			product_detail, displayed, selling, use_option, use_stock, stock,
+			soldout_mark, save_percentage, shipping_price 
+		from product
+		
+		]]>
+	</select>
+	
+	
+	<select id="get_option_no_list" resultType="long">
+		<![CDATA[
+		select 
+			no
+		from op where product_no = #{product_no}
+		ORDER BY op_order ASC
+		]]>
+	</select>
+	
+	
+	<resultMap id="get_detail_info" type="productvo">
+		<id property="no" column="no"/>
+	    <result property="product_name" column="product_name"/>
+	    <result property="product_price" column="product_price"/>
+	    <result property="stock" column="stock"/>
+	    <result property="use_stock" column="use_stock"/>
+	    <collection property="o_list" column="no" javaType="java.util.ArrayList" ofType="optionvo" select="get_option_list"/>
+	    <collection property="image_list" column="no" javaType="java.util.ArrayList" ofType="imagevo" select="get_image_list"/>
+	    <collection property="po_list" column="no" javaType="java.util.ArrayList" ofType="productoptionvo" select="get_product_option_list"/>
+	</resultMap>
+
+	<select id="get_product_detail_info" resultMap="get_detail_info" parameterType="long">
+	    SELECT 
+	    	p.no, p.product_name, p.product_price, p.stock, p.use_stock, p.displayed, p.selling, p.use_option,
+	    	p.save_percentage, p.shipping_price
+	    FROM product AS p WHERE p.no = #{value}
+	</select>
+	
+	
+	<resultMap id="get_option_list_map" type="optionvo" >
+		<result property="no" column="no"/>
+		<collection property="od_list" column="no" javaType="java.util.ArrayList" ofType="optiondetailvo" select="get_option_detail_list"/>
+	</resultMap>
+	
+	
+	<select id="get_option_list" resultMap="get_option_list_map">
+		<![CDATA[
+			SELECT 
+				no, op_name, op_explain, op_order, product_no 
+			FROM op 
+			WHERE product_no = #{no}
+			ORDER BY op_order ASC
+		]]>
+	</select>
+	
+	<select id="get_option_detail_list" resultType="optiondetailvo">
+		<![CDATA[
+			SELECT 
+				no, opd_name, opd_order, is_use, plus_price, option_no 
+			FROM opd 
+			WHERE option_no = #{value}
+			ORDER BY opd_order ASC
+		]]>
+	</select>
+	
+	<select id="get_product_option_list" resultType="productoptionvo">
+		<![CDATA[
+			SELECT 
+				no, po_name, po_code, stock, use_stock, selling, 
+				displayed, plus_price, po_order, product_no 
+			FROM product_option 
+			WHERE product_no = #{value}
+			ORDER BY po_order ASC
+		]]>
+	</select>
+
+	
+	<select id="get_image_list" resultType="imagevo">
+		<![CDATA[
+			SELECT 
+				no, url, is_main, image_order, product_no
+			FROM product_image 
+			WHERE product_no = #{value}
+			ORDER BY image_order ASC
+		]]>
+	</select>
+
+	<resultMap id="get_stock_info" type="productvo">
+		<id property="no" column="no"/>
+		<collection property="po_list" column="no" javaType="java.util.ArrayList" ofType="productoptionvo" select="get_product_option_list"/>
+	</resultMap>
+	<select id="get_product_stock" resultMap="get_stock_info" parameterType="long">
+	    SELECT 
+	    	no, product_name, product_price, stock, use_stock
+	    FROM product WHERE no = #{value}
+	</select>
+	
+	
+	
+</mapper>

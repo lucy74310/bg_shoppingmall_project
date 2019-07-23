@@ -41,4 +41,23 @@
 			select no, category_name, category_explain, category_order, upper_no from category
 		]]>
 	</select>
+	
+	<select id="get_category_list" resultType="categoryvo">
+		<![CDATA[
+			SELECT 
+				c.* , c2.category_name AS upper_category_name , c2.upper_no AS upper_no2
+			FROM product_category as pc LEFT JOIN category AS c ON  pc.category_no = c.`no` 
+			LEFT JOIN category AS c2 ON c.upper_no = c2.no
+			WHERE pc.product_no = #{value}
+		]]>
+	</select>
+	
+	<select id="get_upper_category" resultType="categoryvo">
+		<![CDATA[
+			SELECT 
+				c.* , c2.category_name AS upper_category_name , c2.upper_no AS upper_no2
+			FROM category AS c LEFT JOIN category AS c2 ON c.upper_no = c2.no
+			WHERE c.no = #{value};
+		]]>
+	</select>
 </mapper>

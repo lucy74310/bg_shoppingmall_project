@@ -3,7 +3,7 @@ package com.cafe24.shoppingmall.backend.vo;
 public class ImageVo {
 	private Long no;
 	private String url;
-	private char is_main;
+	private String is_main;
 	private Long product_no;
 	private String flag;
 	private int image_order;
@@ -12,7 +12,7 @@ public class ImageVo {
 	}
 
 	
-	public ImageVo(String url, char is_main, int image_order) {
+	public ImageVo(String url, String is_main, int image_order) {
 		this.url = url;
 		this.is_main = is_main;
 		this.image_order = image_order;
@@ -31,10 +31,10 @@ public class ImageVo {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public char getIs_main() {
+	public String getIs_main() {
 		return is_main;
 	}
-	public void setIs_main(char is_main) {
+	public void setIs_main(String is_main) {
 		this.is_main = is_main;
 	}
 	public Long getProduct_no() {

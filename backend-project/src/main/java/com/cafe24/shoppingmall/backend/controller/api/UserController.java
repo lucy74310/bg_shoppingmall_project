@@ -16,6 +16,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.UserService;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
+import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
 import com.cafe24.shoppingmall.backend.vo.UserVo;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -121,7 +123,17 @@ public class UserController {
 	}
 	
 
-	
+	@PutMapping(value="/nonmember/add")
+	public ResponseEntity<JSONResult> nonMemberAdd(
+			@RequestBody NonMemberVo nonMemberVo
+	) {
+		System.out.println(nonMemberVo);
+		nonMemberVo = userService.addNonMember(nonMemberVo);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(nonMemberVo));
+	}
 	
 	
 	

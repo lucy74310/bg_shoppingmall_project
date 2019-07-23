@@ -96,7 +96,7 @@ public class ProductControllerTest {
 	@Test
 	public void addFailTest() throws Exception {
 		
-		ProductVo productVo = new ProductVo("", 25000L, 'Y','Y','Y','Y','Y');
+		ProductVo productVo = new ProductVo("", 25000L, "Y","Y","Y","Y","Y");
 		
 		mockMvc.perform(put("/api/product/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(productVo)))
@@ -145,10 +145,10 @@ public class ProductControllerTest {
 	
 	private Long insertProcess() throws Exception {
 		List<ImageVo> image_list = new ArrayList<ImageVo>();
-		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", 'Y', 1));
-		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", 'N', 2));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", 'N', 3));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", 'N', 4));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", "Y", 1));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", "N", 2));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", "N", 3));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", "N", 4));
 		
 		
 		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
@@ -173,14 +173,14 @@ public class ProductControllerTest {
 		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
 		
 		
-		po_list.add(new ProductOptionVo("아이보리/90", 'Y', 'Y', 500L, 1));
-		po_list.add(new ProductOptionVo("아이보리/95", 'Y', 'Y', 500L, 2));
-		po_list.add(new ProductOptionVo("검정/90", 'Y', 'Y', 500L, 3));
-		po_list.add(new ProductOptionVo("검정/95", 'Y', 'Y', 500L, 4));
+		po_list.add(new ProductOptionVo("아이보리/90", "Y", "Y", 500L, 1));
+		po_list.add(new ProductOptionVo("아이보리/95", "Y", "Y", 500L, 2));
+		po_list.add(new ProductOptionVo("검정/90", "Y", "Y", 500L, 3));
+		po_list.add(new ProductOptionVo("검정/95", "Y", "Y", 500L, 4));
 		
 		ProductVo productVo = new ProductVo(
-				"여름린넨바지", 25000L, "고급린넨여름바지!놓치지 마세요~",'Y','Y','Y','Y', 5,
-				'Y',2000, option_list, category_list, image_list, po_list);
+				"여름린넨바지", 25000L, "고급린넨여름바지!놓치지 마세요~","Y","Y","Y","Y", 5,
+				"Y",2000, option_list, category_list, image_list, po_list);
 		MvcResult result = 
 		mockMvc.perform(put("/api/product/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(productVo)))

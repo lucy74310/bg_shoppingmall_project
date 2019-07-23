@@ -81,7 +81,7 @@ public class ProductService {
 		Long no = productVo.getNo();
 		
 		// 상품 update
-		if(productVo.getUse_option() == 'N') {
+		if(productVo.getUse_option() == "N") {
 			// 옵션,세부옵션,상품옵션 delete
 			deleteAboutOption(productVo);
 			// 상품 => 상품옵션 일때 insert
@@ -91,9 +91,9 @@ public class ProductService {
 			updateAboutOption(productVo, no);
 		}
 		
-		if(productVo.getUse_stock() == 'Y') {
+		if(productVo.getUse_stock() == "Y") {
 			productVo.setStock(0);
-			productVo.setSoldout_mark('N');
+			productVo.setSoldout_mark("N");
 		}
 		
 		
@@ -113,7 +113,7 @@ public class ProductService {
 	
 	// 옵션,세부옵션,상품옵션 insert
 	private boolean insertAboutOption(ProductVo productVo, Long no) {
-		if(productVo.getUse_option() == 'Y') {
+		if(productVo.getUse_option() == "Y") {
 			
 			int option_order = 1;
 			for (OptionVo option : productVo.getO_list() ) {
@@ -295,48 +295,26 @@ public class ProductService {
 		return true;
 	}
 
-	public Map<String, Object> getStockInfo(Long no) {
-		
-		return null;
+	
+	//재고정보
+	public ProductVo getStockInfo(Long product_no) {
+		ProductVo pvo = productDao.getStockInfo(product_no);
+		return pvo;
 	}
 	
-	public Map<String, Object> getProductInfo(Long product_no) {
+	
+	//상품 상세 정보
+	public ProductVo getProductInfo(Long product_no) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		
-		data.put("product", productDao.getProductOne(product_no));
+		ProductVo pvo = productDao.getProductOne(product_no);
 		
-		data.put("product_option_list", getProductOptionInfo(product_no));
+		pvo.setCategory_list_with_name(getCatetoryInfo(product_no));
 		
-		List<OptionVo> option_list = getOptionList(product_no);
-		for(OptionVo o : option_list) {
-			List<OptionDetailVo> option_detail_list = getOptionDetailList(o.getNo());
-			o.setOd_list(option_detail_list);
-		}
-				
-		data.put("option_list", option_list);
-		
-		
-		data.put("image_list", getImageList(product_no));
-		
-		data.put("category", getCatetoryInfo(product_no));
-		
-		return data;
+		return pvo;
 	}
-
-	private List<OptionDetailVo> getOptionDetailList(Long option_no) {
-		return productDao.getOptionDetailList(option_no);
-	}
-
-	private List<OptionVo> getOptionList(Long product_no) {
-		return productDao.getOptionList(product_no);
-	}
-
-
-	private List<ImageVo> getImageList(Long product_no) {
-		return productDao.getImageList(product_no);
-	}
-
 	
+	// 카테고리 이름 만들기 
 	private List<CategoryVo> getCatetoryInfo(Long product_no) {
 		List<CategoryVo> c_list = productDao.getCategoryList(product_no);
 		for(CategoryVo c : c_list) {
@@ -359,9 +337,6 @@ public class ProductService {
 	
 	
 	
-	private List<ProductOptionVo> getProductOptionInfo(Long product_no) {
-		return  productDao.getProductOption(product_no);
-	}
 	
 	//상품 리스트 가져오기 
 	public List<ProductVo> getList() {

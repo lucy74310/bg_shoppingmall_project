@@ -15,11 +15,24 @@
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
 			<![CDATA[
-			select last_insert_id()
+			select last_insert_id() 
 			]]>
 			
 		</selectKey>
 	</insert>
-
+	
+	
+	<insert id="insert_non_member" parameterType="nonmembervo">
+		<![CDATA[
+			INSERT INTO non_member 
+			VALUES (NULL, #{sessionID}, date_add(now(), interval 1 day) );		 
+		]]>
+	
+		<selectKey keyProperty="no,sessionID,expire_date" resultType="object" order="AFTER"> 
+				<![CDATA[
+				select no , sessionID, expire_date from non_member where no = (select last_insert_id());
+				]]>
+		</selectKey>
+	</insert>
 	
 </mapper>

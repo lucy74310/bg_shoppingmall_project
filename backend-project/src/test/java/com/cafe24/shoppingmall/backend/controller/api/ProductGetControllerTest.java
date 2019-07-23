@@ -32,9 +32,18 @@ private MockMvc mockMvc;
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	
+	//상품상세보기
 	@Test
-	public void getOneProductInfoTest() throws Exception{
+	public void getProductDetailInfoTest() throws Exception{
 		mockMvc.perform(get("/api/product/{no}",3L))
+			.andDo(print());
+	}
+	
+	
+	//재고정보확인
+	@Test
+	public void getProductStockInfoTest() throws Exception{
+		mockMvc.perform(get("/api/product/stock/{no}",3L))
 			.andDo(print());
 	}
 }

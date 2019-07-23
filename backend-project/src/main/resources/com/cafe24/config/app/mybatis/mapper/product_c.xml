@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product_c">
+	
+	<!-- INSERT -->
+	<insert id="insert_product" parameterType="productvo">
+		<![CDATA[
+			insert into product  
+				(product_name, product_price, product_short_explain, 
+				product_detail, displayed, selling, use_option, use_stock, stock, soldout_mark, 
+				reg_date) 
+			values (#{product_name}, #{product_price}, #{product_short_explain}, #{product_detail}, 
+			#{displayed}, #{selling}, #{use_option}, #{use_stock},
+			 #{stock}, #{soldout_mark}, now()) 
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_option" parameterType="optionvo">
+		<![CDATA[
+			insert into op  (op_name, op_explain, op_order, product_no)
+			values (#{op_name}, #{op_explain}, #{op_order}, #{product_no});
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_option_detail" parameterType="optiondetailvo">
+		<![CDATA[
+			insert into opd  (opd_name, opd_order, plus_price, option_no)
+			values (#{opd_name}, #{opd_order}, #{plus_price}, #{option_no})
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_product_category" parameterType="map">
+		<![CDATA[
+			insert into product_category (category_no, product_no)
+			values(#{category_no}, #{product_no})
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_image" parameterType="imagevo">
+		<![CDATA[
+			insert into product_image (url, is_main, product_no , image_order ) values (#{url}, #{is_main}, #{product_no}, #{image_order})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_product_option" parameterType="productoptionvo">
+		<![CDATA[
+			insert into product_option 
+ 				(po_name, po_code, use_stock, displayed, selling, plus_price, po_order, product_no) 
+			values ( #{po_name}, #{po_code}, #{use_stock}, #{displayed}, #{selling}, #{plus_price}, #{po_order}, #{product_no} )
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+</mapper>

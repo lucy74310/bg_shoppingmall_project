@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.cafe24.shoppingmall.backend.vo.UserVo"/>
+		<typeAlias alias="nonmembervo" type="com.cafe24.shoppingmall.backend.vo.NonMemberVo"/>
 		<typeAlias alias="categoryvo" type="com.cafe24.shoppingmall.backend.vo.CategoryVo"/>
 		<typeAlias alias="productvo" type="com.cafe24.shoppingmall.backend.vo.ProductVo"/>
 		<typeAlias alias="optionvo" type="com.cafe24.shoppingmall.backend.vo.OptionVo"/>
@@ -10,10 +11,14 @@
 		<typeAlias alias="imagevo" type="com.cafe24.shoppingmall.backend.vo.ImageVo"/>
 		<typeAlias alias="productvo" type="com.cafe24.shoppingmall.backend.vo.ProductVo"/>
 		<typeAlias alias="productoptionvo" type="com.cafe24.shoppingmall.backend.vo.ProductOptionVo"/>
+		<typeAlias alias="cartvo" type="com.cafe24.shoppingmall.backend.vo.CartVo"/>
     </typeAliases>	
 	<mappers>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" />
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/category.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/product.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_r.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_ud.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_c.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/cart.xml" />
 	</mappers>
 </configuration>
