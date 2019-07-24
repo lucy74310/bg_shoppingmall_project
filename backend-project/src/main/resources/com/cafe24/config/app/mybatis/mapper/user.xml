@@ -3,6 +3,8 @@
 
 <mapper namespace="user">
 
+	<!-- INSERT -->
+	<!-- 회원가입 -->
 	<insert id="insert" parameterType="uservo">
 		<![CDATA[
 			insert into member 
@@ -22,15 +24,24 @@
 	</insert>
 	
 	
+	<!-- <resultMap id="nonmembermap" type="nonmembervo">
+		<result property="no" column="no"/>
+		<result property="sessionID" column="sessionID"/>
+		<result property="expire_date" column="expire_date"/>
+	</resultMap> -->
+	
+	
+	
+	<!-- 비회원추가 -->
 	<insert id="insert_non_member" parameterType="nonmembervo">
 		<![CDATA[
 			INSERT INTO non_member 
 			VALUES (NULL, #{sessionID}, date_add(now(), interval 1 day) );		 
 		]]>
 	
-		<selectKey keyProperty="no,sessionID,expire_date" resultType="object" order="AFTER"> 
+		<selectKey keyProperty="no" resultType="long"  order="AFTER"> 
 				<![CDATA[
-				select no , sessionID, expire_date from non_member where no = (select last_insert_id());
+				select last_insert_id()
 				]]>
 		</selectKey>
 	</insert>

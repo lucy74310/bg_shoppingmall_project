@@ -5,14 +5,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class NonMemberVo {
 	private Long no;
 	
-	@NotEmpty
+	@NotEmpty(message="session값이 없습니다.")
 	private String sessionID;
 	private String expire_date;
 	
 	public NonMemberVo() {}
+	
 	public NonMemberVo(String sessionID) {
 		this.sessionID = sessionID;
 	}
+
 	public Long getNo() {
 		return no;
 	}

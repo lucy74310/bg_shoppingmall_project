@@ -88,15 +88,13 @@ public class UserController {
 	) throws IOException {
 		
 		if(valid.hasErrors()) {
-			
-			Map<String, String> errMap = new HashMap<String, String>();
+			//Map<String, String> errMap = new HashMap<String, String>();
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
-				errMap.put(f.getField(), f.getDefaultMessage());
+				//errMap.put(f.getField(), f.getDefaultMessage());
+				return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body(JSONResult.fail("필수 요구사항이 만족되지 않았습니다.", f.getDefaultMessage()));
 			}
-			
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수 요구사항이 만족되지 않았습니다.", errMap));
 			
 		}
 		
@@ -122,14 +120,23 @@ public class UserController {
 				.body(JSONResult.success("login"));
 	}
 	
-
+	
+	@ApiOperation(value="비회원 추가")
 	@PutMapping(value="/nonmember/add")
 	public ResponseEntity<JSONResult> nonMemberAdd(
-			@RequestBody NonMemberVo nonMemberVo
+			@RequestBody @Valid NonMemberVo nonMemberVo,
+			BindingResult valid
 	) {
 		System.out.println(nonMemberVo);
-		nonMemberVo = userService.addNonMember(nonMemberVo);
+		if(valid.hasErrors()) {
+			for(ObjectError err : valid.getAllErrors()) {
+				FieldError f = (FieldError) err;
+				return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+						.body(JSONResult.fail(f.getDefaultMessage()));
+			}
+		}
 		
+		nonMemberVo = userService.addNonMember(nonMemberVo);
 		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(nonMemberVo));

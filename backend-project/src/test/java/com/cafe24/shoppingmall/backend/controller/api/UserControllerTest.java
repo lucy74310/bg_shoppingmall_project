@@ -5,8 +5,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
+import static org.hamcrest.Matchers.*;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,13 +44,37 @@ public class UserControllerTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
+	//회원가입
+	//회원정보수정
+	//회원탈퇴
+	//배송지등록
+	//배송지수정
+	//배송지삭제
 	
+	//비회원추가 성공
 	@Test
-	public void addNonmemberTest() throws Exception {
+	public void addNonmemberSuccessTest() throws Exception {
 		mockMvc.perform(put("/api/user/nonmember/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new NonMemberVo("test1234567"))))
-				.andDo(print());
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.data.no", is(notNullValue())))	
+				;
+	}
+	
+	//비회원추가 실패
+	@Test
+	public void addNonmemberFailTest() throws Exception {
+		mockMvc.perform(put("/api/user/nonmember/add")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(new NonMemberVo(""))))
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.result", is("fail")))
+				.andExpect(jsonPath("$.message", is("session값이 없습니다.")))	
+				;
 	}
 	
 	
