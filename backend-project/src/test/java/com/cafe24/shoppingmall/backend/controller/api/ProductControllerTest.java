@@ -85,6 +85,7 @@ public class ProductControllerTest {
 			
 	}
 	
+	@Ignore
 	@Rollback(false)
 	@Test
 	public void addSuccessTest() throws Exception {
@@ -118,18 +119,19 @@ public class ProductControllerTest {
 	
 	
 	//상품 삭제 성공
+	@Ignore
 	@Rollback(false)
 	@Test
 	public void deleteSuccessTest() throws Exception {
 		
-		mockMvc.perform(delete("/api/product/delete/{no}", 2L))
+		mockMvc.perform(delete("/api/product/delete/{no}", 6L))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		.andExpect(jsonPath("$.data" , notNullValue()));
 	}
 
-	//상품 삭제 성공
+	//상품 삭제 실패
 	@Ignore
 	@Rollback(false)
 	@Test
@@ -145,26 +147,34 @@ public class ProductControllerTest {
 	
 	private Long insertProcess() throws Exception {
 		List<ImageVo> image_list = new ArrayList<ImageVo>();
-		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", "Y", 1));
-		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", "N", 2));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", "N", 3));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", "N", 4));
-		
+//		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", "Y", 1));
+//		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", "N", 2));
+//		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", "N", 3));
+//		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", "N", 4));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A03.png", "Y", 1));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A04.png", "N", 2));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B03.png", "N", 3));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B04.png", "N", 4));
 		
 		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
-		od_list.add(new OptionDetailVo("아이보리", 500L, 1, "Y"));
-		od_list.add(new OptionDetailVo("검정", 500L, 2, "Y"));
-		
+//		od_list.add(new OptionDetailVo("아이보리", 500L, 1, "Y"));
+//		od_list.add(new OptionDetailVo("검정", 500L, 2, "Y"));
+		od_list.add(new OptionDetailVo("소라", 1500L, 1, "Y"));
+		od_list.add(new OptionDetailVo("퍼플", 2500L, 2, "Y"));
 		
 		List<OptionVo> option_list = new ArrayList<OptionVo>();
 		option_list.add(new OptionVo("색상", od_list));
 		
 		od_list = new ArrayList<OptionDetailVo>();
 		
-		od_list.add(new OptionDetailVo("90", 0L, 1, "Y"));
-		od_list.add(new OptionDetailVo("95", 0L, 1, "Y"));
+//		od_list.add(new OptionDetailVo("90", 0L, 1, "Y"));
+//		od_list.add(new OptionDetailVo("95", 0L, 1, "Y"));
+		od_list.add(new OptionDetailVo("short", 0L, 1, "Y"));
+		od_list.add(new OptionDetailVo("long", 1000L, 1, "Y"));
 		
-		option_list.add(new OptionVo("사이즈", od_list));
+		
+//		option_list.add(new OptionVo("사이즈", od_list));
+		option_list.add(new OptionVo("기장", od_list));
 		
 		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
 		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
@@ -173,14 +183,24 @@ public class ProductControllerTest {
 		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
 		
 		
-		po_list.add(new ProductOptionVo("아이보리/90", "Y", "Y", 500L, 1));
-		po_list.add(new ProductOptionVo("아이보리/95", "Y", "Y", 500L, 2));
-		po_list.add(new ProductOptionVo("검정/90", "Y", "Y", 500L, 3));
-		po_list.add(new ProductOptionVo("검정/95", "Y", "Y", 500L, 4));
+//		po_list.add(new ProductOptionVo("아이보리/90", "Y", "Y", 500L, 1));
+//		po_list.add(new ProductOptionVo("아이보리/95", "Y", "Y", 500L, 2));
+//		po_list.add(new ProductOptionVo("검정/90", "Y", "Y", 500L, 3));
+//		po_list.add(new ProductOptionVo("검정/95", "Y", "Y", 500L, 4));
+		
+		po_list.add(new ProductOptionVo("소라/short", "Y", "Y", 1500L, 1));
+		po_list.add(new ProductOptionVo("소라/long", "Y", "Y", 2500L, 2));
+		po_list.add(new ProductOptionVo("퍼플/short", "Y", "Y", 2500L, 3));
+		po_list.add(new ProductOptionVo("퍼플/long", "Y", "Y", 3500L, 4));
+		
+//		ProductVo productVo = new ProductVo(
+//				"여름린넨바지", 25000L, "고급린넨여름바지!놓치지 마세요~","Y","Y","Y","Y", 5,
+//				"Y",2000, option_list, category_list, image_list, po_list);
 		
 		ProductVo productVo = new ProductVo(
-				"여름린넨바지", 25000L, "고급린넨여름바지!놓치지 마세요~","Y","Y","Y","Y", 5,
-				"Y",2000, option_list, category_list, image_list, po_list);
+				"여름무지셔츠", 17000L, "여름 기본템 무지 컬러 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
+				"Y",0, option_list, category_list, image_list, po_list);
+		
 		MvcResult result = 
 		mockMvc.perform(put("/api/product/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(productVo)))

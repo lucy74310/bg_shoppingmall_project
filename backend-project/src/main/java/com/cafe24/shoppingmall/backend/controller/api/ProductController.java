@@ -49,6 +49,7 @@ public class ProductController {
 			@RequestBody @Valid ProductVo productVo,
 			BindingResult valid
 	) throws IOException {
+		System.out.println(productVo);
 		if(valid.hasErrors()) {
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;

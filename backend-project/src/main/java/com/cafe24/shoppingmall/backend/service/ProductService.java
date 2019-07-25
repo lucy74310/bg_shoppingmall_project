@@ -113,7 +113,7 @@ public class ProductService {
 	
 	// 옵션,세부옵션,상품옵션 insert
 	private boolean insertAboutOption(ProductVo productVo, Long no) {
-		if(productVo.getUse_option() == "Y") {
+		if("Y".contentEquals(productVo.getUse_option())) {
 			
 			int option_order = 1;
 			for (OptionVo option : productVo.getO_list() ) {
@@ -144,6 +144,7 @@ public class ProductService {
 				productDao.insertProductOption(po);
 			}
 		} else {
+			System.out.println(productVo.getUse_option());
 			productVo.setNo(no);
 			// 상품 => 상품옵션 일때 insert
 			insertSameProductOption(productVo);

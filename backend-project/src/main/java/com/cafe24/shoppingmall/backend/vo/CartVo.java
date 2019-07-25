@@ -19,8 +19,7 @@ public class CartVo {
 
 	public CartVo() {
 	}
-	public CartVo(Long non_member_no, Long product_option_no, Long price, int count) {
-		this.non_member_no = non_member_no;
+	public CartVo( Long product_option_no, Long price, int count) {
 		this.product_option_no = product_option_no;
 		this.price = price;
 		this.count = count;

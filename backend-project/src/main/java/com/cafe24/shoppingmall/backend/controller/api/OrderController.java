@@ -1,9 +1,11 @@
 package com.cafe24.shoppingmall.backend.controller.api;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
+import com.cafe24.shoppingmall.backend.service.OrderService;
+import com.cafe24.shoppingmall.backend.vo.CartVo;
+import com.cafe24.shoppingmall.backend.vo.OrderVo;
 import com.cafe24.shoppingmall.backend.vo.ProductVo;
 
 import io.swagger.annotations.ApiOperation;
@@ -22,24 +27,24 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/order")
 public class OrderController {
 	
+	
+	@Autowired
+	private OrderService orderService;
+	
 	@ApiOperation("주문서 저장")
-	@PostMapping("/add")
+	@PutMapping("/add")
 	public ResponseEntity<JSONResult> orderAdd(
-			@RequestBody @Valid ProductVo productVo,
-			BindingResult result) throws IOException {
+			@RequestBody @Valid OrderVo orderVo,
+			BindingResult valid
+	) throws IOException {
 		
-		if(result.hasErrors()) {
-			//에러! 
+		if(valid.hasErrors()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수 입력 항목을 입력해 주세요.", result.getAllErrors()));
-		} else {
-			//에러없음~
-			// insert 하고 no 값을 받아온다 ~
-			
-			//insert 성공시 
-			productVo.setNo(1L);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
+					.body(JSONResult.fail("필수 입력 항목을 입력해 주세요.", valid.getAllErrors()));
 		}
+		System.out.println(orderVo);
+		OrderVo addedOrder = orderService.addOrder(orderVo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(addedOrder));
 	}
 	
 	@ApiOperation("회원 주문 내역 조회")
