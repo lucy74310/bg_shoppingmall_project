@@ -15,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.UserService;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
+import com.cafe24.shoppingmall.backend.vo.LoginVo;
 import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
 import com.cafe24.shoppingmall.backend.vo.MemberVo;
 
@@ -44,80 +46,82 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@ApiOperation(value="중복 이메일 체크")
-    @ApiImplicitParam(name="email", value="이메일주소", required = true, dataType="string")
-	@GetMapping("/checkemail")
+	@ApiOperation(value="중복 아이디 체크")
+    @ApiImplicitParam(name="id", value="아이디", required = true, dataType="string")
+	@GetMapping("/checkID/{id}")
 	public ResponseEntity<JSONResult> emailCheck(
-			@RequestParam(value="email", required=true, defaultValue="") String email
+			@PathVariable(value="id") String id
 	) {
 		
-		if("lucy74310@gmail.com".equals(email)) {
-			// 이메일 존재 
+		Boolean is_duplicated = userService.idCheck(id); 
+		
+		if(is_duplicated) {
+			// 아이디 중복
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("존재하는 이메일입니다.")); 
+					.body(JSONResult.fail("중복되는 id입니다.", is_duplicated )); 
 		} else {
-			// DB에 존재하는 이메일과 다름
+			// 아이디 중복 x 
 			return ResponseEntity.status(HttpStatus.OK)
-					.body(JSONResult.success(false));
+					.body(JSONResult.success(is_duplicated));
 		}
 		
 	}
 	
-	@ApiOperation(value="약관 동의")
-	@ApiImplicitParam(name="agree", value="동의여부", required = true, dataType="Boolean")
-	@GetMapping("/agreecheck")
-	public ResponseEntity<JSONResult> agreeCheck(@RequestParam(value="agree", required=true) Boolean agree) throws IOException {
-		
-		if(false == agree) {
-			// 약관에 동의하지 않는경우 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("약관에 동의해야 회원가입이 가능합니다."));
-		} else {
-			//약관에 동의한 경우
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(JSONResult.success(true));
-		}
-	}
 	
 	@ApiOperation(value="회원 가입")
 	@ApiModelProperty(required = true, value = "id")
 	@PostMapping("/join")
 	public ResponseEntity<JSONResult> join(
-		@RequestBody @Valid MemberVo userVo,
+		@RequestBody @Valid MemberVo memberVo,
 		BindingResult valid
 	) throws IOException {
 		
+		// 필수 양식 체크 
 		if(valid.hasErrors()) {
-			//Map<String, String> errMap = new HashMap<String, String>();
+			Map<String, String> errMap = new HashMap<String, String>();
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
-				//errMap.put(f.getField(), f.getDefaultMessage());
-				return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(JSONResult.fail("필수 요구사항이 만족되지 않았습니다.", f.getDefaultMessage()));
+				errMap.put(f.getField(), f.getDefaultMessage());
 			}
-			
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
 		}
 		
-		Long user_no = userService.join(userVo);
+		// 양식체크 통과 후 실제 insert
+		Long member_no = userService.join(memberVo);
 		 
-		AddressVo addressVo = 
-			new AddressVo(userVo.getAddress(), userVo.getName(), userVo.getName(), userVo.getTelephone(), 'Y');
-		
-		Long addr_no = userService.addAddress(addressVo);
-		
-		Map<String, Long> data = new HashMap<String, Long>();
-		data.put("user_no", user_no);
-		data.put("addr_no", addr_no);
 		
 		return  ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(data));
+				.body(JSONResult.success(member_no));
 	}
 	
 	
 	@PostMapping(value="/login")
-	public ResponseEntity<JSONResult> login() {
+	public ResponseEntity<JSONResult> login(
+		@RequestBody @Valid LoginVo loginVo,
+		BindingResult valid
+	) {
+		//id, pwd 입력 체크 
+		if(valid.hasErrors()) {
+			Map<String, String> errMap = new HashMap<String, String>();
+			for(ObjectError err : valid.getAllErrors()) {
+				FieldError f = (FieldError) err;
+				errMap.put(f.getField(), f.getDefaultMessage());
+			}
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+		}
+		
+		//db에서 id,pwd 일치하는 회원 정보 가져오기
+		MemberVo memVo = userService.getLoginMember(loginVo);
+		
+		if(memVo == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(JSONResult.fail("아이디 혹은 비밀번호가 맞지 않습니다."));
+		} 
+		
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success("login"));
+				.body(JSONResult.success(memVo));
 	}
 	
 	
@@ -127,6 +131,8 @@ public class UserController {
 			@RequestBody @Valid NonMemberVo nonMemberVo,
 			BindingResult valid
 	) {
+		
+		//양식 체크 (sessionID필수)
 		if(valid.hasErrors()) {
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
@@ -135,6 +141,7 @@ public class UserController {
 			}
 		}
 		
+		// 양식 통과 후 insert
 		nonMemberVo = userService.addNonMember(nonMemberVo);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(nonMemberVo));

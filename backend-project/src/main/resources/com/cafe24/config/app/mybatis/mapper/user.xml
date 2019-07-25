@@ -4,15 +4,35 @@
 <mapper namespace="user">
 
 	<!-- INSERT -->
+	<!-- 아이디 중복 체크 -->
+	<select id="check_id" parameterType="string" resultType="membervo">
+		<![CDATA[
+			select 
+				no, id, m_state
+			from member 
+			where id = #{id}	
+		]]> 
+	</select>
+	
+	<!-- 로그인 : id,pwd로 회원 조회 -->
+	<select id="get_login_member" resultType="membervo" parameterType="loginvo">
+		<![CDATA[
+			select 
+				no, id 
+			from member
+			where id = #{id} and password = sha2(#{password},512)  
+		]]>
+	</select>
+	
 	<!-- 회원가입 -->
 	<insert id="insert" parameterType="membervo">
 		<![CDATA[
 			insert into member 
-			(id, name, password, phone, telephone, email, gender, birth, point, join_date, m_state) 
+			(id, name, password, phone, telephone, email, birth, point, join_date, m_state) 
 			values 
 				(#{id}, aes_encrypt(#{name},'bugwang'), sha2(#{password}, 512), 
 				aes_encrypt(#{phone}, 'bugwang'), aes_encrypt(#{telephone}, 'bugwang'), 
-				aes_encrypt(#{email}, 'bugwang'), #{gender}, #{birthday}, 0, now(), '0');
+				aes_encrypt(#{email}, 'bugwang'), #{birthday}, 0, now(), '0');
 		
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
@@ -23,14 +43,22 @@
 		</selectKey>
 	</insert>
 	
-	
-	<!-- <resultMap id="nonmembermap" type="nonmembervo">
-		<result property="no" column="no"/>
-		<result property="sessionID" column="sessionID"/>
-		<result property="expire_date" column="expire_date"/>
-	</resultMap> -->
-	
-	
+	<!-- 배송지 추가(회원가입시) -->
+	<insert id="insert_address" parameterType="addressvo">
+		<![CDATA[
+			insert into address 
+			(member_no, address, name, addr_name, phone, is_default)
+			values 
+				(#{member_no}, aes_encrypt(#{address}, 'bugwang'), #{name}, 
+				#{addr_name}, aes_encrypt(#{phone}, 'bugwang'), #{is_default})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id() 
+			]]>
+			
+		</selectKey>
+	</insert>
 	
 	<!-- 비회원추가 -->
 	<insert id="insert_non_member" parameterType="nonmembervo">

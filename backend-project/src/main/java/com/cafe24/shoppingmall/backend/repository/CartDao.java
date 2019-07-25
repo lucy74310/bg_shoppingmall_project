@@ -42,8 +42,8 @@ public class CartDao {
 		Map<String, Long> data = new HashMap<String, Long>();
 		data.put("member_no", mem_no);
 		data.put("po_no", po_no);
-		int count = sqlSession.selectOne("cart.check_has_when_member", data);
-		
+		Integer count = sqlSession.selectOne("cart.check_has_when_member", data);
+		if(count == null) count = -1;
 		return count;
 	}
 
@@ -51,10 +51,10 @@ public class CartDao {
 		Map<String, Long> data = new HashMap<String, Long>();
 		data.put("non_member_no", non_mem_no);
 		data.put("po_no", po_no);
-		String result = sqlSession.selectOne("cart.check_has_when_nonmember", data);
-		if(result == null) result = "-1";
+		Integer count = sqlSession.selectOne("cart.check_has_when_nonmember", data);
+		if(count == null) count = -1;
 		
-		return Integer.parseInt(result);
+		return count;
 	}
 
 

@@ -2,6 +2,8 @@ package com.cafe24.shoppingmall.backend.vo;
 
 
 
+
+
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -10,33 +12,30 @@ public class MemberVo {
 	
 	private Long no;
 	
-	@NotEmpty(message="필수 입력 사항입니다.")
-	@Pattern(regexp = "(([a-z0-9])(?=\\S+$).{4,15})", message="영문소문자/숫자, 4~16자")
+	@Pattern(regexp="(([a-z0-9])(?=\\S+$).{3,15})", message="영문소문자/숫자, 4~16자")
+	@NotEmpty(message="id는 필수 입력 사항입니다.")
 	private String id;
 	
-	@NotEmpty(message="필수 입력 사항입니다.")
+	@NotEmpty(message="이름은 필수 입력 사항입니다.")
 	private String name;
 	
-	@NotEmpty(message="필수 입력 사항입니다.")
-	@Pattern(regexp = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,15})", message="영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자, 공백불가")
+	@Pattern(regexp="((?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&+=_])(?=\\S+$).{7,15})", message="영문 대소문자/숫자/특수문자 3가지 조합, 8자~16자, 공백불가")
+	@NotEmpty(message="비밀번호는 필수 입력 사항입니다.")
 	private String password;
 	
 	private String phone;
 	
-	@NotEmpty(message="필수 입력 사항입니다.")
+	@NotEmpty(message="휴대전화번호는 필수 입력 사항입니다.")
 	private String telephone;
 	
-	@NotEmpty(message="필수 입력 사항입니다.")
+	@NotEmpty(message="이메일은 필수 입력 사항입니다.")
 	private String email;
 	
-	private String gender;
-	
-	@NotEmpty(message="필수 입력 사항입니다.")
+	@NotEmpty(message="생일은 필수 입력 사항입니다.")
 	private String birthday;
 	
 	private String join_date;
 	
-	@NotEmpty(message="필수 입력 사항입니다.")
 	private String address;
 	
 	public MemberVo() {}
@@ -51,12 +50,6 @@ public class MemberVo {
 		this.birthday = birthday;
 		
 	}
-	
-	
-	
-	
-	
-	
 	
 	public Long getNo() {
 		return no;
@@ -100,12 +93,6 @@ public class MemberVo {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 	public String getBirthday() {
 		return birthday;
 	}
@@ -126,18 +113,10 @@ public class MemberVo {
 	}
 	@Override
 	public String toString() {
-		return "UserVo [no=" + no + ", id=" + id + ", name=" + name + ", password=" + password + ", phone=" + phone
-				+ ", telephone=" + telephone + ", email=" + email + ", gender=" + gender + ", birthday=" + birthday
-				+ ", join_date=" + join_date + ", address=" + address + "]";
+		return "MemberVo [no=" + no + ", id=" + id + ", name=" + name + ", password=" + password + ", phone=" + phone
+				+ ", telephone=" + telephone + ", email=" + email + ", birthday=" + birthday + ", join_date="
+				+ join_date + ", address=" + address + "]";
 	}
-	
-	
-	
-	
-	
-
-
-	
 }
 
 
