@@ -8,10 +8,74 @@
 			INSERT INTO cart (member_no, non_member_no, product_option_no, count, price)
 			values(#{member_no} , #{non_member_no}, #{product_option_no}, #{count}, #{price})
 		]]>
-	
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id();
+		</selectKey> 
 	</insert>
 	
-	
+	<update id="update_cart" parameterType="cartvo">
+		<![CDATA[
+			update cart 
+				set
+				count = #{count}
+			where
+				no = #{no}  
+		]]>
+	</update>	
 
+	<delete id="delete_cart" parameterType="long">
+		delete from cart 
+		 where 
+		 	no = #{no} 
+		 	<choose>
+		 		<when test="non_member_no != null">
+		 			and non_member_no = #{non_member_no} 
+		 		</when>
+		 		<otherwise>
+		 			and member_no = #{non_member_no}
+		 		</otherwise>
+		 	</choose>
+	</delete>
 	
+	<select id="get_member_cart_list" resultType="cartvo" parameterType="long">
+	<![CDATA[
+		select 
+			no, member_no, product_option_no, count, price 
+		from cart
+		where member_no = #{no} 
+	]]>
+	</select>
+	
+	
+	<select id="get_nonmember_cart_list" resultType="cartvo" parameterType="long">
+		<![CDATA[
+			select 
+				no, non_member_no, product_option_no, count, price 
+			from cart
+			where non_member_no = #{no}
+		]]> 
+	</select>
+	
+	<select id="check_has_when_member" resultType="string" parameterType="map">
+		<![CDATA[
+			select 
+				count  
+			from cart 
+			where 
+				member_no = #{member_no}
+				and product_option_no = #{po_no}
+		]]>
+	</select>
+	
+	<select id="check_has_when_nonmember" resultType="string" parameterType="map">
+		<![CDATA[
+			select 
+				count 
+			from cart 
+			where 
+				non_member_no = #{non_member_no}
+				and product_option_no = #{po_no}
+		]]> 
+	</select>
+		
 </mapper>

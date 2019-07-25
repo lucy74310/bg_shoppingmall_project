@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shoppingmall.backend.vo.UserVo;
+import com.cafe24.shoppingmall.backend.vo.MemberVo;
 import com.cafe24.shoppingmall.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.google.gson.Gson;
@@ -149,7 +149,7 @@ public class MemberJoinScenarioTest {
 	@Test
 	public void joinIDFailTest() throws Exception {
 		// 성공조건 vo
-		UserVo vo = new UserVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
+		MemberVo vo = new MemberVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
 		// 4자 미만
 		vo.setId("tes");
 		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
@@ -179,7 +179,7 @@ public class MemberJoinScenarioTest {
 	@Test
 	public void joinPasswordFailTest() throws Exception {
 		// 성공조건 vo
-		UserVo vo = new UserVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
+		MemberVo vo = new MemberVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
 		
 		// 8자 미만
 		vo.setPassword("!Tt1");
@@ -223,7 +223,7 @@ public class MemberJoinScenarioTest {
 	// 9-2. 필수 데이터를 다 넣었을 때 (validation 통과 성공 시나리오 ) -> 10.유효성검사 통과 ->  11. DB에 회원 등록 요청 -> 12. 회원정보 저장 
 	@Test
 	public void joinRequestSuccessTest() throws Exception {
-		UserVo vo = new UserVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
+		MemberVo vo = new MemberVo("test1234", "tester1", "12345Test@","01011112222", "lucy1010@naver.com", "2000-10-10", "서울시성동구");
 		// 성공
 		mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON)
 			.content(new Gson().toJson(vo)))

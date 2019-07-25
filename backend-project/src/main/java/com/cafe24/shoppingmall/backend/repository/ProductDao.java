@@ -161,6 +161,10 @@ public class ProductDao {
 		return sqlSession.selectOne("product_r.get_product_stock", product_no);
 	}
 
+	public ProductOptionVo getProductOption(Long pono) {
+		return sqlSession.selectOne("product_r.get_product_option_one", pono);
+	}
+
 	
 
 	

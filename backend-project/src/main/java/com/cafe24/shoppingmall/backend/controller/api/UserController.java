@@ -27,7 +27,7 @@ import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.UserService;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
 import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
-import com.cafe24.shoppingmall.backend.vo.UserVo;
+import com.cafe24.shoppingmall.backend.vo.MemberVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiModelProperty;
@@ -83,7 +83,7 @@ public class UserController {
 	@ApiModelProperty(required = true, value = "id")
 	@PostMapping("/join")
 	public ResponseEntity<JSONResult> join(
-		@RequestBody @Valid UserVo userVo,
+		@RequestBody @Valid MemberVo userVo,
 		BindingResult valid
 	) throws IOException {
 		
@@ -127,7 +127,6 @@ public class UserController {
 			@RequestBody @Valid NonMemberVo nonMemberVo,
 			BindingResult valid
 	) {
-		System.out.println(nonMemberVo);
 		if(valid.hasErrors()) {
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
@@ -137,7 +136,6 @@ public class UserController {
 		}
 		
 		nonMemberVo = userService.addNonMember(nonMemberVo);
-		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(nonMemberVo));
 	}

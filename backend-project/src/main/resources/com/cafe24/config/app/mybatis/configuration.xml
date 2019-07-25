@@ -2,7 +2,7 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="uservo" type="com.cafe24.shoppingmall.backend.vo.UserVo"/>
+		<typeAlias alias="membervo" type="com.cafe24.shoppingmall.backend.vo.MemberVo"/>
 		<typeAlias alias="nonmembervo" type="com.cafe24.shoppingmall.backend.vo.NonMemberVo"/>
 		<typeAlias alias="categoryvo" type="com.cafe24.shoppingmall.backend.vo.CategoryVo"/>
 		<typeAlias alias="productvo" type="com.cafe24.shoppingmall.backend.vo.ProductVo"/>

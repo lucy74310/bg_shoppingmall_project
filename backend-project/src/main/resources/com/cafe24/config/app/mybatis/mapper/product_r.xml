@@ -105,5 +105,14 @@
 	</select>
 	
 	
+	<select id="get_product_option_one" resultType="productoptionvo" parameterType="long">
+		<![CDATA[
+			SELECT 
+				no, po_name, stock, use_stock, selling, displayed, plus_price, po_order, product_no
+			FROM product_option 
+			WHERE no = #{pono}
+		]]>
+	</select>
+	
 	
 </mapper>

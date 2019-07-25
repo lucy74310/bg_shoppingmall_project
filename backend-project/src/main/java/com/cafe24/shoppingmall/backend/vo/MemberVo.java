@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserVo {
+public class MemberVo {
 	
 	private Long no;
 	
@@ -39,8 +39,8 @@ public class UserVo {
 	@NotEmpty(message="필수 입력 사항입니다.")
 	private String address;
 	
-	public UserVo() {}
-	public UserVo(String id, String name, String password, String telephone,
+	public MemberVo() {}
+	public MemberVo(String id, String name, String password, String telephone,
 			String email, String birthday, String address) {
 		this.id = id;
 		this.name = name;

@@ -1,5 +1,6 @@
 package com.cafe24.shoppingmall.backend.dto;
 
+
 public class JSONResult {
 	private String result;
 	private Object data;
@@ -14,7 +15,6 @@ public class JSONResult {
 		this.message = message;
 		this.data = data;
 	}
-	
 	public String getResult() {
 		return result;
 	}
@@ -24,11 +24,9 @@ public class JSONResult {
 	public Object getData() {
 		return data;
 	}
-	
 	public static JSONResult success(Object data) {
 		return new JSONResult("success", null, data);
 	}
-	
 	public static JSONResult fail(String message) {
 		return new JSONResult("fail", message, null);
 	}
@@ -36,7 +34,6 @@ public class JSONResult {
 	public static JSONResult fail(String message, Object data) {
 		return new JSONResult("fail", message, data);
 	}
-
 	@Override
 	public String toString() {
 		return "JSONResult [result=" + result + ", data=" + data + ", message=" + message + "]";

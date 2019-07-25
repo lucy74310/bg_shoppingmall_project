@@ -143,12 +143,12 @@ public class ProductAddScenarioTest {
 				+ "</div></div></div>"
 				+ "<br style=\"display: block;content: ' ';height:50px;\">\r\n" + 
 				"</div>");
-		vo.setDisplayed('Y');
-		vo.setSelling('Y');
-		vo.setUse_option('Y');
-		vo.setUse_stock('Y');
+		vo.setDisplayed("Y");
+		vo.setSelling("Y");
+		vo.setUse_option("Y");
+		vo.setUse_stock("Y");
 		vo.setStock(30);
-		vo.setSoldout_mark('Y');
+		vo.setSoldout_mark("Y");
 		vo.setSave_percentage(5);
 		vo.setShipping_price(2500);
 		
@@ -187,12 +187,12 @@ public class ProductAddScenarioTest {
 				+ "</div></div></div>"
 				+ "<br style=\"display: block;content: ' ';height:50px;\">\r\n" + 
 				"</div>");
-		vo.setDisplayed('Y');
-		vo.setSelling('Y');
-		vo.setUse_option('Y');
-		vo.setUse_stock('Y');
+		vo.setDisplayed("Y");
+		vo.setSelling("Y");
+		vo.setUse_option("Y");
+		vo.setUse_stock("Y");
 		vo.setStock(30);
-		vo.setSoldout_mark('Y');
+		vo.setSoldout_mark("Y");
 		vo.setSave_percentage(5);
 		vo.setShipping_price(2500);
 		

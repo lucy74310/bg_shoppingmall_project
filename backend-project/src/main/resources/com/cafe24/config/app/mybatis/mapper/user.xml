@@ -5,7 +5,7 @@
 
 	<!-- INSERT -->
 	<!-- 회원가입 -->
-	<insert id="insert" parameterType="uservo">
+	<insert id="insert" parameterType="membervo">
 		<![CDATA[
 			insert into member 
 			(id, name, password, phone, telephone, email, gender, birth, point, join_date, m_state) 

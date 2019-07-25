@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.cafe24.shoppingmall.backend.repository.UserDao;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
 import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
-import com.cafe24.shoppingmall.backend.vo.UserVo;
+import com.cafe24.shoppingmall.backend.vo.MemberVo;
 
 @Service
 public class UserService {
@@ -15,7 +15,7 @@ public class UserService {
 	public UserDao userDao;
 	
 	//회원가입
-	public Long join(UserVo userVo) {
+	public Long join(MemberVo userVo) {
 		userVo.setNo(1L);
 		return userDao.insertMember(userVo).getNo();
 	}

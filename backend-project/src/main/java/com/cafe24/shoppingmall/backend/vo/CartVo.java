@@ -1,20 +1,36 @@
 package com.cafe24.shoppingmall.backend.vo;
 
+import org.hibernate.validator.constraints.Range;
+
 public class CartVo {
 
-	private Long cart_no;
+	private Long no;
 	private Long member_no;
 	private Long non_member_no;
+	private Long product_option_no;
 	private Long price;
+	
+	@Range(min=1, message="수량은 1개 이상이여야 합니다.")
 	private int count;
 	private String flag;
 	
 	
-	public Long getCart_no() {
-		return cart_no;
+	
+
+	public CartVo() {
 	}
-	public void setCart_no(Long cart_no) {
-		this.cart_no = cart_no;
+	public CartVo(Long non_member_no, Long product_option_no, Long price, int count) {
+		this.non_member_no = non_member_no;
+		this.product_option_no = product_option_no;
+		this.price = price;
+		this.count = count;
+	}
+	
+	public Long getNo() {
+		return no;
+	}
+	public void setNo(Long no) {
+		this.no = no;
 	}
 	public Long getMember_no() {
 		return member_no;
@@ -27,6 +43,12 @@ public class CartVo {
 	}
 	public void setNon_member_no(Long non_member_no) {
 		this.non_member_no = non_member_no;
+	}
+	public Long getProduct_option_no() {
+		return product_option_no;
+	}
+	public void setProduct_option_no(Long product_option_no) {
+		this.product_option_no = product_option_no;
 	}
 	public Long getPrice() {
 		return price;
@@ -49,10 +71,10 @@ public class CartVo {
 	}
 	@Override
 	public String toString() {
-		return "CartVo [cart_no=" + cart_no + ", member_no=" + member_no + ", non_member_no=" + non_member_no
-				+ ", price=" + price + ", count=" + count + ", flag=" + flag + "]";
+		return "CartVo [no=" + no + ", member_no=" + member_no + ", non_member_no=" + non_member_no
+				+ ", product_option_no=" + product_option_no + ", price=" + price + ", count=" + count + ", flag="
+				+ flag + "]";
 	}
-	
 	
 	
 }

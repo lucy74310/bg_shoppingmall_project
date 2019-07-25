@@ -336,11 +336,13 @@ public class ProductService {
 	
 	
 	
-	
-	
 	//상품 리스트 가져오기 
 	public List<ProductVo> getList() {
 		return productDao.getList();
+	}
+
+	public ProductOptionVo getProductOptionInfo(Long pono) {
+		return productDao.getProductOption(pono);
 	}
 
 	

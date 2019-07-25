@@ -138,7 +138,7 @@ public class ProductController {
 	
 	
 	
-	@ApiOperation("상세보기")
+	@ApiOperation("상세세부정보")
 	@GetMapping("/{no}")
 	public ResponseEntity<JSONResult> getProductInfo(
 			@PathVariable(value="no") Long no
@@ -149,9 +149,9 @@ public class ProductController {
 				.body(JSONResult.success(pvo));
 	}
 	
-	@ApiOperation("재고정보")
+	@ApiOperation("재고정보(상품&상품옵션)")
 	@GetMapping("/stock/{productNo}")
-	public ResponseEntity<JSONResult> getProductOptionInfo(
+	public ResponseEntity<JSONResult> getProducStockInfo(
 			@PathVariable(value="productNo") Long no
 	) {
 		ProductVo pvo = productService.getStockInfo(no);
@@ -159,6 +159,16 @@ public class ProductController {
 				.body(JSONResult.success(pvo));
 	}
 	
+	
+	@ApiOperation("재고정보(only상품옵션)")
+	@GetMapping("/stock/po/{pono}")
+	public ResponseEntity<JSONResult> getProductOptionStockInfo(
+			@PathVariable(value="pono") Long pono
+	) {
+		ProductOptionVo povo = productService.getProductOptionInfo(pono);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(povo));
+	}
 	
 	
 }
