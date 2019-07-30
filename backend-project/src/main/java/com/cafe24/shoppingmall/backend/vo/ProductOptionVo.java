@@ -109,6 +109,16 @@ public class ProductOptionVo {
 		this.po_order = po_order;
 		this.product_no = product_no;
 	}
+	
+	
+	
+	
+	public ProductOptionVo(String po_name, Long plus_price, int po_order) {
+		super();
+		this.po_name = po_name;
+		this.plus_price = plus_price;
+		this.po_order = po_order;
+	}
 	@Override
 	public String toString() {
 		return "ProductOptionVo [no=" + no + ", po_name=" + po_name + ", po_code=" + po_code + ", stock=" + stock

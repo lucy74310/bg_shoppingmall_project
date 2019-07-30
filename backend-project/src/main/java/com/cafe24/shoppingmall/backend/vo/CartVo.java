@@ -12,11 +12,12 @@ public class CartVo {
 	
 	@Range(min=1, message="수량은 1개 이상이여야 합니다.")
 	private int count;
+	private String po_name;
+	
 	private String flag;
+	private String main_image_url;
 	
 	
-	
-
 	public CartVo() {
 	}
 	public CartVo( Long product_option_no, Long price, int count) {
@@ -68,12 +69,25 @@ public class CartVo {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+
+	public String getPo_name() {
+		return po_name;
+	}
+	public void setPo_name(String po_name) {
+		this.po_name = po_name;
+	}
+	
+	public String getMain_url() {
+		return main_image_url;
+	}
+	public void setMain_url(String main_image_url) {
+		this.main_image_url = main_image_url;
+	}
 	@Override
 	public String toString() {
 		return "CartVo [no=" + no + ", member_no=" + member_no + ", non_member_no=" + non_member_no
-				+ ", product_option_no=" + product_option_no + ", price=" + price + ", count=" + count + ", flag="
-				+ flag + "]";
+				+ ", product_option_no=" + product_option_no + ", price=" + price + ", count=" + count + ", po_name="
+				+ po_name + ", flag=" + flag + ", main_image_url=" + main_image_url + "]";
 	}
-	
 	
 }

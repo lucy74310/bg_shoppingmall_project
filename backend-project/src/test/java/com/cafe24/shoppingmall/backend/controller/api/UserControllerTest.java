@@ -283,7 +283,7 @@ public class UserControllerTest {
 	@Ignore
 	@Test
 	public void addNonmemberSuccessTest() throws Exception {
-		mockMvc.perform(put("/api/user/nonmember/add")
+		mockMvc.perform(put("/api/user/nonmember/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new NonMemberVo("test1234567"))))
 				.andDo(print())

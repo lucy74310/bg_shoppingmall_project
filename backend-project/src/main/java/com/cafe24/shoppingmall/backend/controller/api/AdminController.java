@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController("adminAPIContorller")
 @RequestMapping("/api/admin")
 public class AdminController {
 	
+	@ApiOperation(value="관리자 로그인")
 	@PostMapping("/login")
 	public ResponseEntity<JSONResult> login(
 			@RequestParam("id") String id,
@@ -40,6 +43,7 @@ public class AdminController {
 		
 	}
 	
+	@ApiOperation(value="관리자 가입")
 	@PostMapping("/join")
 	public ResponseEntity<JSONResult> join(
 			@RequestParam("id") String id,
@@ -51,4 +55,19 @@ public class AdminController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(true));
 	}
+	
+	@ApiOperation(value="관리자 수정")
+	@PostMapping("/join")
+	public ResponseEntity<JSONResult> join(
+			@RequestParam("id") String id,
+			@RequestParam("password") String password,
+			HttpServletResponse response
+	) throws IOException {
+		
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(true));
+	}
+	
+	
 }

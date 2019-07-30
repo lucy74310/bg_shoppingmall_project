@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.OrderService;
 import com.cafe24.shoppingmall.backend.vo.CartVo;
+import com.cafe24.shoppingmall.backend.vo.OrderProductVo;
 import com.cafe24.shoppingmall.backend.vo.OrderVo;
 import com.cafe24.shoppingmall.backend.vo.ProductVo;
 
@@ -43,49 +46,51 @@ public class OrderController {
 					.body(JSONResult.fail("필수 입력 항목을 입력해 주세요.", valid.getAllErrors()));
 		}
 		System.out.println(orderVo);
-		OrderVo addedOrder = orderService.addOrder(orderVo);
+		Long addedOrder = orderService.addOrder(orderVo);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(addedOrder));
 	}
 	
 	@ApiOperation("회원 주문 내역 조회")
-	@PostMapping("/member/{memberNo}")
+	@GetMapping("/history/member/{no}")
 	public ResponseEntity<JSONResult> memberOrderList(
-			@RequestBody @Valid ProductVo productVo,
-			BindingResult result) throws IOException {
+		@PathVariable("no") Long member_no
+	) throws IOException {
 		
-		if(result.hasErrors()) {
-			//에러! 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수 입력 항목을 입력해 주세요.", result.getAllErrors()));
-		} else {
-			//에러없음~
-			// insert 하고 no 값을 받아온다 ~
-			
-			//insert 성공시 
-			productVo.setNo(1L);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
-		}
+		List<OrderProductVo> order_product_list = orderService.getMemberHistory(member_no);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(order_product_list));
+	}
+	@ApiOperation("비회원 주문 내역 조회")
+	@PostMapping("/history/nonmember")
+	public ResponseEntity<JSONResult> nonMemberOrderList(
+		@RequestBody OrderVo orderVo
+	) throws IOException {
+		
+		List<OrderProductVo> order_product_list = orderService.getNonMemberHistory(orderVo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(order_product_list));
 	}
 	
-	@ApiOperation("비회원 조회")
-	@PostMapping("/nonmember")
-	public ResponseEntity<JSONResult> nonMemberOrderCheck(
-			@RequestBody @Valid ProductVo productVo,
-			BindingResult result) throws IOException {
+	@ApiOperation("주문 상태 변경(결제관련)")
+	@PostMapping("/paystate/change")
+	public ResponseEntity<JSONResult> orderStateChange(
+		@RequestBody OrderVo orderVo
+	) throws IOException {
 		
-		if(result.hasErrors()) {
-			//에러! 
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수 입력 항목을 입력해 주세요.", result.getAllErrors()));
-		} else {
-			//에러없음~
-			// insert 하고 no 값을 받아온다 ~
-			
-			//insert 성공시 
-			productVo.setNo(1L);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productVo));
-		}
+		int count = orderService.orderStateChange(orderVo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
 	}
 	
-
+	@ApiOperation("주문 처리 상태 변경(주문상품별배송관련)")
+	@PostMapping("/shipstate/change")
+	public ResponseEntity<JSONResult> orderProductStateChange(
+		@RequestBody OrderProductVo orderProductVo
+	) throws IOException {
+		
+		int count = orderService.orderProductStateChange(orderProductVo);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
+	}
+	
 }

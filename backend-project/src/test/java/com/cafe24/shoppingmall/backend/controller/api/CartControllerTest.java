@@ -117,18 +117,18 @@ public class CartControllerTest {
 	public void addUpdateDeleteCartSuccessTest() throws Exception {
 		//Long non_member_no = Long.parseLong(userAdd().toString());
 		// 들어가있는 non_member_no 쓰기로
-		Long non_member_no = 64L;
+		Long non_member_no = 65L;
 		Long member_no = 7L;
 		MvcResult result;
 		// Long po_no = 9L;
 		//Long po_no = 16L;
-		Long po_no = 21L;
+		Long po_no = 28L;
 		JSONResult jsonResult;
 		int count = 1;
 		Map<String,Object> data;
 		CartVo insertCartVo = new CartVo(po_no, 25500L, count);
-		//insertCartVo.setNon_member_no(non_member_no);
-		insertCartVo.setMember_no(member_no); 
+		insertCartVo.setNon_member_no(non_member_no);
+		//insertCartVo.setMember_no(member_no); 
 		
 		// B. 장바구니 담기
 		// 재고의 수량보다 적게 선택했고, 장바구니에 없는 상품이라고 전제 
@@ -145,17 +145,16 @@ public class CartControllerTest {
 		insertCartVo = new ObjectMapper().convertValue(data, CartVo.class);
 		
 		
-		// C. 장바구니 수정
-		// 재고의 수량보다 적게 선택했고, 장바구니에 있는 상품이라고 전제 
-		insertCartVo.setCount(1);
-		
-		mockMvc.perform(post("/api/cart/update")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(insertCartVo)))
-				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data", is(true)));
+//		// C. 장바구니 수정
+//		// 재고의 수량보다 적게 선택했고, 장바구니에 있는 상품이라고 전제 
+//		insertCartVo.setCount(1);
+//		
+//		mockMvc.perform(post("/api/cart/update")
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.content(new Gson().toJson(insertCartVo)))
+//				.andExpect(jsonPath("$.result", is("success")))
+//				.andExpect(jsonPath("$.data", is(true)));
 
-		
 		// D. 장바구니 삭제
 //		mockMvc.perform(delete("/api/cart/delete")
 //				.contentType(MediaType.APPLICATION_JSON)
@@ -189,7 +188,7 @@ public class CartControllerTest {
 	@Test
 	public void updateCartFailTest() throws Exception {
 		//Long non_member_no = Long.parseLong(userAdd().toString());
-		Long non_member_no = 64L;
+		Long non_member_no = 65L;
 		CartVo cartVo = new CartVo(9L, 25500L, 0);
 		cartVo.setNon_member_no(non_member_no);
 		mockMvc.perform(put("/api/cart/add")
@@ -222,8 +221,8 @@ public class CartControllerTest {
 //	@Ignore
 	@Test
 	public void getCartListTest() throws Exception {
-		Boolean is_member = true;
-		Long no = 7L;
+		Boolean is_member = false;
+		Long no = 65L;
 		
 		mockMvc.perform(get("/api/cart/list/{is_member}/{no}", is_member, no))
 			.andDo(print());

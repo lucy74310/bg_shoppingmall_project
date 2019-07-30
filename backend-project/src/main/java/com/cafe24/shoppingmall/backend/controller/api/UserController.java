@@ -2,6 +2,7 @@ package com.cafe24.shoppingmall.backend.controller.api;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import com.cafe24.shoppingmall.backend.service.UserService;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
 import com.cafe24.shoppingmall.backend.vo.LoginVo;
 import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
+import com.cafe24.shoppingmall.backend.vo.UpdateMemberVo;
 import com.cafe24.shoppingmall.backend.vo.MemberVo;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -95,8 +97,8 @@ public class UserController {
 				.body(JSONResult.success(member_no));
 	}
 	
-	
-	@PostMapping(value="/login")
+	@ApiOperation(value="로그인")
+	@PostMapping(value= {"/login"})
 	public ResponseEntity<JSONResult> login(
 		@RequestBody @Valid LoginVo loginVo,
 		BindingResult valid
@@ -126,7 +128,7 @@ public class UserController {
 	
 	
 	@ApiOperation(value="비회원 추가")
-	@PutMapping(value="/nonmember/add")
+	@PutMapping(value="/nonmember/join")
 	public ResponseEntity<JSONResult> nonMemberAdd(
 			@RequestBody @Valid NonMemberVo nonMemberVo,
 			BindingResult valid
@@ -148,8 +150,67 @@ public class UserController {
 	}
 	
 	
+	@ApiOperation(value="회원정보 수정")
+	@PostMapping("/update")
+	public ResponseEntity<JSONResult> updateMember(
+		@RequestBody @Valid UpdateMemberVo memVo,
+		BindingResult valid
+	){
+		// 필수 양식 체크 
+		if(valid.hasErrors()) {
+			Map<String, String> errMap = new HashMap<String, String>();
+			for(ObjectError err : valid.getAllErrors()) {
+				FieldError f = (FieldError) err;
+				errMap.put(f.getField(), f.getDefaultMessage());
+			}
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+		}
+		
+		int count = userService.updateMember(memVo);
+		
+		
+		
+		return ResponseEntity.status(HttpStatus.OK)
+		.body(JSONResult.success(memVo));
+	}
 	
 	
+	@ApiOperation(value="회원 삭제")
+	@GetMapping("/delete/{no}")
+	public ResponseEntity<JSONResult> deleteMember(
+		@PathVariable("no") Long no
+	) {
+		
+		int count = userService.deleteMember(no);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(count));
+	}
+
+	
+	@ApiOperation(value="비밀번호 확인")
+	@GetMapping("/ownercheck")
+	public ResponseEntity<JSONResult> ownerCheck(
+		@RequestBody LoginVo loginVo
+	) {
+		
+		Boolean is_owner = userService.ownerCheck(loginVo);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(is_owner));
+	}
+
+	
+	@ApiOperation(value="회원리스트")
+	@GetMapping("/delete/{no}")
+	public ResponseEntity<JSONResult> memberList() {
+		
+		List<MemberVo> mem_list = userService.getMemberList();
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(JSONResult.success(mem_list));
+	}
 
 	
 	

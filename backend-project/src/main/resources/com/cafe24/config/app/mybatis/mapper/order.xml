@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="order">
+
+	<insert id="insert_order" parameterType="ordervo">
+		<![CDATA[
+			insert into orders 
+			values
+			(null, 
+			 (select 
+			 	concat(date_format(now(),'%Y%m%d'), '-',
+			 	(lpad(
+			 (select 
+			 	case when count(*) > 0 
+			 	then trim(leading '0' from substr(max(a.order_code),10))+1 
+			 	else 1 end 
+			 	from orders as a 
+			   where substr(a.order_code,1,8) = date_format(now(),'%Y%m%d')), '7','0'))) as order_code)
+			, #{order_name}, now(), 
+			aes_encrypt(#{orderer_name}, 'bugwang'), 
+			aes_encrypt(#{orderer_email}, 'bugwang'), 
+			aes_encrypt(#{orderer_addr}, 'bugwang'),
+			aes_encrypt( #{orderer_phone}, 'bugwang'),
+			aes_encrypt( #{orderer_telephone}, 'bugwang'),
+			aes_encrypt( #{receiver_name}, 'bugwang'),
+			aes_encrypt( #{receiver_addr}, 'bugwang'),
+			aes_encrypt( #{receiver_telephone}, 'bugwang'),
+			aes_encrypt( #{receiver_phone}, 'bugwang'),
+			 #{pay_amount}, #{shipping_msg}, #{order_state},
+			#{member_no}, 
+			sha2(#{order_check_password}, 512)
+			)
+			 
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id();
+		</selectKey> 
+	</insert>
+	
+		
+	<insert id="insert_order_product" parameterType="orderproductvo">
+		<![CDATA[
+			insert into order_product 
+			values
+			(null, 
+			#{order_no}, 
+			#{product_option_no}, 
+			#{po_name}, 
+			#{count}, 
+			#{price}, 
+			#{order_handling_state})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id();
+		</selectKey> 
+	</insert>
+	
+	<select id="get_member_order_history" resultType="orderproductvo" parameterType="long">
+			SELECT 
+				op.no, op.order_no, op.product_option_no, o.order_code, o.order_date , pi.url as main_image_url, 
+				op.po_name, op.count, op.price, op.order_handling_state 
+			FROM orders as o left join order_product as op on op.order_no = o.no 
+			LEFT JOIN product_option as po on op.product_option_no = po.no 
+			LEFT JOIN product as p on po.product_no = p.no
+			LEFT JOIN product_image as pi on p.no = pi.product_no
+			WHERE o.member_no = #{member_no} and pi.is_main='Y'
+			ORDER BY order_date DESC
+			
+	</select>
+	
+	<select id="get_nonmember_order_history" resultType="orderproductvo" parameterType="ordervo">
+		SELECT 
+				op.no, op.order_no, op.product_option_no, o.order_code, o.order_date , pi.url as main_image_url, 
+				op.po_name, op.count, op.price, op.order_handling_state 
+			FROM orders as o left join order_product as op on op.order_no = o.no 
+			LEFT JOIN product_option as po on op.product_option_no = po.no 
+			LEFT JOIN product as p on po.product_no = p.no
+			LEFT JOIN product_image as pi on p.no = pi.product_no
+			WHERE 
+			aes_decrypt(o.orderer_name, 'bugwang') = #{orderer_name} 
+			AND o.order_check_password = sha2(#{order_check_password}, 512) 
+			AND o.order_code = #{order_code}
+			AND pi.is_main='Y'
+			ORDER BY order_date DESC
+	</select>
+	
+	<update id="update_order_state" parameterType="ordervo" >
+		update orders
+		set
+			order_state = #{order_state}
+		where no = #{no}
+	</update>
+	
+	<update id="update_order_handling_state" parameterType="orderproductvo">
+		update order_product
+		set
+			order_handling_state = #{order_handling_state}
+		where 
+		order_no = #{order_no} and 
+		(product_option_no = #{product_option_no} or #{product_option_no} is null);
+	</update>
+</mapper>

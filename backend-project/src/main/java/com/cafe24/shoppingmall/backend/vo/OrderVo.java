@@ -7,7 +7,8 @@ import org.hibernate.validator.constraints.Length;
 public class OrderVo {
 	private Long no;
 	private String order_code;
-	
+	private String order_name;
+	private String order_date;
 	@Length(min=1, message="주문자 이름은 필수입력 사향입니다.")
 	private String orderer_name;
 	
@@ -32,23 +33,26 @@ public class OrderVo {
 	
 	private String receiver_phone;
 	
+	private int pay_amount;
 	private String shipping_msg;
 	
 	private String order_state;
 	
+	private Long member_no;
 	private String order_check_password;
 	
-	private int pay_amount;
-	private Long member_no;
 	
 	private List<CartVo> cart_list;
 	
 	
 	
-	public OrderVo(String order_code, String orderer_name, String orderer_email, String orderer_telephone,
+	public OrderVo() {
+	}
+	
+	//회원주문테스트 생성자
+	public OrderVo(String orderer_name, String orderer_email, String orderer_telephone,
 			String receiver_name, String receiver_addr, String receiver_telephone, int pay_amount, Long member_no,
 			List<CartVo> cart_list) {
-		this.order_code = order_code;
 		this.orderer_name = orderer_name;
 		this.orderer_email = orderer_email;
 		this.orderer_telephone = orderer_telephone;
@@ -59,6 +63,23 @@ public class OrderVo {
 		this.member_no = member_no;
 		this.cart_list = cart_list;
 	}
+	
+	//비회원주문테스트 생성자
+	public OrderVo(String orderer_name, String orderer_email, String orderer_telephone,
+			String receiver_name, String receiver_addr, String receiver_telephone, int pay_amount,
+			String order_check_password, List<CartVo> cart_list) {
+		this.orderer_name = orderer_name;
+		this.orderer_email = orderer_email;
+		this.orderer_telephone = orderer_telephone;
+		this.receiver_name = receiver_name;
+		this.receiver_addr = receiver_addr;
+		this.receiver_telephone = receiver_telephone;
+		this.pay_amount = pay_amount;
+		this.order_check_password = order_check_password;
+		this.cart_list = cart_list;
+	}
+	
+	
 	public Long getNo() {
 		return no;
 	}
@@ -70,6 +91,19 @@ public class OrderVo {
 	}
 	public void setOrder_code(String order_code) {
 		this.order_code = order_code;
+	}
+	public String getOrder_name() {
+		return order_name;
+	}
+	public void setOrder_name(String order_name) {
+		this.order_name = order_name;
+	}
+	
+	public String getOrder_date() {
+		return order_date;
+	}
+	public void setOrder_date(String order_date) {
+		this.order_date = order_date;
 	}
 	public String getOrderer_name() {
 		return orderer_name;
@@ -161,12 +195,13 @@ public class OrderVo {
 	public void setCart_list(List<CartVo> cart_list) {
 		this.cart_list = cart_list;
 	}
+
 	@Override
 	public String toString() {
-		return "OrderVo [no=" + no + ", order_code=" + order_code + ", orderer_name=" + orderer_name
-				+ ", orderer_email=" + orderer_email + ", orderer_addr=" + orderer_addr + ", orderer_phone="
-				+ orderer_phone + ", orderer_telephone=" + orderer_telephone + ", receiver_name=" + receiver_name
-				+ ", receiver_addr=" + receiver_addr + ", receiver_telephone=" + receiver_telephone
+		return "OrderVo [no=" + no + ", order_code=" + order_code + ", order_name=" + order_name + ", orderer_name="
+				+ orderer_name + ", orderer_email=" + orderer_email + ", orderer_addr=" + orderer_addr
+				+ ", orderer_phone=" + orderer_phone + ", orderer_telephone=" + orderer_telephone + ", receiver_name="
+				+ receiver_name + ", receiver_addr=" + receiver_addr + ", receiver_telephone=" + receiver_telephone
 				+ ", receiver_phone=" + receiver_phone + ", shipping_msg=" + shipping_msg + ", order_state="
 				+ order_state + ", order_check_password=" + order_check_password + ", pay_amount=" + pay_amount
 				+ ", member_no=" + member_no + ", cart_list=" + cart_list + "]";

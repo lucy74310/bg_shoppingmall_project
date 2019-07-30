@@ -17,10 +17,17 @@
 	<!-- 로그인 : id,pwd로 회원 조회 -->
 	<select id="get_login_member" resultType="membervo" parameterType="loginvo">
 		<![CDATA[
-			select 
-				no, id 
-			from member
-			where id = #{id} and password = sha2(#{password},512)  
+		SELECT 
+			m.no, m.id, 
+			AES_DECRYPT(m.name, 'bugwang'), 
+			AES_DECRYPT(m.phone, 'bugwang'), 
+			AES_DECRYPT(m.telephone, 'bugwang'), 
+			AES_DECRYPT(m.email, 'bugwang'), m.birth, m.point, 
+			AES_DECRYPT(a.address, 'bugwang')
+		 FROM member AS m
+		 LEFT JOIN address AS a ON m.`no` = a.member_no
+		WHERE id = #{id} and password = sha2(#{password},512)
+		  AND (a.is_default = 'Y' OR a.is_default IS NULL);
 		]]>
 	</select>
 	
@@ -74,4 +81,37 @@
 		</selectKey>
 	</insert>
 	
+	<!-- 회원정보 업데이트 -->
+	<update id="update_member_info" parameterType="updatemembervo">
+		update member
+		set
+			name = aes_encrypt(#{name}, 'bugwang'),
+			phone = aes_encrypt(#{phone}, 'bugwang'),
+			telephone = aes_encrypt(#{telephone}, 'bugwang'),
+			email = aes_encrypt(#{email}, 'bugwang'),
+			birth = #{birth},
+			update_date = now()
+		where no = #{no}
+	</update>
+	
+	<!-- 회원삭제 -->
+	<delete id="delete_member" parameterType="long">
+		delete from member where no = #{no}
+	</delete>
+	
+	<!-- 회원리스트 -->
+	<select id="get_member_list" resultType="membervo">
+		SELECT 
+			m.no, m.id, 
+			AES_DECRYPT(m.name, 'bugwang'), 
+			AES_DECRYPT(m.phone, 'bugwang'), 
+			AES_DECRYPT(m.telephone, 'bugwang'), 
+			AES_DECRYPT(m.email, 'bugwang'), m.birth, m.point, 
+			AES_DECRYPT(a.address, 'bugwang'),
+			m.join_date, m.update_date, m.leave_date, m.m_state
+		 FROM member AS m
+		 LEFT JOIN address AS a ON m.`no` = a.member_no
+		WHERE (a.is_default = 'Y' OR a.is_default IS NULL); 
+	
+	</select>
 </mapper>

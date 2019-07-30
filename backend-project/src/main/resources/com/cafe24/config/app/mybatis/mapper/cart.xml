@@ -32,7 +32,7 @@
 		 			and non_member_no = #{non_member_no} 
 		 		</when>
 		 		<otherwise>
-		 			and member_no = #{non_member_no}
+		 			and member_no = #{member_no}
 		 		</otherwise>
 		 	</choose>
 	</delete>
@@ -40,9 +40,11 @@
 	<select id="get_member_cart_list" resultType="cartvo" parameterType="long">
 	<![CDATA[
 		select 
-			no, member_no, product_option_no, count, price 
-		from cart
-		where member_no = #{no} 
+				c.no, c.member_no, c.product_option_no, c.count, c.price, po.po_name, pi.url as main_image_url
+		from cart as c join product_option as po on c.product_option_no = po.no 
+        join product as p on p.no = po.product_no
+        left join product_image as pi on p.no = pi.product_no
+		where c.member_no = #{no} and pi.is_main='Y'
 	]]>
 	</select>
 	
@@ -50,9 +52,11 @@
 	<select id="get_nonmember_cart_list" resultType="cartvo" parameterType="long">
 		<![CDATA[
 			select 
-				no, non_member_no, product_option_no, count, price 
-			from cart
-			where non_member_no = #{no}
+					c.no, c.member_no, c.product_option_no, c.count, c.price, po.po_name, pi.url as main_image_url
+			from cart as c join product_option as po on c.product_option_no = po.no 
+	        join product as p on p.no = po.product_no
+	        left join product_image as pi on p.no = pi.product_no
+			where c.non_member_no = #{no} and pi.is_main='Y'
 		]]> 
 	</select>
 	

@@ -99,27 +99,6 @@ public class ProductController {
 	
 	
 	
-	@ApiOperation("재고수량변경")
-	@GetMapping("/stock/update/{optionNo}/{count}")
-	public ResponseEntity<JSONResult> updateStock(
-			@PathVariable(value="optionNo") Long deleteNo,
-			@PathVariable(value="count") int count,
-			@RequestParam Boolean test
-	) {
-		boolean result;
-		if(test) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(true));
-		} else {
-			result = false;
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("fail", result));
-		}
-	}
-	
-	
-	
-	
-	
 	@ApiOperation("상품목록")
 	@GetMapping("/list")
 	public ResponseEntity<JSONResult> getList() {

@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.backend.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +10,7 @@ import com.cafe24.shoppingmall.backend.repository.UserDao;
 import com.cafe24.shoppingmall.backend.vo.AddressVo;
 import com.cafe24.shoppingmall.backend.vo.LoginVo;
 import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
+import com.cafe24.shoppingmall.backend.vo.UpdateMemberVo;
 import com.cafe24.shoppingmall.backend.vo.MemberVo;
 
 @Service
@@ -53,5 +56,29 @@ public class UserService {
 	public MemberVo getLoginMember(LoginVo loginVo) {
 		return userDao.getLoginMember(loginVo);
 	}
+	
+	//회원정보 수정
+	public int updateMember(UpdateMemberVo memVo) {
+		return userDao.updateMember(memVo);
+	}
+	
+	
+	//회원 삭제
+	public int deleteMember(Long no) {
+		return userDao.deleteMember(no);
+	}
+	
+	
+	//본인확인 - 비밀번호 일치 
+	public Boolean ownerCheck(LoginVo loginVo) {
+		return userDao.ownerCheck(loginVo);
+	}
+
+	//회원 리스트 - 회원 관리용 by 관리자 
+	public List<MemberVo> getMemberList() {
+		return userDao.getMemberList();
+	}
+
+	
 	
 }
