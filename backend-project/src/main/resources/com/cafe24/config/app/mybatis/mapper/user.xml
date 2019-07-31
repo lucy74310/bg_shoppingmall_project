@@ -3,7 +3,6 @@
 
 <mapper namespace="user">
 
-	<!-- INSERT -->
 	<!-- 아이디 중복 체크 -->
 	<select id="check_id" parameterType="string" resultType="membervo">
 		<![CDATA[

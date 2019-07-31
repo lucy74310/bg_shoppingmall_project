@@ -203,7 +203,7 @@ public class UserController {
 
 	
 	@ApiOperation(value="회원리스트")
-	@GetMapping("/delete/{no}")
+	@GetMapping("/list")
 	public ResponseEntity<JSONResult> memberList() {
 		
 		List<MemberVo> mem_list = userService.getMemberList();

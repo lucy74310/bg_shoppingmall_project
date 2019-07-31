@@ -5,6 +5,7 @@
 		<typeAlias alias="membervo" type="com.cafe24.shoppingmall.backend.vo.MemberVo"/>
 		<typeAlias alias="updatemembervo" type="com.cafe24.shoppingmall.backend.vo.UpdateMemberVo"/>
 		<typeAlias alias="nonmembervo" type="com.cafe24.shoppingmall.backend.vo.NonMemberVo"/>
+		<typeAlias alias="adminvo" type="com.cafe24.shoppingmall.backend.vo.AdminVo"/>
 		<typeAlias alias="addressvo" type="com.cafe24.shoppingmall.backend.vo.AddressVo"/>
 		<typeAlias alias="loginvo" type="com.cafe24.shoppingmall.backend.vo.LoginVo"/>
 		<typeAlias alias="categoryvo" type="com.cafe24.shoppingmall.backend.vo.CategoryVo"/>
@@ -26,5 +27,6 @@
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_c.xml" />
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/cart.xml" />
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/order.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/admin.xml" />
 	</mappers>
 </configuration>
