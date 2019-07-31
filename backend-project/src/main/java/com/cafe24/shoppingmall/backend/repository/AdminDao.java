@@ -32,4 +32,9 @@ public class AdminDao {
 	public int deleteAdmin(AdminVo adminVo) {
 		return sqlSession.update("admin.delete_admin", adminVo);
 	}
+
+	public Boolean idCheck(String id) {
+		AdminVo adminVo = sqlSession.selectOne("admin.id_check", id);
+		return adminVo != null;
+	}
 }

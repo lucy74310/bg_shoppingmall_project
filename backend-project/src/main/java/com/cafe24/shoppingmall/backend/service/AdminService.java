@@ -33,4 +33,9 @@ public class AdminService {
 		return adminDao.deleteAdmin(adminVo);
 	}
 
+	//id중복체크
+	public Boolean idCheck(String id) {
+		return adminDao.idCheck(id);
+	}
+
 }
