@@ -77,7 +77,7 @@ public class ProductService {
 
 	// 상품 수정
 	@Transactional
-	public boolean updateProduct(ProductVo productVo) {
+	public int updateProduct(ProductVo productVo) {
 		Long no = productVo.getNo();
 		
 		// 상품 update
@@ -104,10 +104,10 @@ public class ProductService {
 		updateAboutImage(productVo, no);
 		
 		// 상품 update
-		productDao.updateProduct(productVo);	
+		int count = productDao.updateProduct(productVo);	
 		
 		
-		return true;
+		return count;
 	}
 
 	
@@ -252,9 +252,9 @@ public class ProductService {
 		
 		if(productVo.getCategory_list() != null) {
 			for(ProductCategoryVo pcVo : productVo.getCategory_list()) {
-				if("insert".contentEquals(pcVo.getFlag())) {
+				if("insert".equals(pcVo.getFlag())) {
 					productDao.insertProductCategory(pcVo);
-				}else if("delete".contentEquals(pcVo.getFlag())) {
+				}else if("delete".equals(pcVo.getFlag())) {
 					productDao.deleteProductCategory(pcVo.getNo());
 				}
 				
@@ -282,12 +282,12 @@ public class ProductService {
 	private boolean updateAboutImage(ProductVo productVo, Long no) {
 		if(productVo.getImage_list() != null) {
 			for(ImageVo image : productVo.getImage_list()) {
-				if("insert".contentEquals(image.getFlag())) {
+				if("insert".equals(image.getFlag())) {
 					image.setProduct_no(no);
 					productDao.insertImage(image);
-				} else if("update".contentEquals(image.getFlag())) {
+				} else if("update".equals(image.getFlag())) {
 					productDao.updateImage(image);
-				} else if("delete".contentEquals(image.getFlag())) {
+				} else if("delete".equals(image.getFlag())) {
 					productDao.deleteImageByNo(image.getNo());
 				}
 				
@@ -300,6 +300,7 @@ public class ProductService {
 	//재고정보
 	public ProductVo getStockInfo(Long product_no) {
 		ProductVo pvo = productDao.getStockInfo(product_no);
+		System.out.println(pvo);
 		return pvo;
 	}
 	
@@ -309,9 +310,10 @@ public class ProductService {
 		Map<String, Object> data = new HashMap<String, Object>();
 		
 		ProductVo pvo = productDao.getProductOne(product_no);
-		
-		pvo.setCategory_list_with_name(getCatetoryInfo(product_no));
-		
+		List<CategoryVo> c_list = getCatetoryInfo(product_no);
+		if(c_list.size() > 0) {
+			pvo.setCategory_list_with_name(c_list);
+		}
 		return pvo;
 	}
 	
@@ -319,7 +321,7 @@ public class ProductService {
 	private List<CategoryVo> getCatetoryInfo(Long product_no) {
 		List<CategoryVo> c_list = productDao.getCategoryList(product_no);
 		for(CategoryVo c : c_list) {
-			
+			System.out.println("c");
 			if(c.getUpper_no() != null) {
 				c.setCategory_name(c.getUpper_category_name() + " > " + c.getCategory_name());
 			}
@@ -330,7 +332,6 @@ public class ProductService {
 				c.setUpper_no2(upper_c.getUpper_no2());
 			}
 		}
-		
 		return c_list;
 		
 	}

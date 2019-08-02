@@ -69,7 +69,7 @@ public class UserControllerTest {
 		// id 조건 : 공백 안되고, 영문 소문자/숫자 4~16자 (프론트에서 체크)
 		String id = "test1234";
 		
-		mockMvc.perform(get("/api/user/checkID/{id}", id))
+		mockMvc.perform(get("/api/user/checkid/{id}", id))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")))
@@ -283,7 +283,7 @@ public class UserControllerTest {
 	@Ignore
 	@Test
 	public void addNonmemberSuccessTest() throws Exception {
-		mockMvc.perform(put("/api/user/nonmember/join")
+		mockMvc.perform(post("/api/user/nonmember/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new NonMemberVo("test1234567"))))
 				.andDo(print())
@@ -297,7 +297,7 @@ public class UserControllerTest {
 	@Ignore
 	@Test
 	public void addNonmemberFailTest() throws Exception {
-		mockMvc.perform(put("/api/user/nonmember/add")
+		mockMvc.perform(post("/api/user/nonmember/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new NonMemberVo(""))))
 				.andDo(print())

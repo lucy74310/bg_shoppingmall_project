@@ -49,7 +49,7 @@ public class CartController {
 	}
 	
 	@ApiOperation("장바구니에 상품저장")
-	@PutMapping("/add")
+	@PostMapping("/add")
 	public ResponseEntity<JSONResult> addProductToCart(
 		@RequestBody @Valid CartVo cartVo,
 		BindingResult valid
@@ -66,7 +66,7 @@ public class CartController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(cartVo));
 	}
 	@ApiOperation("장바구니 상품수정")
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public ResponseEntity<JSONResult> updateProductInCart(
 		@RequestBody @Valid CartVo cartVo,
 		BindingResult valid

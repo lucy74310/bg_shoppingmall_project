@@ -58,7 +58,8 @@ public class CategoryControllerTest {
 	public void mockMvcNotNullTest() {
 		assertNotNull(mockMvc);		
 	}
-	
+	/*카테고리 목록 */
+	@Ignore
 	@Test
 	public void categoryListTest() throws Exception {
 		ResultActions resultActions =
@@ -71,9 +72,22 @@ public class CategoryControllerTest {
 		
 	}
 	
-	
+	/*카테고리 목록 없을 경우 : category table delete 해 준 후  */
+	@Ignore
+	@Test
+	public void categoryListFailTest() throws Exception {
+		ResultActions resultActions =
+				mockMvc.perform(get("/api/category/list"));
+						
+		resultActions
+			.andExpect(status().isBadRequest())
+			.andDo(print())
+			.andExpect(jsonPath("$.result", is("fail")));
+		
+	}
 	
 	/* 카테고리추가 - 성공 */
+//	@Ignore
 	@Rollback(false)
 	@Test
 	public void categoryAddSuccessTest() throws Exception {
@@ -89,14 +103,16 @@ public class CategoryControllerTest {
 		sub_cate_list.add(subCateVo2);
 		
 		CategoryVo categoryVo = new CategoryVo("상의", 1, sub_cate_list);
-		
+		System.out.println(categoryVo);
 		mockMvc.perform(post("/api/category/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
+			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data", notNullValue()));
 	}
 	
 	/* 카테고리추가 - 실패 - empty */
+	@Ignore
 	@Test
 	public void categoryAddFailEmptyTest() throws Exception {
 		CategoryVo categoryVo = new CategoryVo();
@@ -108,11 +124,13 @@ public class CategoryControllerTest {
 	}
 	
 	/* 카테고리추가 - 실패 - 20자 이상 */
+	@Ignore
 	@Test
 	public void categoryAddFailLengtTest() throws Exception {
 		CategoryVo categoryVo = new CategoryVo("ThisIsAccessary123456");
 		mockMvc.perform(post("/api/category/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
+				.andDo(print())
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.message", is("1~20자 사이로 입력해 주세요")));
 	}
@@ -146,6 +164,7 @@ public class CategoryControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
 			.andExpect(status().isOk())
+			.andDo(print())
 			.andExpect(jsonPath("$.result", is("success")))
 			.andExpect(jsonPath("$.data", is(true)));
 		
@@ -154,21 +173,25 @@ public class CategoryControllerTest {
 		
 	}
 	/* 카테고리수정 - 실패 - 이름 empty */
+	@Ignore
 	@Test
 	public void categoryUpdateFailEmptyTest() throws Exception {
 		CategoryVo categoryVo = new CategoryVo("");
 		mockMvc.perform(post("/api/category/update").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
+				.andDo(print())	
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.message", is("1~20자 사이로 입력해 주세요")));
 	}
 	
 	/* 카테고리수정 - 실패 - 이름 20자 이상 */
+	@Ignore
 	@Test
 	public void categoryUpdateFailLengtTest() throws Exception {
 		CategoryVo categoryVo = new CategoryVo("ThisIsAccessary123456");
 		mockMvc.perform(post("/api/category/update").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
+				.andDo(print())
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.message", is("1~20자 사이로 입력해 주세요")));
 	}
@@ -177,12 +200,13 @@ public class CategoryControllerTest {
 	@Ignore
 	@Test
 	public void categoryUpdateFailDBTest() throws Exception {
-		CategoryVo categoryVo = new CategoryVo("ThisIsAccessary");
+		CategoryVo categoryVo = new CategoryVo("testes");
 		//없는 no 넣어줌
 		categoryVo.setNo(1L);
 		mockMvc.perform(post("/api/category/update").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
 				.andExpect(status().isBadRequest())
+				.andDo(print())
 				.andExpect(jsonPath("$.message", is("수정이 되지 않았습니다.")))
 				.andExpect(jsonPath("$.data", is(false)));
 	}
@@ -214,8 +238,7 @@ public class CategoryControllerTest {
 	}
 	
 	
-	/* 카테고리 삭제 - DB에러 
-	 * 없는 no  */
+	/* 카테고리 삭제 - DB 없는 no  */
 	@Ignore
 	@Test
 	public void categoryDeleteFailTest() throws Exception {
@@ -225,6 +248,7 @@ public class CategoryControllerTest {
 						
 		resultActions
 			.andExpect(status().isBadRequest())
+			.andDo(print())
 			.andExpect(jsonPath("$.message", is("삭제가 되지 않았습니다.")))
 			.andExpect(jsonPath("$.data", is(false)));
 	}

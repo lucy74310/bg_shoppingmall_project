@@ -46,12 +46,12 @@ public class CategoryService {
 	
 	
 	public Boolean updateCategory(CategoryVo categoryVo) {
-		categoryDao.updateCategory(categoryVo);
+		int count = categoryDao.updateCategory(categoryVo);
 		List<CategoryVo> sub_category_list = categoryVo.getSub_categories();
 		if(sub_category_list != null && !sub_category_list.isEmpty()) {
 			updateSubCategories(sub_category_list, categoryVo.getNo());
 		}
-		return true;
+		return count == 1;
 	}
 	
 	private Boolean updateSubCategories(List<CategoryVo> sub_category_list, Long upper_no) {

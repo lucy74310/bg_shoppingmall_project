@@ -45,7 +45,7 @@
 
 
 	<!-- 루트(글로벌) 로거 -->
-	<root level="error">
+	<root level="warn">
 		<appender-ref ref="consoleAppender" />
 	</root>
 

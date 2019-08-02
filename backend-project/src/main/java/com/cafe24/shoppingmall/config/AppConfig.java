@@ -11,7 +11,7 @@ import com.cafe24.config.app.MyBatisConfig;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan({"com.cafe24.shoppingmall.backend.service", "com.cafe24.shoppingmall.backend.repository", "com.cafe24.shoppingmall.backend.vo" })
+@ComponentScan({"com.cafe24.shoppingmall"})
 @Import({DBConfig.class, MyBatisConfig.class})
 public class AppConfig {
 	

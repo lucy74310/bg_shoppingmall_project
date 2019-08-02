@@ -131,7 +131,7 @@ public class CartControllerTest {
 		
 		// B. 장바구니 담기
 		// 재고의 수량보다 적게 선택했고, 장바구니에 없는 상품이라고 전제 
-		result = mockMvc.perform(put("/api/cart/add")
+		result = mockMvc.perform(post("/api/cart/add")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(new Gson().toJson(insertCartVo)))
 						.andDo(print())
@@ -148,7 +148,7 @@ public class CartControllerTest {
 //		// 재고의 수량보다 적게 선택했고, 장바구니에 있는 상품이라고 전제 
 //		insertCartVo.setCount(1);
 //		
-//		mockMvc.perform(post("/api/cart/update")
+//		mockMvc.perform(put("/api/cart/update")
 //				.contentType(MediaType.APPLICATION_JSON)
 //				.content(new Gson().toJson(insertCartVo)))
 //				.andExpect(jsonPath("$.result", is("success")))
@@ -169,7 +169,7 @@ public class CartControllerTest {
 	
 	private Object userAdd() throws Exception {
 		MvcResult result = 
-		mockMvc.perform(put("/api/user/nonmember/add")
+		mockMvc.perform(post("/api/user/nonmember/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new NonMemberVo("user1"))))
 				.andExpect(status().isOk())
@@ -190,14 +190,14 @@ public class CartControllerTest {
 		Long non_member_no = 65L;
 		CartVo cartVo = new CartVo(9L, 25500L, 0);
 		cartVo.setNon_member_no(non_member_no);
-		mockMvc.perform(put("/api/cart/add")
+		mockMvc.perform(post("/api/cart/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(cartVo)))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.result", is("fail")))
 				.andExpect(jsonPath("$.message", is("수량은 1개 이상이여야 합니다.")));
 		
-		mockMvc.perform(post("/api/cart/update")
+		mockMvc.perform(put("/api/cart/update")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(cartVo)))
 				.andExpect(status().isBadRequest())

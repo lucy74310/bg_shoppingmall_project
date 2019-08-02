@@ -44,56 +44,72 @@ public class ProductController {
 	private ProductService productService;
 	
 	@ApiOperation("상품등록")
-	@PutMapping("/add")
+	@PostMapping("/add")
 	public ResponseEntity<JSONResult> productAdd(
 			@RequestBody @Valid ProductVo productVo,
 			BindingResult valid
 	) throws IOException {
-		System.out.println(productVo);
+		
 		if(valid.hasErrors()) {
+			Map<String, String> errMap = new HashMap<String, String>();
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(JSONResult.fail(f.getDefaultMessage(), null));
+				errMap.put(f.getField(), f.getDefaultMessage());
 			}
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
 		} 
+		
 		Long productNo = productService.addProduct(productVo);
+		if(productNo == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("상품이 등록되지 않았습니다."));
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productNo));
 	}
 	
 	
 	
 	@ApiOperation("상품수정")
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public ResponseEntity<JSONResult> productUpdate(
 			@RequestBody @Valid ProductVo productVo,
-			BindingResult result
+			BindingResult valid
 	) {
 		
-		if(result.hasErrors()) {
-			//에러! 
+		if(valid.hasErrors()) {
+			Map<String, String> errMap = new HashMap<String, String>();
+			for(ObjectError err : valid.getAllErrors()) {
+				FieldError f = (FieldError) err;
+				errMap.put(f.getField(), f.getDefaultMessage());
+			}
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+		} 
+		
+		int count = productService.updateProduct(productVo);
+		
+		if(count != 1) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수 입력 항목을 입력해 주세요.", result.getAllErrors()));
-		} else {
-			
-			boolean updateResult = productService.updateProduct(productVo);
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(updateResult));
+					.body(JSONResult.fail("상품이 수정되지 않았습니다.", count));
 		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
 	}
 	
 	
 	
 	@ApiOperation("상품삭제")
-	@DeleteMapping("/delete/{deleteNo}")
+	@DeleteMapping("/delete/{pno}")
 	public ResponseEntity<JSONResult> productDelete(
-			@PathVariable(value="deleteNo") Long deleteNo
+			@PathVariable(value="pno") Long no
 	) {
-		int deleterowcount = productService.deleteProduct(deleteNo);
+		int deleterowcount = productService.deleteProduct(no);
 		if(deleterowcount == 1 ) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(deleterowcount));
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-					JSONResult.fail("상품이 삭제되지 않았습니다.", null));
+					JSONResult.fail("상품이 삭제되지 않았습니다.", deleterowcount));
 		}
 	}
 	
@@ -118,23 +134,32 @@ public class ProductController {
 	
 	
 	
-	@ApiOperation("상세세부정보")
+	@ApiOperation("상품정보")
 	@GetMapping("/{no}")
 	public ResponseEntity<JSONResult> getProductInfo(
 			@PathVariable(value="no") Long no
 	) {
 		ProductVo pvo = productService.getProductInfo(no);
-		
+		if(pvo == null ) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("상품정보가 존재하지 않습니다."));
+		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(pvo));
 	}
 	
 	@ApiOperation("재고정보(상품&상품옵션)")
-	@GetMapping("/stock/{productNo}")
+	@GetMapping("/stock/{pno}")
 	public ResponseEntity<JSONResult> getProducStockInfo(
-			@PathVariable(value="productNo") Long no
+			@PathVariable(value="pno") Long no
 	) {
 		ProductVo pvo = productService.getStockInfo(no);
+		System.out.println(pvo);
+		if(pvo == null ) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("상품정보가 존재하지 않습니다."));
+		}
+		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(pvo));
 	}
@@ -146,6 +171,11 @@ public class ProductController {
 			@PathVariable(value="pono") Long pono
 	) {
 		ProductOptionVo povo = productService.getProductOptionInfo(pono);
+		
+		if(povo == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("상품정보가 존재하지 않습니다."));
+		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(povo));
 	}

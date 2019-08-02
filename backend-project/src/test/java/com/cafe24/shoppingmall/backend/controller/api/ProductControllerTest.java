@@ -62,30 +62,49 @@ public class ProductControllerTest {
 	public void getProductListTest() throws Exception {
 		mockMvc.perform(get("/api/product/list"))
 			.andExpect(status().isOk())
+			.andDo(print())
 			.andExpect(jsonPath("$.result",is("success")));
 	}
 	
 	// 리스트가 없을 때
 	@Ignore
+	@Rollback(true)
 	@Test
 	public void getProductListNoDataTest() throws Exception {
+		mockMvc.perform(delete("/api/product/delete/{no}", 2L))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data" , notNullValue()));
+		mockMvc.perform(delete("/api/product/delete/{no}", 10L))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data" , notNullValue()));
+		
 		mockMvc.perform(get("/api/product/list"))
+			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result",is("fail")))
 			.andExpect(jsonPath("$.message",is("등록된 상품이 없습니다")));
 	}
 	
-	@Ignore
 	@Test
 	public void getDetailInfoTest() throws Exception {
-		mockMvc.perform(get("/api/product/{deleteNo}", 1L))
+		
+		//있는 상품
+		mockMvc.perform(get("/api/product/{no}", 2L))
+			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")))
-			.andExpect(jsonPath("$.data.product.no" , is(1)));
-			
+			.andExpect(jsonPath("$.data.no" , is(2)));
+		
+		// 없는 상품 
+		mockMvc.perform(get("/api/product/{no}", 3L))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")));
 	}
 	
-
+	@Ignore
 	@Rollback(false)
 	@Test
 	public void addSuccessTest() throws Exception {
@@ -97,9 +116,9 @@ public class ProductControllerTest {
 	@Test
 	public void addFailTest() throws Exception {
 		
-		ProductVo productVo = new ProductVo("", 25000L, "Y","Y","Y","Y","Y");
+		ProductVo productVo = new ProductVo("", "Y","Y","Y","Y","Y");
 		
-		mockMvc.perform(put("/api/product/add").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/product/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(productVo)))
 				.andDo(print())
 				.andExpect(status().isBadRequest())
@@ -108,15 +127,77 @@ public class ProductControllerTest {
 	}
 	
 	@Ignore
-	@Rollback(true)
+	@Rollback(false)
 	@Test
 	public void updateTest() throws Exception {
-		Long insert_product_no = insertProcess();
 		
-		updateSuccessProcess(insert_product_no);
+		ProductVo productVo = getProductVo();
 		
+		
+		
+		MvcResult result = 
+		mockMvc.perform(post("/api/product/add").contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(productVo)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.data", notNullValue()))
+				.andReturn();
+		
+		String contentAsString = result.getResponse().getContentAsString();
+		JSONResult jsonResult = new ObjectMapper().readValue(contentAsString, JSONResult.class);
+		
+		Long insert_product_no = new Long(jsonResult.getData().toString());
+		
+		
+		if (insert_product_no != null) {
+			productVo.setNo(insert_product_no);
+			productVo.setProduct_name("여름무지셔츠_수정");
+			
+			List<ProductOptionVo>po_list =  new ArrayList<ProductOptionVo>();
+			
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|소라/short", "Y", "Y", 1500L, 1));
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|소라/long", "Y", "Y", 2500L, 2));
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|퍼플/short", "Y", "Y", 2500L, 3));
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|퍼플/long", "Y", "Y", 3500L, 4));
+	
+			productVo.setPo_list(po_list);
+			
+			mockMvc.perform(put("/api/product/update")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(new Gson().toJson(productVo)))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")));
+		}
 	}
 	
+	@Ignore
+	@Rollback(true)
+	@Test
+	public void updateFailTest() throws Exception {
+			ProductVo productVo = getProductVo();
+		
+			productVo.setProduct_name("여름무지셔츠_수정");
+			
+			List<ProductOptionVo>po_list =  new ArrayList<ProductOptionVo>();
+			
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|소라/short", "Y", "Y", 1500L, 1));
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|소라/long", "Y", "Y", 2500L, 2));
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|퍼플/short", "Y", "Y", 2500L, 3));
+			po_list.add(new ProductOptionVo("여름무지셔츠_수정|퍼플/long", "Y", "Y", 3500L, 4));
+	
+			productVo.setPo_list(po_list);
+			
+			System.out.println(productVo);
+			
+			mockMvc.perform(put("/api/product/update")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(new Gson().toJson(productVo)))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.message", is("상품이 수정되지 않았습니다.")));
+	}
 	
 	//상품 삭제 성공
 	@Ignore
@@ -124,7 +205,7 @@ public class ProductControllerTest {
 	@Test
 	public void deleteSuccessTest() throws Exception {
 		
-		mockMvc.perform(delete("/api/product/delete/{no}", 6L))
+		mockMvc.perform(delete("/api/product/delete/{no}", 2L))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
@@ -137,28 +218,24 @@ public class ProductControllerTest {
 	@Test
 	public void deleteFailTest() throws Exception {
 		
-		mockMvc.perform(delete("/api/product/delete/{no}", 7L))
+		mockMvc.perform(delete("/api/product/delete/{no}", 3L))
 		.andDo(print())
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.data" , is("null")))
+		.andExpect(jsonPath("$.data" , is(not(1))))
 		.andExpect(jsonPath("$.message" , is("상품이 삭제되지 않았습니다.")));
 	}
 	
 	private Long insertProcess() throws Exception {
 		List<ImageVo> image_list = new ArrayList<ImageVo>();
-//		image_list.add(new ImageVo("/bgshop/goodsimages/A01.png", "Y", 1));
-//		image_list.add(new ImageVo("/bgshop/goodsimages/A02.png", "N", 2));
-//		image_list.add(new ImageVo("/bgshop/goodsimages/B01.png", "N", 3));
-//		image_list.add(new ImageVo("/bgshop/goodsimages/B02.png", "N", 4));
+
 		image_list.add(new ImageVo("/bgshop/goodsimages/A03.png", "Y", 1));
 		image_list.add(new ImageVo("/bgshop/goodsimages/A04.png", "N", 2));
 		image_list.add(new ImageVo("/bgshop/goodsimages/B03.png", "N", 3));
 		image_list.add(new ImageVo("/bgshop/goodsimages/B04.png", "N", 4));
 		
 		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
-//		od_list.add(new OptionDetailVo("아이보리", 500L, 1, "Y"));
-//		od_list.add(new OptionDetailVo("검정", 500L, 2, "Y"));
+
 		od_list.add(new OptionDetailVo("소라", 1500L, 1, "Y"));
 		od_list.add(new OptionDetailVo("퍼플", 2500L, 2, "Y"));
 		
@@ -166,19 +243,16 @@ public class ProductControllerTest {
 		option_list.add(new OptionVo("색상", od_list));
 		
 		od_list = new ArrayList<OptionDetailVo>();
-		
-//		od_list.add(new OptionDetailVo("90", 0L, 1, "Y"));
-//		od_list.add(new OptionDetailVo("95", 0L, 1, "Y"));
+
 		od_list.add(new OptionDetailVo("short", 0L, 1, "Y"));
 		od_list.add(new OptionDetailVo("long", 1000L, 1, "Y"));
 		
 		
-//		option_list.add(new OptionVo("사이즈", od_list));
 		option_list.add(new OptionVo("기장", od_list));
 		
 		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
 		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
-		category_list.add(new ProductCategoryVo(4L));
+		category_list.add(new ProductCategoryVo(31L));
 		
 		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
 		
@@ -190,20 +264,11 @@ public class ProductControllerTest {
 //		List<Long> plus_price = new ArrayList<Long>(); 
 		//po_list = makeProductOpionList(option_list, size, i, po_list, poname, plus_price, order);
 		
-//		po_list.add(new ProductOptionVo("아이보리/90", "Y", "Y", 500L, 1));
-//		po_list.add(new ProductOptionVo("아이보리/95", "Y", "Y", 500L, 2));
-//		po_list.add(new ProductOptionVo("검정/90", "Y", "Y", 500L, 3));
-//		po_list.add(new ProductOptionVo("검정/95", "Y", "Y", 500L, 4));
-		
 		po_list.add(new ProductOptionVo("여름무지셔츠|소라/short", "Y", "Y", 1500L, 1));
 		po_list.add(new ProductOptionVo("여름무지셔츠|소라/long", "Y", "Y", 2500L, 2));
 		po_list.add(new ProductOptionVo("여름무지셔츠|퍼플/short", "Y", "Y", 2500L, 3));
 		po_list.add(new ProductOptionVo("여름무지셔츠|퍼플/long", "Y", "Y", 3500L, 4));
-		
-//		ProductVo productVo = new ProductVo(
-//				"여름린넨바지", 25000L, "고급린넨여름바지!놓치지 마세요~","Y","Y","Y","Y", 5,
-//				"Y",2000, option_list, category_list, image_list, po_list);
-		
+
 		ProductVo productVo = new ProductVo(
 				"여름무지셔츠", 17000L, "여름 기본템 무지 컬러 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
 				"Y",0, option_list, category_list, image_list, po_list);
@@ -212,7 +277,7 @@ public class ProductControllerTest {
 		
 		
 		MvcResult result = 
-		mockMvc.perform(put("/api/product/add").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/api/product/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(productVo)))
 				.andDo(print())
 				.andExpect(status().isOk())
@@ -228,15 +293,51 @@ public class ProductControllerTest {
 		return insert_product_no;
 	}
 	
-	private void updateSuccessProcess(Long insert_product_no) throws Exception {
+	
+	
+	
+	private ProductVo getProductVo() {
+		List<ImageVo> image_list = new ArrayList<ImageVo>();
+
+		image_list.add(new ImageVo("/bgshop/goodsimages/A03.png", "Y", 1));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A04.png", "N", 2));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B03.png", "N", 3));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B04.png", "N", 4));
 		
-		mockMvc.perform(post("/api/product/update", insert_product_no))
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result", is("success")));
+		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
+
+		od_list.add(new OptionDetailVo("소라", 1500L, 1, "Y"));
+		od_list.add(new OptionDetailVo("퍼플", 2500L, 2, "Y"));
+		
+		List<OptionVo> option_list = new ArrayList<OptionVo>();
+		option_list.add(new OptionVo("색상", od_list));
+		
+		od_list = new ArrayList<OptionDetailVo>();
+
+		od_list.add(new OptionDetailVo("short", 0L, 1, "Y"));
+		od_list.add(new OptionDetailVo("long", 1000L, 1, "Y"));
+		
+		
+		option_list.add(new OptionVo("기장", od_list));
+		
+		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
+		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
+		category_list.add(new ProductCategoryVo(31L));
+		
+		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
+		
+		po_list.add(new ProductOptionVo("여름무지셔츠|소라/short", "Y", "Y", 1500L, 1));
+		po_list.add(new ProductOptionVo("여름무지셔츠|소라/long", "Y", "Y", 2500L, 2));
+		po_list.add(new ProductOptionVo("여름무지셔츠|퍼플/short", "Y", "Y", 2500L, 3));
+		po_list.add(new ProductOptionVo("여름무지셔츠|퍼플/long", "Y", "Y", 3500L, 4));
+
+		ProductVo productVo = new ProductVo(
+				"여름무지셔츠", 17000L, "여름 기본템 무지 컬러 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
+				"Y",0, option_list, category_list, image_list, po_list);
+		
+		return productVo;
 		
 	}
-	
 //	private List<ProductOptionVo> makeProductOpionList(List<OptionVo> option_list, int size, int index,
 //			List<ProductOptionVo> po_list, List<String> poname, List<Long> plus_price, int order) {
 //		List<OptionDetailVo> od_list = option_list.get(index).getOd_list();
@@ -266,4 +367,48 @@ public class ProductControllerTest {
 //		return po_list;
 //	}
 	
+	
+	@Test
+	public void stockInfoTest() throws Exception {
+		
+		// 존재하는 상품
+		mockMvc.perform(get("/api/product/stock/{pno}", 2L))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")))
+			.andExpect(jsonPath("$.data.no", is(2)))
+		;
+		
+		
+		// 존재하지 않는 상품
+		mockMvc.perform(get("/api/product/stock/{pno}", 3L))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.message", is("상품정보가 존재하지 않습니다.")))
+			;
+		
+	}
+	
+	@Test
+	public void optionStockInfoTest() throws Exception {
+		
+		// 존재하는 상품
+		mockMvc.perform(get("/api/product/stock/po/{pono}", 5L))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")))
+			.andExpect(jsonPath("$.data.no", is(5)))
+		;
+		
+		
+		// 존재하지 않는 상품
+		mockMvc.perform(get("/api/product/stock/po/{pono}", 20L))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.message", is("상품정보가 존재하지 않습니다.")))
+			;
+		
+	}
 }

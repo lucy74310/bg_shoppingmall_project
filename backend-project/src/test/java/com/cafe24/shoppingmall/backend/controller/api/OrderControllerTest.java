@@ -97,7 +97,7 @@ public class OrderControllerTest {
 				pay_amount, member_no, cart_list);
 		
 		
-		mockMvc.perform(put("/api/order/add")
+		mockMvc.perform(post("/api/order/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderVo))
 				)
@@ -191,7 +191,7 @@ public class OrderControllerTest {
 		orderVo.setNo(3L);
 		orderVo.setOrder_state("결제완료");
 		
-		mockMvc.perform(post("/api/order/paystate/change").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/api/order/paystate/change").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderVo)))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -207,7 +207,7 @@ public class OrderControllerTest {
 		orderProductVo.setOrder_handling_state("품절-환불처리완료");
 		
 		// product_option_no 값 안넘겨주면 해당 주문서의 모든 상품 update
-		mockMvc.perform(post("/api/order/shipstate/change").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/api/order/shipstate/change").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderProductVo)))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -216,7 +216,7 @@ public class OrderControllerTest {
 		
 		// product_option_no 값 넘겨주면 해당 주문서의 해당 상품만 update
 		orderProductVo.setProduct_option_no(28L);
-		mockMvc.perform(post("/api/order/shipstate/change").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/api/order/shipstate/change").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderProductVo)))
 			.andDo(print())
 			.andExpect(status().isOk())

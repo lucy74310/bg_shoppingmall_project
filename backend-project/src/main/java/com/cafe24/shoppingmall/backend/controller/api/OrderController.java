@@ -35,7 +35,7 @@ public class OrderController {
 	private OrderService orderService;
 	
 	@ApiOperation("주문서 저장")
-	@PutMapping("/add")
+	@PostMapping("/add")
 	public ResponseEntity<JSONResult> orderAdd(
 			@RequestBody @Valid OrderVo orderVo,
 			BindingResult valid
@@ -72,7 +72,7 @@ public class OrderController {
 	}
 	
 	@ApiOperation("주문 상태 변경(결제관련)")
-	@PostMapping("/paystate/change")
+	@PutMapping("/paystate/change")
 	public ResponseEntity<JSONResult> orderStateChange(
 		@RequestBody OrderVo orderVo
 	) throws IOException {
@@ -83,7 +83,7 @@ public class OrderController {
 	}
 	
 	@ApiOperation("주문 처리 상태 변경(주문상품별배송관련)")
-	@PostMapping("/shipstate/change")
+	@PutMapping("/shipstate/change")
 	public ResponseEntity<JSONResult> orderProductStateChange(
 		@RequestBody OrderProductVo orderProductVo
 	) throws IOException {

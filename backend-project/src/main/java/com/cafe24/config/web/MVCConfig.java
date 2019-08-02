@@ -58,7 +58,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 				.dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
 				.modulesToInstall(new ParameterNamesModule());
 				
-				System.out.println("message converter");
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(builder.build());
 		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
 		
@@ -70,7 +69,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 	public StringHttpMessageConverter stringHttpMessageConverter() {
 		StringHttpMessageConverter converter = new StringHttpMessageConverter();
 		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "html", Charset.forName("UTF-8"))));
-		System.out.println("string message converter");
 		return converter;
 	}
 	

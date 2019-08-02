@@ -37,6 +37,10 @@ public class CategoryController {
 	public ResponseEntity<JSONResult> getCategoryList(){
 		
 		List<CategoryVo> list = categoryService.getList();
+		if(list.size() == 0 || list == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("등록된 카테고리가 없습니다."));
+		}
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(list));
 	}
@@ -55,6 +59,7 @@ public class CategoryController {
 						.body(JSONResult.fail(f.getDefaultMessage()));
 			}
 		}
+		
 		
 		Long insertNo = categoryService.addCategory(categoryVo);
 		
@@ -94,9 +99,9 @@ public class CategoryController {
 	
 	
 	@ApiOperation("카테고리 삭제")
-	@DeleteMapping("/delete/{categoryNo}")
+	@DeleteMapping("/delete/{no}")
 	public ResponseEntity<JSONResult> deleteCategory(
-			@PathVariable("categoryNo") Long no
+			@PathVariable("no") Long no
 	){
 		
 		Boolean result = categoryService.deleteCategory(no);

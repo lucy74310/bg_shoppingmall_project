@@ -12,6 +12,27 @@
 	    ]]>
 	</update>
 	
+	<!-- 상품 업데이트 -->
+	<update id="update_product" parameterType="imagevo">
+		<![CDATA[
+			update product
+				set 
+					product_name = #{product_name},
+					product_price = #{product_price},
+					product_short_explain = #{product_short_explain},
+					product_detail = #{product_detail},
+					displayed = #{displayed},
+					selling = #{selling},
+					use_option = #{use_option},
+					use_stock = #{use_stock},
+					stock = #{stock},
+					soldout_mark = #{soldout_mark},
+					save_percentage = #{save_percentage},
+					shipping_price = #{shipping_price}
+		    	where no = #{no};
+	    ]]>
+	</update>
+	
 	
 	<!-- DELETE -->
 	<delete id="delete_product_category" parameterType="long">

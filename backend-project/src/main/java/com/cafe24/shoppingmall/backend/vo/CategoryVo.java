@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class CategoryVo {
 	
 	private Long no;
+	
 	@NotEmpty(message="1~20자 사이로 입력해 주세요")
 	@Length(min=1, max=20, message="1~20자 사이로 입력해 주세요")
 	private String category_name;
@@ -52,6 +53,10 @@ public class CategoryVo {
 	public CategoryVo(Long no, String category_name) {
 		this.no = no;
 		this.category_name = category_name;
+	}
+
+	public CategoryVo(long no) {
+		this.no = no;
 	}
 
 	public Long getNo() {

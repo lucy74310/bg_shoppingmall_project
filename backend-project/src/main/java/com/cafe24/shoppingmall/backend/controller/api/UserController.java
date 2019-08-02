@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,7 +51,7 @@ public class UserController {
 	
 	@ApiOperation(value="중복 아이디 체크")
     @ApiImplicitParam(name="id", value="아이디", required = true, dataType="string")
-	@GetMapping("/checkID/{id}")
+	@GetMapping("/checkid/{id}")
 	public ResponseEntity<JSONResult> emailCheck(
 			@PathVariable(value="id") String id
 	) {
@@ -128,7 +129,7 @@ public class UserController {
 	
 	
 	@ApiOperation(value="비회원 추가")
-	@PutMapping(value="/nonmember/join")
+	@PostMapping(value="/nonmember/join")
 	public ResponseEntity<JSONResult> nonMemberAdd(
 			@RequestBody @Valid NonMemberVo nonMemberVo,
 			BindingResult valid
@@ -151,7 +152,7 @@ public class UserController {
 	
 	
 	@ApiOperation(value="회원정보 수정")
-	@PostMapping("/update")
+	@PutMapping("/update")
 	public ResponseEntity<JSONResult> updateMember(
 		@RequestBody @Valid UpdateMemberVo memVo,
 		BindingResult valid
@@ -177,7 +178,7 @@ public class UserController {
 	
 	
 	@ApiOperation(value="회원 삭제")
-	@GetMapping("/delete/{no}")
+	@DeleteMapping("/delete/{no}")
 	public ResponseEntity<JSONResult> deleteMember(
 		@PathVariable("no") Long no
 	) {
@@ -190,7 +191,7 @@ public class UserController {
 
 	
 	@ApiOperation(value="비밀번호 확인")
-	@GetMapping("/ownercheck")
+	@PostMapping("/ownercheck")
 	public ResponseEntity<JSONResult> ownerCheck(
 		@RequestBody LoginVo loginVo
 	) {

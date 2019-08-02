@@ -98,10 +98,11 @@
 		<id property="no" column="no"/>
 		<collection property="po_list" column="no" javaType="java.util.ArrayList" ofType="productoptionvo" select="get_product_option_list"/>
 	</resultMap>
+	
 	<select id="get_product_stock" resultMap="get_stock_info" parameterType="long">
 	    SELECT 
 	    	no, product_name, product_price, stock, use_stock
-	    FROM product WHERE no = #{value}
+	    FROM product WHERE no = #{product_no}
 	</select>
 	
 	

@@ -2,12 +2,10 @@ package com.cafe24.shoppingmall.backend.vo;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javafx.beans.DefaultProperty;
 
 public class ProductVo {
 	private Long no;
@@ -15,6 +13,7 @@ public class ProductVo {
 	@NotEmpty(message="상품명을 입력해 주세요.(1~20자)")
 	@Length(min=1, max=20, message="상품명을 입력해 주세요.(1~20자)")
 	private String product_name;
+	
 	private Long product_price;
 	
 	private String product_short_explain;
@@ -66,11 +65,9 @@ public class ProductVo {
 
 	
 
-	public ProductVo(String product_name, Long product_price, String displayed, String selling, String use_option,
+	public ProductVo(String product_name, String displayed, String selling, String use_option,
 			String use_stock, String soldout_mark) {
-		super();
 		this.product_name = product_name;
-		this.product_price = product_price;
 		this.displayed = displayed;
 		this.selling = selling;
 		this.use_option = use_option;
