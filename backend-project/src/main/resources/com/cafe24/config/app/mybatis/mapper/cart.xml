@@ -19,22 +19,18 @@
 				set
 				count = #{count}
 			where
-				no = #{no}  
+				product_option_no = #{product_option_no}
+		 	and (non_member_no = #{non_member_no} or #{non_member_no} is null ) 
+		 	and (member_no = #{member_no} or #{member_no} is null ) 
 		]]>
 	</update>	
 
 	<delete id="delete_cart" parameterType="long">
 		delete from cart 
 		 where 
-		 	no = #{no} 
-		 	<choose>
-		 		<when test="non_member_no != null">
-		 			and non_member_no = #{non_member_no} 
-		 		</when>
-		 		<otherwise>
-		 			and member_no = #{member_no}
-		 		</otherwise>
-		 	</choose>
+		 	product_option_no = #{product_option_no}
+		 	and (non_member_no = #{non_member_no} or #{non_member_no} is null ) 
+		 	and (member_no = #{member_no} or #{member_no} is null )
 	</delete>
 	
 	<select id="get_member_cart_list" resultType="cartvo" parameterType="long">
@@ -59,27 +55,40 @@
 			where c.non_member_no = #{no} and pi.is_main='Y'
 		]]> 
 	</select>
-	
-	<select id="check_has_when_member" resultType="string" parameterType="map">
+	 <select id="check_has" resultType="cartvo" parameterType="map">
 		<![CDATA[
 			select 
+				no,
+				count  
+			from cart 
+			where 
+				(member_no = #{member_no} OR #{member_no} is null)
+				and (non_member_no = #{non_member_no} OR #{non_member_no} is null)
+				and (product_option_no = #{po_no} OR #{po_no} is null)
+		]]>
+	</select>
+	<!-- <select id="check_has_when_member" resultType="cartvo" parameterType="map">
+		<![CDATA[
+			select 
+				no,
 				count  
 			from cart 
 			where 
 				member_no = #{member_no}
-				and product_option_no = #{po_no}
+				and (product_option_no = #{po_no} OR #{po_no} is null)
 		]]>
 	</select>
 	
 	<select id="check_has_when_nonmember" resultType="string" parameterType="map">
 		<![CDATA[
 			select 
+				no,
 				count 
 			from cart 
 			where 
 				non_member_no = #{non_member_no}
-				and product_option_no = #{po_no}
+				and (product_option_no = #{po_no} OR #{po_no} is null)
 		]]> 
 	</select>
-		
+ -->		
 </mapper>

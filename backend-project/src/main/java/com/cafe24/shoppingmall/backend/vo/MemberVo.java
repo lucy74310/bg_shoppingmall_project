@@ -35,10 +35,15 @@ public class MemberVo {
 	private String birthday;
 	
 	private String join_date;
-	
+	private String update_date;
+	private String leave_date;
 	private String address;
+	private int point;
+	private String m_state;
 	
 	public MemberVo() {}
+	
+	
 	public MemberVo(String id, String name, String password, String telephone,
 			String email, String birthday, String address) {
 		this.id = id;
@@ -51,9 +56,31 @@ public class MemberVo {
 		
 	}
 	
+	//이름, 전화번호, 휴대전화번호, 이메일, 생일 수정 가능
+	public MemberVo(Long no, String id, String name, String password, String phone, String telephone, String email,
+			String birthday) {
+		super();
+		this.no = no;
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.phone = phone;
+		this.telephone = telephone;
+		this.email = email;
+		this.birthday = birthday;
+	}
+	
+	//삭제 테스트 시 
+	public MemberVo(Long no, String id, String password) {
+		this.no = no;
+		this.id = id;
+		this.password = password;
+	}
+	
 	public Long getNo() {
 		return no;
 	}
+
 	public void setNo(Long no) {
 		this.no = no;
 	}
@@ -111,12 +138,42 @@ public class MemberVo {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	public String getM_state() {
+		return m_state;
+	}
+	public void setM_state(String m_state) {
+		this.m_state = m_state;
+	}
+	public String getUpdate_date() {
+		return update_date;
+	}
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
+	}
+	public String getLeave_date() {
+		return leave_date;
+	}
+	public void setLeave_date(String leave_date) {
+		this.leave_date = leave_date;
+	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
+	}
+
+
 	@Override
 	public String toString() {
 		return "MemberVo [no=" + no + ", id=" + id + ", name=" + name + ", password=" + password + ", phone=" + phone
 				+ ", telephone=" + telephone + ", email=" + email + ", birthday=" + birthday + ", join_date="
-				+ join_date + ", address=" + address + "]";
+				+ join_date + ", update_date=" + update_date + ", leave_date=" + leave_date + ", address=" + address
+				+ ", point=" + point + ", m_state=" + m_state + "]";
 	}
+	
+	
 }
 
 

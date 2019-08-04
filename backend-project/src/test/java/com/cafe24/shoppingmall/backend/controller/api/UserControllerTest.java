@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -49,7 +50,6 @@ public class UserControllerTest {
 	}
 	// A. 회원가입
 	// B. 로그인
-	// C. 회원정보 조회
 	// D. 회원정보수정
 	// E. 회원탈퇴
 	// F. 비회원 추가 
@@ -63,7 +63,7 @@ public class UserControllerTest {
 	/* A. 회원가입 */
 	// A-1. id 중복 체크
 	// A-1-1. id 중복아님
-	@Ignore
+	
 	@Test
 	public void idCheckPass() throws Exception {
 		// id 조건 : 공백 안되고, 영문 소문자/숫자 4~16자 (프론트에서 체크)
@@ -73,21 +73,24 @@ public class UserControllerTest {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")))
-			.andExpect(jsonPath("$.data.member_no", is(notNullValue())))
-			.andExpect(jsonPath("$.data.address_no", is(notNullValue())));
+			.andExpect(jsonPath("$.data", is(false)));
 		
 	}
   
 	// A-1-2. id 중복임
-	@Ignore
 	@Test
-	public void idCheckFail() {
+	public void idCheckFail() throws Exception {
+		String id = "lucyhi1";
 		
+		mockMvc.perform(get("/api/user/checkid/{id}", id))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.message", is("중복되는 id입니다.")));
 	}
 	
 	// A-2. 필수 항목 체크
 	// A-2-1. 필수 항목 completed => insert 진행
-	@Ignore
 	@Test
 	public void requiredFeildCompleted() throws Exception {
 		//id 중복 없다는 전제 
@@ -108,7 +111,6 @@ public class UserControllerTest {
 	}
 	
 	// A-2-2. 필수 항목 uncompleted => fail 메세지
-	@Ignore
 	@Test
 	public void requiredFieldUncompleted() throws Exception {
 		MemberVo memVo = new MemberVo();
@@ -128,7 +130,6 @@ public class UserControllerTest {
 	}
 	
 	// A-2-3. 아이디  양식 체크
-	@Ignore
 	@Test
 	public void idFeildCheck() throws Exception {
 		MemberVo memVo = new MemberVo();
@@ -144,6 +145,7 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(memVo)))
+			.andDo(print())	
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.id", is("영문소문자/숫자, 4~16자")));
@@ -153,6 +155,7 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(memVo)))
+			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.id", is("영문소문자/숫자, 4~16자")));
@@ -160,7 +163,6 @@ public class UserControllerTest {
 	}
 	
 	// A-2-4. 비밀번호  양식 체크
-	@Ignore
 	@Test
 	public void passwordFeildCheck() throws Exception {
 		MemberVo memVo = new MemberVo();
@@ -176,6 +178,7 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(memVo)))
+			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 3가지 조합, 8자~16자, 공백불가")));
@@ -185,6 +188,7 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(memVo)))
+			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 3가지 조합, 8자~16자, 공백불가")));
@@ -194,6 +198,7 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(memVo)))
+			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 3가지 조합, 8자~16자, 공백불가")));
@@ -203,6 +208,7 @@ public class UserControllerTest {
 		mockMvc.perform(post("/api/user/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(memVo)))
+			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")))
 			.andExpect(jsonPath("$.data.password", is("영문 대소문자/숫자/특수문자 3가지 조합, 8자~16자, 공백불가")));
@@ -235,8 +241,8 @@ public class UserControllerTest {
 	@Test
 	public void loginTest() throws Exception{
 		LoginVo login = new LoginVo();
-		login.setId("test_user1");
-		login.setPassword("test_user1!");
+		login.setId("lucyhi1");
+		login.setPassword("Lucy7443!");
 		
 		mockMvc.perform(post("/api/user/login")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -248,7 +254,6 @@ public class UserControllerTest {
 	
 	// B-2. 로그인 실패
 	// B-2-1. id,pwd 입력 체크
-	@Ignore
 	@Test
 	public void loginFailTest1() throws Exception{
 		LoginVo login = new LoginVo();
@@ -280,7 +285,6 @@ public class UserControllerTest {
 	
 	// F. 비회원추가
 	// F-1. 추가성공
-	@Ignore
 	@Test
 	public void addNonmemberSuccessTest() throws Exception {
 		mockMvc.perform(post("/api/user/nonmember/join")
@@ -289,23 +293,143 @@ public class UserControllerTest {
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data.no", is(notNullValue())))	
+				.andExpect(jsonPath("$.data", is(notNullValue())))	
 				;
 	}
 	
 	// F-2 . 추가실패 (sessionID 값이 없을 때)
-	@Ignore
 	@Test
 	public void addNonmemberFailTest() throws Exception {
-		mockMvc.perform(post("/api/user/nonmember/add")
+		mockMvc.perform(post("/api/user/nonmember/join")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(new NonMemberVo(""))))
 				.andDo(print())
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.result", is("fail")))
-				.andExpect(jsonPath("$.message", is("session값이 없습니다.")));	
+				.andExpect(jsonPath("$.result", is("fail")));
 	}
 	
 	
+	@Test
+	public void updateTest() throws Exception {
+		
+		//이름, 전화번호, 휴대전화번호, 이메일, 생일 수정 가능
+		MemberVo memVo = new MemberVo(1L ,"lucyhi1", "조부광_수정", "Lucy7443!", "070-8659-7443",
+				"01049047443", "lucy74310@gmail.com", "1993-10-10");
+		
+		mockMvc.perform(put("/api/user/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(memVo)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")));
+		
+	}
+	@Test
+	public void updateFailTest() throws Exception {
+		
+		//이름, 전화번호, 휴대전화번호, 이메일, 생일 수정 가능
+		//비밀번호 틀림
+		MemberVo memVo = new MemberVo(1L ,"lucyhi1", "조부광_수정", "Lucy7443@", "070-8659-7443",
+				"01049047443", "lucy74310@gmail.com", "1993-10-10");
+		
+		mockMvc.perform(put("/api/user/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(memVo)))
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.result", is("fail")));
+		
+	}
 	
+	@Test
+	@Rollback(false)
+	public void leaveTest() throws Exception {
+		MemberVo memVo = new MemberVo(1L ,"lucyhi1", "Lucy7443!");
+		
+		mockMvc.perform(delete("/api/user/leave" )
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(memVo)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")));
+	}
+	
+	@Test
+	public void leaveFailTest() throws Exception {
+		MemberVo memVo = new MemberVo(1L ,"lucyhi1", "Lucy7443");
+		
+		mockMvc.perform(delete("/api/user/leave")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(memVo)))
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.result", is("fail")));
+	}
+	
+	@Test
+	@Rollback(true)
+	public void deleteTest() throws Exception {
+		mockMvc.perform(delete("/api/user/delete/{no}",1L ))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")));
+	}
+	
+	@Test
+	public void deleteFailTest() throws Exception {
+		mockMvc.perform(delete("/api/user/delete/{no}", 2L))
+				.andDo(print())
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.result", is("fail")));
+	}
+	
+	
+	//비밀번호 확인
+	@Test
+	public void ownerCheckTest() throws Exception{
+		LoginVo login = new LoginVo();
+		login.setId("lucyhi1");
+		login.setPassword("Lucy7443!");
+		
+		mockMvc.perform(post("/api/user/ownercheck")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(login)))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")))
+			.andExpect(jsonPath("$.data", is(true)));
+	}
+	//비밀번호 확인
+	@Test
+	public void ownerCheckFailTest() throws Exception{
+		LoginVo login = new LoginVo();
+		login.setId("lucyhi1");
+		login.setPassword("Lucy7443@");
+		
+		mockMvc.perform(post("/api/user/ownercheck")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(login)))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			.andExpect(jsonPath("$.data", is(false)));
+	}
+	
+	//회원 리스트
+	@Test
+	public void memberListTest() throws Exception{
+		mockMvc.perform(get("/api/user/list"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")));
+	}
+	@Test
+	public void memberListFailTest() throws Exception{
+		
+		// 목록 없을 때
+		mockMvc.perform(get("/api/user/list"))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")));
+	}
 }

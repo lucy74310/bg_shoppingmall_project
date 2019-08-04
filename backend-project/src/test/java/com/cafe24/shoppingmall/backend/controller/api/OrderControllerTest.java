@@ -67,14 +67,12 @@ public class OrderControllerTest {
 	
 	// A. 주문하기 
 	// A-1. 회원일 경우
-	@Ignore
 	@Test
 	@Rollback(false)
 	public void memberOrderAddTest() throws Exception {
 		//선택된 상품 가져오기 
 		Boolean is_member = true;
-		Long member_no = 7L;
-		// member_mo = 7L의 장바구니 리스트 전부 주문하는 전제 
+		Long member_no = 1L;
 		MvcResult result = 
 		mockMvc.perform(get("/api/cart/list/{is_member}/{no}", is_member, member_no))
 			.andDo(print()).andReturn();
@@ -109,13 +107,12 @@ public class OrderControllerTest {
 	}
 	
 	// A-2. 비회원일 경우 
-	@Ignore
 	@Test
 	@Rollback(false)
 	public void nonMemberOrderAddTest() throws Exception {
 		//선택된 상품 가져오기 
 		Boolean is_member = false;
-		Long non_member_no = 65L;
+		Long non_member_no = 1L;
 		MvcResult result = 
 		mockMvc.perform(get("/api/cart/list/{is_member}/{no}", is_member, non_member_no))
 			.andDo(print()).andReturn();
@@ -133,12 +130,12 @@ public class OrderControllerTest {
 		
 		
 		OrderVo orderVo = new OrderVo( 
-				"배타미", "tami@barro.com", "010-8585-5555",
+				"배타미_비회원", "tami@barro.com", "010-8585-5555",
 				"차현", "서울시 강남구 서초로 23 바로빌딩 3층", "010-9999-9999",
 				pay_amount, "iamnonmember", cart_list);
 		
 		
-		mockMvc.perform(put("/api/order/add")
+		mockMvc.perform(post("/api/order/add")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderVo))
 				)
@@ -149,14 +146,27 @@ public class OrderControllerTest {
 			;
 	}
 	
+	
+	@Test
+	public void addFailTest() throws Exception {
+		OrderVo orderVo = new OrderVo();
+		
+		mockMvc.perform(post("/api/order/add")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(orderVo))
+				)
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")))
+			;
+	}
+	
 	// B. 구매내역 조회하기
 	// B-1. 회원일 경우
-	@Ignore
 	@Test
-	@Rollback(false)
 	public void memberOrderList() throws Exception {
-		Long mem_no = 7L;
-		mockMvc.perform(post("/api/order/history/{no}", mem_no))
+		Long mem_no = 2L;
+		mockMvc.perform(get("/api/order/history/{no}", mem_no))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")));
@@ -164,23 +174,33 @@ public class OrderControllerTest {
 	
 	// B-2. 비회원일 경우
 	// 주문자 이름, 주문번호, 주문조회비밀번호 입력받음 
-	@Ignore
 	@Test
-	@Rollback(false)
 	public void nonMemberOrderList() throws Exception {
 		OrderVo orderVo = new OrderVo();
 		
-		orderVo.setOrderer_name("배타미");
-		orderVo.setOrder_code("20190729-0000001");
+		orderVo.setOrderer_name("배타미_비회원");
+		orderVo.setOrder_code("20190804-0000002");
 		orderVo.setOrder_check_password("iamnonmember");
 		
-		mockMvc.perform(post("/api/order/history/nonmember")
+		mockMvc.perform(post("/api/order/history")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderVo)))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")));
 		
+		OrderVo orderVo2 = new OrderVo();
+		
+		orderVo2.setOrderer_name("배타미_비회원ㅇ");
+		orderVo2.setOrder_code("20190804-0000002");
+		orderVo2.setOrder_check_password("iamnonmember");
+		
+		mockMvc.perform(post("/api/order/history")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(orderVo2)))
+		.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")));
 	}
 	
 	// C. 주문 상태변경(결제관련)
@@ -188,14 +208,28 @@ public class OrderControllerTest {
 	@Rollback(false)
 	public void orderStateChange() throws Exception {
 		OrderVo orderVo = new OrderVo();
-		orderVo.setNo(3L);
-		orderVo.setOrder_state("결제완료");
+		orderVo.setNo(1L);
+		orderVo.setOrder_state("결제대기중");
 		
-		mockMvc.perform(put("/api/order/paystate/change").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/api/order/paystate").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderVo)))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")));
+	}
+	
+	@Test
+	@Rollback(false)
+	public void orderStateChangeFail() throws Exception {
+		OrderVo orderVo = new OrderVo();
+		orderVo.setNo(4L);
+		orderVo.setOrder_state("결제대기중");
+		
+		mockMvc.perform(put("/api/order/paystate").contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(orderVo)))
+			.andDo(print())
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.result", is("fail")));
 	}
 	
 	// D. 주문상품 상태변경 (배송관련)
@@ -203,11 +237,11 @@ public class OrderControllerTest {
 	@Rollback(false)
 	public void orderProductStateChange() throws Exception {
 		OrderProductVo orderProductVo = new OrderProductVo();
-		orderProductVo.setOrder_no(3L);
+		orderProductVo.setOrder_no(1L);
 		orderProductVo.setOrder_handling_state("품절-환불처리완료");
 		
 		// product_option_no 값 안넘겨주면 해당 주문서의 모든 상품 update
-		mockMvc.perform(put("/api/order/shipstate/change").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/api/order/shipstate").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderProductVo)))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -215,14 +249,40 @@ public class OrderControllerTest {
 			.andExpect(jsonPath("$.data", is(greaterThanOrEqualTo(1))));
 		
 		// product_option_no 값 넘겨주면 해당 주문서의 해당 상품만 update
-		orderProductVo.setProduct_option_no(28L);
-		mockMvc.perform(put("/api/order/shipstate/change").contentType(MediaType.APPLICATION_JSON)
+		orderProductVo.setProduct_option_no(5L);
+		orderProductVo.setOrder_handling_state("배송완료");
+		mockMvc.perform(put("/api/order/shipstate").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(orderProductVo)))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")))
 			.andExpect(jsonPath("$.data", is(1)));
+	}
+	
+	// D. 주문상품 상태변경 (배송관련) -- 실패
+	@Test
+	@Rollback(false)
+	public void orderProductStateChangeFail() throws Exception {
+		OrderProductVo orderProductVo = new OrderProductVo();
+		orderProductVo.setOrder_no(3L);
+		orderProductVo.setOrder_handling_state("품절-환불처리완료");
 		
+		// product_option_no 값 안넘겨주면 해당 주문서의 모든 상품 update
+		mockMvc.perform(put("/api/order/shipstate").contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(orderProductVo)))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")))
+			.andExpect(jsonPath("$.data", is(greaterThanOrEqualTo(1))));
 		
+		// product_option_no 값 넘겨주면 해당 주문서의 해당 상품만 update
+		orderProductVo.setProduct_option_no(5L);
+		orderProductVo.setOrder_handling_state("배송완료");
+		mockMvc.perform(put("/api/order/shipstate").contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(orderProductVo)))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")))
+			.andExpect(jsonPath("$.data", is(1)));
 	}
 }

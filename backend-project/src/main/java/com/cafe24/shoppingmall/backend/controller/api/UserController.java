@@ -87,7 +87,7 @@ public class UserController {
 				errMap.put(f.getField(), f.getDefaultMessage());
 			}
 			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+					.body(JSONResult.fail("필수항목 양식을 맞춰 주세요.", errMap));
 		}
 		
 		// 양식체크 통과 후 실제 insert
@@ -137,24 +137,33 @@ public class UserController {
 		
 		//양식 체크 (sessionID필수)
 		if(valid.hasErrors()) {
+			Map<String, String> errMap = new HashMap<String, String>();
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
-				return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-						.body(JSONResult.fail(f.getDefaultMessage()));
+				errMap.put(f.getField(), f.getDefaultMessage());
 			}
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+		
 		}
 		
 		// 양식 통과 후 insert
 		nonMemberVo = userService.addNonMember(nonMemberVo);
+		
+		if(nonMemberVo.getNo() == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("비회원 추가 실패"));
+		} 
+		
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(nonMemberVo));
+				.body(JSONResult.success(nonMemberVo.getNo()));
 	}
 	
 	
 	@ApiOperation(value="회원정보 수정")
 	@PutMapping("/update")
 	public ResponseEntity<JSONResult> updateMember(
-		@RequestBody @Valid UpdateMemberVo memVo,
+		@RequestBody @Valid MemberVo memVo,
 		BindingResult valid
 	){
 		// 필수 양식 체크 
@@ -170,10 +179,14 @@ public class UserController {
 		
 		int count = userService.updateMember(memVo);
 		
+		if(count == 1) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(JSONResult.success(count));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("회원정보 수정에 실패하였습니다.", count));
+		}
 		
-		
-		return ResponseEntity.status(HttpStatus.OK)
-		.body(JSONResult.success(memVo));
 	}
 	
 	
@@ -182,13 +195,31 @@ public class UserController {
 	public ResponseEntity<JSONResult> deleteMember(
 		@PathVariable("no") Long no
 	) {
-		
 		int count = userService.deleteMember(no);
 		
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(count));
+		if(count == 1) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(JSONResult.success(count));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("회원 삭제에 실패하였습니다.", count));
+		}
 	}
-
+	@ApiOperation(value="회원 탈퇴")
+	@DeleteMapping("/leave")
+	public ResponseEntity<JSONResult> leaveMember(
+		@RequestBody MemberVo memVo
+	) {
+		int count = userService.leaveMember(memVo);
+		
+		if(count == 1) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(JSONResult.success(count));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("회원 탈퇴 처리가 되지 않았습니다.", count));
+		}
+	}
 	
 	@ApiOperation(value="비밀번호 확인")
 	@PostMapping("/ownercheck")
@@ -197,9 +228,13 @@ public class UserController {
 	) {
 		
 		Boolean is_owner = userService.ownerCheck(loginVo);
-		
-		return ResponseEntity.status(HttpStatus.OK)
+		if (is_owner) {
+			return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(is_owner));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("비밀번호가 틀립니다.", is_owner));
+		}
 	}
 
 	
@@ -208,9 +243,13 @@ public class UserController {
 	public ResponseEntity<JSONResult> memberList() {
 		
 		List<MemberVo> mem_list = userService.getMemberList();
-		
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(JSONResult.success(mem_list));
+		if(mem_list.size() > 0) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(JSONResult.success(mem_list));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("회원 목록이 없습니다."));
+		}
 	}
 
 	

@@ -41,14 +41,16 @@ public class UserDao {
 		return sqlSession.selectOne("user.get_login_member", loginVo);
 	}
 
-	public int updateMember(UpdateMemberVo memVo) {
+	public int updateMember(MemberVo memVo) {
 		return sqlSession.update("user.update_member_info", memVo);
 	}
 
 	public int deleteMember(Long no) {
 		return sqlSession.delete("user.delete_member", no);
 	}
-
+	public int leaveMember(MemberVo memVo) {
+		return sqlSession.update("user.leave_member", memVo);
+	}
 	public Boolean ownerCheck(LoginVo loginVo) {
 		MemberVo mem = sqlSession.selectOne("user.get_login_member", loginVo);
 		return mem != null;

@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,12 +20,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
@@ -37,6 +40,7 @@ import com.google.gson.Gson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
 @WebAppConfiguration
+@Transactional
 public class CartControllerTest {
 	private MockMvc mockMvc;
 	
@@ -66,68 +70,53 @@ public class CartControllerTest {
 	
 	// A. 장바구니에 있는 상품인지 확인 ( 있는 상품 일 때 갯수 반환) 
 	// A-1. 장바구니에 있는 상품 (갯수 반환) 
-	@Ignore
 	@Test
 	public void checkAlreadyHas() throws Exception {
-		Boolean is_member = false;
-		Long non_member_no = 64L;
-		Long po_no = 9L;
+		Boolean is_member = true;
+		Long member_no = 1L;
+		Long po_no = 7L;
 		
 		// 있는 상품 : count 반환 
 		mockMvc.perform(
-				get("/api/cart/hascheck/{is_member}/{memno}/{po_no}", is_member, non_member_no, po_no))
+				get("/api/cart/hascheck/{is_member}/{memno}/{po_no}", is_member, member_no, po_no))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.result", is("success")))
 				.andExpect(jsonPath("$.data", is(not(-1))))
 				.andReturn();
-		
-		// MvcResult result;
-		// JSONResult jsonResult;
-		// jsonResult = new ObjectMapper().readValue(result.getResponse().getContentAsString(), JSONResult.class);
-		// int count = Integer.parseInt(jsonResult.getData().toString());
-		
 	}
 	
 	// A-2. 장바구니에 없는 상품 (-1 반환)
-	@Ignore
 	@Test
 	public void checkAlreadyHasNot() throws Exception{
-		Boolean is_member = false;
-		Long non_member_no = 64L;
-		Long po_no = 10L;
+		Boolean is_member = true;
+		Long member_no = 1L;
+		Long po_no = 6L;
 		
 		mockMvc.perform(
-				get("/api/cart/hascheck/{is_member}/{memno}/{po_no}", is_member, non_member_no, po_no))
+				get("/api/cart/hascheck/{is_member}/{memno}/{po_no}", is_member, member_no, po_no))
 				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data", is(-1)))
-				.andReturn();
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.result", is("fail")))
+				.andExpect(jsonPath("$.data", is(-1)));
 	}
 	
 	
 	// B. 장바구니 담기
-	// C. 장바구니 수정
-	// D. 장바구니 삭제
 	@SuppressWarnings("unchecked")
-	@Ignore
 	@Test
-	public void addUpdateDeleteCartSuccessTest() throws Exception {
+	@Rollback(false)
+	public void addTest() throws Exception {
 		//Long non_member_no = Long.parseLong(userAdd().toString());
 		// 들어가있는 non_member_no 쓰기로
-		Long non_member_no = 65L;
-		Long member_no = 7L;
+		Long member_no = 1L;
 		MvcResult result;
-		// Long po_no = 9L;
-		//Long po_no = 16L;
-		Long po_no = 28L;
+		Long po_no = 5L;
 		JSONResult jsonResult;
 		int count = 1;
 		Map<String,Object> data;
-		CartVo insertCartVo = new CartVo(po_no, 25500L, count);
-		insertCartVo.setNon_member_no(non_member_no);
-		//insertCartVo.setMember_no(member_no); 
+		CartVo insertCartVo = new CartVo(po_no, 18500L, count);
+		insertCartVo.setMember_no(member_no);
 		
 		// B. 장바구니 담기
 		// 재고의 수량보다 적게 선택했고, 장바구니에 없는 상품이라고 전제 
@@ -144,27 +133,89 @@ public class CartControllerTest {
 		insertCartVo = new ObjectMapper().convertValue(data, CartVo.class);
 		
 		
-//		// C. 장바구니 수정
-//		// 재고의 수량보다 적게 선택했고, 장바구니에 있는 상품이라고 전제 
-//		insertCartVo.setCount(1);
-//		
-//		mockMvc.perform(put("/api/cart/update")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(new Gson().toJson(insertCartVo)))
-//				.andExpect(jsonPath("$.result", is("success")))
-//				.andExpect(jsonPath("$.data", is(true)));
-
-		// D. 장바구니 삭제
-//		mockMvc.perform(delete("/api/cart/delete")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(new Gson().toJson(insertCartVo)))
-//				.andDo(print())
-//				.andExpect(jsonPath("$.result", is("success")))
-//				.andExpect(jsonPath("$.data", is(true)));
+	}
+	@Test
+	public void addFailTest() throws Exception {
+		Long member_no = 1L;
+		Long po_no = 5L;
+		int count = 1;
+		Map<String,Object> data;
+		CartVo insertCartVo = new CartVo(po_no, 18500L, count);
+		insertCartVo.setMember_no(member_no); 
+		insertCartVo.setCount(0);
 		
+		// B. 장바구니 담기 실패
+		mockMvc.perform(post("/api/cart/add")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(new Gson().toJson(insertCartVo)))
+						.andDo(print())
+						.andExpect(jsonPath("$.result", is("fail")));
+	}
+	// C. 장바구니 수정
+	@Test
+	public void updateTest() throws Exception {
+		Long member_no = 1L;
+		Long po_no = 5L;
+		int count = 2;
+		Map<String,Object> data;
+		CartVo updateCartVo = new CartVo(po_no, 18500L, count);
+		updateCartVo.setMember_no(member_no); 
+		
+		// C. 장바구니 수정
+		// 재고의 수량보다 적게 선택했고, 장바구니에 있는 상품이라고 전제 
+		updateCartVo.setCount(3);
+		
+		mockMvc.perform(put("/api/cart/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(updateCartVo)))
+				.andDo(print())
+				.andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.data", is(true)));
+	}
+	// C. 장바구니 수정 실패
+	@Test
+	public void updateFailTest() throws Exception {
+		Long member_no = 1L;
+		Long po_no = 6L;
+		int count = 2;
+		Map<String,Object> data;
+		CartVo updateCartVo = new CartVo(po_no, 18500L, count);
+		updateCartVo.setMember_no(member_no); 
+		
+		mockMvc.perform(put("/api/cart/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(updateCartVo)))
+				.andDo(print())
+				.andExpect(jsonPath("$.result", is("fail")));
 	}
 	
-	
+	// D. 장바구니 삭제
+	@Rollback(true)
+	@Test
+	public void deleteTest() throws Exception {
+		Long product_option_no = 5L;
+		Long mem_no = 1L;
+		CartVo delVo = new CartVo(mem_no , product_option_no);
+		// D. 장바구니 삭제
+		mockMvc.perform(delete("/api/cart/delete")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(delVo)))
+				.andDo(print())
+				.andExpect(jsonPath("$.result", is("success")));
+	}
+	// D. 장바구니 삭제 실패
+	@Test
+	public void deleteFailTest() throws Exception {
+		Long product_option_no = 7L;
+		Long mem_no = 1L;
+		CartVo delVo = new CartVo(mem_no , product_option_no);
+		// D. 장바구니 삭제
+		mockMvc.perform(delete("/api/cart/delete")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(delVo)))
+				.andDo(print())
+				.andExpect(jsonPath("$.result", is("fail")));
+	}
 	
 	
 	private Object userAdd() throws Exception {
@@ -217,13 +268,26 @@ public class CartControllerTest {
 	}
 	
 	// E. 장바구니 목록 가져오기
-//	@Ignore
 	@Test
 	public void getCartListTest() throws Exception {
-		Boolean is_member = false;
-		Long no = 65L;
+		Boolean is_member = true;
+		Long no = 1L;
 		
 		mockMvc.perform(get("/api/cart/list/{is_member}/{no}", is_member, no))
-			.andDo(print());
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")));
+	}
+	
+	// E. 장바구니 목록 가져오기 - 비어있을 때
+	@Test
+	public void getCartListFailTest() throws Exception {
+		Boolean is_member = true;
+		Long no =2L;
+		
+		mockMvc.perform(get("/api/cart/list/{is_member}/{no}", is_member, no))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.result", is("success")));
 	}
 }

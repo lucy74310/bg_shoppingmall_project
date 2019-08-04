@@ -43,12 +43,17 @@ public class CartController {
 		@PathVariable(value="is_member") Boolean is_member,
 		@PathVariable(value="no") Long no
 	) {
+		
 		List<CartVo> cart_list = cartService.getCartList(is_member, no);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(cart_list));
+		if(cart_list.size() > 0 ) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(cart_list));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니가 비어있습니다."));
+		}
 	}
 	
-	@ApiOperation("장바구니에 상품저장")
+	@ApiOperation("장바구니 담기")
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> addProductToCart(
 		@RequestBody @Valid CartVo cartVo,
@@ -63,6 +68,10 @@ public class CartController {
 		}
 		
 		cartVo = cartService.addCart(cartVo);
+		if(cartVo.getNo() == null) {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("장바구니 담기 실패"));
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(cartVo));
 	}
 	@ApiOperation("장바구니 상품수정")
@@ -78,8 +87,13 @@ public class CartController {
 						.body(JSONResult.fail(f.getDefaultMessage()));
 			}
 		}
-		boolean result = cartService.updateCart(cartVo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(result));
+		int count = cartService.updateCart(cartVo);
+		if(count == 1) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("장바구니 수정 실패", count));
+		}
 	}
 	
 	@ApiOperation("장바구니 상품 삭제")
@@ -87,9 +101,13 @@ public class CartController {
 	public ResponseEntity<JSONResult> deleteProductInCart(
 		@RequestBody @Valid CartVo cartVo
 	) {
-		boolean result = cartService.deleteCart(cartVo);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(result));
+		int count = cartService.deleteCart(cartVo);
+		if(count == 1) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("장바구니 상품 삭제 실패", count));
+		}
 	}
 	
 	@ApiOperation("장바구니 이미 들어간 상품인지 확인")
@@ -102,6 +120,10 @@ public class CartController {
 		
 		
 		int count = cartService.alreadyHasCheck(is_member, mem_no, po_no);
+		
+		if(count == -1) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니에 담겨져 있지 않은 상품입니다.", count));
+		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
 	}

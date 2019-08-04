@@ -1,16 +1,18 @@
 package com.cafe24.shoppingmall.backend.vo;
 
-import org.hibernate.validator.constraints.Range;
+import javax.validation.constraints.NotNull;
+
 
 public class CartVo {
 
 	private Long no;
 	private Long member_no;
 	private Long non_member_no;
+	@NotNull(message="상품옵션 번호는 필수항목입니다.")
 	private Long product_option_no;
+	
 	private Long price;
 	
-	@Range(min=1, message="수량은 1개 이상이여야 합니다.")
 	private int count;
 	private String po_name;
 	
@@ -20,6 +22,12 @@ public class CartVo {
 	
 	public CartVo() {
 	}
+	
+	public CartVo(Long member_no, Long product_option_no) {
+		this.member_no = member_no;
+		this.product_option_no = product_option_no;
+	}
+
 	public CartVo( Long product_option_no, Long price, int count) {
 		this.product_option_no = product_option_no;
 		this.price = price;

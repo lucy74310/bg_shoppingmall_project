@@ -20,14 +20,12 @@ public class CartService {
 		return cartDao.insertCart(cartVo);
 	}
 	// 장바구니 수정
-	public boolean updateCart(CartVo cartVo) {
-		boolean result = (1 == cartDao.updateCart(cartVo));
-		return result;
+	public int updateCart(CartVo cartVo) {
+		return cartDao.updateCart(cartVo);
 	}
 	// 장바구니 삭제
-	public boolean deleteCart(CartVo cartVo) {
-		boolean result = ( 1== cartDao.deleteCart(cartVo));
-		return result;
+	public int deleteCart(CartVo cartVo) {
+		return cartDao.deleteCart(cartVo);
 	}
 	
 	// 장바구니 목록
@@ -43,13 +41,13 @@ public class CartService {
 	
 	//장바구니에 이미 존재하는 상품인지 확인 
 	public int alreadyHasCheck(Boolean is_member, Long mem_no, Long po_no) {
-		int count;
-		if(is_member) {
-			count = cartDao.checkAleradyHasPOWhenMember(mem_no, po_no);
-		} else {
-			count = cartDao.checkAleradyHasPOWhenNonMember(mem_no, po_no);
+		CartVo cartVo = cartDao.checkAleradyHas(is_member,mem_no, po_no);
+		
+		if(cartVo == null) {
+			return -1;
 		}
-		return count;
+		
+		return cartVo.getCount();
 	}
 
 }

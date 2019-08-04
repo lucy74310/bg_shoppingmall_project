@@ -1,11 +1,12 @@
 package com.cafe24.shoppingmall.backend.vo;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class NonMemberVo {
 	private Long no;
 	
-	@NotEmpty(message="session값이 없습니다.")
+	@Length(min=1,message="session값이 없습니다.")
 	private String sessionID;
 	private String expire_date;
 	

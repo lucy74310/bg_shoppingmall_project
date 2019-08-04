@@ -25,7 +25,7 @@
 			AES_DECRYPT(a.address, 'bugwang')
 		 FROM member AS m
 		 LEFT JOIN address AS a ON m.`no` = a.member_no
-		WHERE id = #{id} and password = sha2(#{password},512)
+		WHERE id = #{id} and password = sha2(#{password},512) and m_state = '0'
 		  AND (a.is_default = 'Y' OR a.is_default IS NULL);
 		]]>
 	</select>
@@ -81,36 +81,48 @@
 	</insert>
 	
 	<!-- 회원정보 업데이트 -->
-	<update id="update_member_info" parameterType="updatemembervo">
+	<update id="update_member_info" parameterType="membervo">
 		update member
 		set
 			name = aes_encrypt(#{name}, 'bugwang'),
 			phone = aes_encrypt(#{phone}, 'bugwang'),
 			telephone = aes_encrypt(#{telephone}, 'bugwang'),
 			email = aes_encrypt(#{email}, 'bugwang'),
-			birth = #{birth},
+			birth = #{birthday},
 			update_date = now()
-		where no = #{no}
+		where no = #{no} and id = #{id} and password = sha2(#{password}, 512)
 	</update>
 	
-	<!-- 회원삭제 -->
+	<!-- 회원삭제 - 진짜 삭제-->
 	<delete id="delete_member" parameterType="long">
 		delete from member where no = #{no}
 	</delete>
 	
+	<!-- 회원 탈퇴 요청  -->
+	<update id="leave_member" parameterType="membervo">
+		update member
+		set
+			m_state = '-1',
+			leave_date = now()
+		where no = #{no} and id = #{id} and password = sha2(#{password}, 512)
+	</update>
+	
+	
 	<!-- 회원리스트 -->
 	<select id="get_member_list" resultType="membervo">
 		SELECT 
-			m.no, m.id, 
-			AES_DECRYPT(m.name, 'bugwang'), 
-			AES_DECRYPT(m.phone, 'bugwang'), 
-			AES_DECRYPT(m.telephone, 'bugwang'), 
-			AES_DECRYPT(m.email, 'bugwang'), m.birth, m.point, 
+			m.no, 
+			m.id, 
+			AES_DECRYPT(m.name, 'bugwang') as name, 
+			AES_DECRYPT(m.phone, 'bugwang') as phone, 
+			AES_DECRYPT(m.telephone, 'bugwang') as telephone, 
+			AES_DECRYPT(m.email, 'bugwang') as email, 
+			m.birth as birthday , m.point, 
 			AES_DECRYPT(a.address, 'bugwang'),
 			m.join_date, m.update_date, m.leave_date, m.m_state
 		 FROM member AS m
-		 LEFT JOIN address AS a ON m.`no` = a.member_no
-		WHERE (a.is_default = 'Y' OR a.is_default IS NULL); 
+		 LEFT JOIN address AS a ON m.`no` = a.member_no 
+		WHERE (a.is_default = 'Y' OR a.is_default IS NULL) 
 	
 	</select>
 </mapper>

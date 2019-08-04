@@ -38,25 +38,28 @@ public class CartDao {
 		return sqlSession.selectList("cart.get_nonmember_cart_list", no);
 	}
 
-	public int checkAleradyHasPOWhenMember(Long mem_no, Long po_no) {
+	public CartVo checkAleradyHas(Boolean is_member, Long mem_no, Long po_no) {
 		Map<String, Long> data = new HashMap<String, Long>();
-		data.put("member_no", mem_no);
-		data.put("po_no", po_no);
-		Integer count = sqlSession.selectOne("cart.check_has_when_member", data);
-		if(count == null) count = -1;
-		return count;
+		if(is_member) {
+			data.put("member_no", mem_no);
+			data.put("po_no", po_no);
+			data.put("non_member_no", null);
+		} else {
+			data.put("member_no", null);
+			data.put("po_no", po_no);
+			data.put("non_member_no", mem_no);
+		}
+		CartVo cartVo = sqlSession.selectOne("cart.check_has", data);
+		return cartVo ;
 	}
 
-	public int checkAleradyHasPOWhenNonMember(Long non_mem_no, Long po_no) {
-		Map<String, Long> data = new HashMap<String, Long>();
-		data.put("non_member_no", non_mem_no);
-		data.put("po_no", po_no);
-		Integer count = sqlSession.selectOne("cart.check_has_when_nonmember", data);
-		if(count == null) count = -1;
-		
-		return count;
-	}
-
+	/*
+	 * public CartVo checkAleradyHasPOWhenNonMember(Long non_mem_no, Long po_no) {
+	 * Map<String, Long> data = new HashMap<String, Long>();
+	 * data.put("non_member_no", non_mem_no); data.put("po_no", po_no); CartVo
+	 * cartVo = sqlSession.selectOne("cart.check_has_when_nonmember", data); return
+	 * cartVo; }
+	 */
 
 	
 	

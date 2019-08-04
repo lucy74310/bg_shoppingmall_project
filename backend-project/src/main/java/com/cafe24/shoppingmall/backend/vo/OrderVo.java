@@ -3,16 +3,20 @@ package com.cafe24.shoppingmall.backend.vo;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class OrderVo {
 	private Long no;
 	private String order_code;
 	private String order_name;
 	private String order_date;
+	
 	@Length(min=1, message="주문자 이름은 필수입력 사향입니다.")
+	@NotEmpty(message="주문자 이름은 필수입력 사향입니다.")
 	private String orderer_name;
 	
 	@Length(min=1, message="주문자 이메일은 필수입력 사향입니다.")
+	@NotEmpty(message="주문자 이메일은 필수입력 사향입니다.")
 	private String orderer_email;
 	
 	private String orderer_addr;
@@ -20,15 +24,19 @@ public class OrderVo {
 	private String orderer_phone;
 	
 	@Length(min=1, message="주문자 휴대번호는 필수입력 사향입니다.")
+	@NotEmpty(message="주문자 휴대번호는 필수입력 사향입니다.")
 	private String orderer_telephone;
 	
 	@Length(min=1, message="수취자 이름은 필수입력 사향입니다.")
+	@NotEmpty(message="수취자 이름은 필수입력 사향입니다.")
 	private String receiver_name;
 	
 	@Length(min=1, message="수취자 주소는 필수입력 사향입니다.")
+	@NotEmpty(message="수취자 주소는 필수입력 사향입니다.")
 	private String receiver_addr;
 	
 	@Length(min=1, message="수취자 휴대번호는 필수입력 사향입니다.")
+	@NotEmpty(message="수취자 휴대번호는 필수입력 사향입니다.")
 	private String receiver_telephone;
 	
 	private String receiver_phone;

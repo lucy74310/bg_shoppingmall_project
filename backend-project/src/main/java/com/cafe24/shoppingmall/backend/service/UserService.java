@@ -58,7 +58,7 @@ public class UserService {
 	}
 	
 	//회원정보 수정
-	public int updateMember(UpdateMemberVo memVo) {
+	public int updateMember(MemberVo memVo) {
 		return userDao.updateMember(memVo);
 	}
 	
@@ -68,6 +68,10 @@ public class UserService {
 		return userDao.deleteMember(no);
 	}
 	
+	//회원 탈퇴요청
+	public int leaveMember(MemberVo memVo) {
+		return userDao.leaveMember(memVo);
+	}
 	
 	//본인확인 - 비밀번호 일치 
 	public Boolean ownerCheck(LoginVo loginVo) {
