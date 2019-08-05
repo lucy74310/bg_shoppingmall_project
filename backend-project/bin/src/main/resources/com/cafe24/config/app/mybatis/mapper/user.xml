@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+	<!-- 아이디 중복 체크 -->
+	<select id="check_id" parameterType="string" resultType="membervo">
+		<![CDATA[
+			select 
+				no, id, m_state
+			from member 
+			where id = #{id}	
+		]]> 
+	</select>
+	
+	<!-- 로그인 : id,pwd로 회원 조회 -->
+	<select id="get_login_member" resultType="membervo" parameterType="loginvo">
+		<![CDATA[
+		SELECT 
+			m.no, m.id, 
+			AES_DECRYPT(m.name, 'bugwang'), 
+			AES_DECRYPT(m.phone, 'bugwang'), 
+			AES_DECRYPT(m.telephone, 'bugwang'), 
+			AES_DECRYPT(m.email, 'bugwang'), m.birth, m.point, 
+			AES_DECRYPT(a.address, 'bugwang')
+		 FROM member AS m
+		 LEFT JOIN address AS a ON m.`no` = a.member_no
+		WHERE id = #{id} and password = sha2(#{password},512) and m_state = '0'
+		  AND (a.is_default = 'Y' OR a.is_default IS NULL);
+		]]>
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insert" parameterType="membervo">
+		<![CDATA[
+			insert into member 
+			(id, name, password, phone, telephone, email, birth, point, join_date, m_state) 
+			values 
+				(#{id}, aes_encrypt(#{name},'bugwang'), sha2(#{password}, 512), 
+				aes_encrypt(#{phone}, 'bugwang'), aes_encrypt(#{telephone}, 'bugwang'), 
+				aes_encrypt(#{email}, 'bugwang'), #{birthday}, 0, now(), '0');
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id() 
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	<!-- 배송지 추가(회원가입시) -->
+	<insert id="insert_address" parameterType="addressvo">
+		<![CDATA[
+			insert into address 
+			(member_no, address, name, addr_name, phone, is_default)
+			values 
+				(#{member_no}, aes_encrypt(#{address}, 'bugwang'), #{name}, 
+				#{addr_name}, aes_encrypt(#{phone}, 'bugwang'), #{is_default})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id() 
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	<!-- 비회원추가 -->
+	<insert id="insert_non_member" parameterType="nonmembervo">
+		<![CDATA[
+			INSERT INTO non_member 
+			VALUES (NULL, #{sessionID}, date_add(now(), interval 1 day) );		 
+		]]>
+	
+		<selectKey keyProperty="no" resultType="long"  order="AFTER"> 
+				<![CDATA[
+				select last_insert_id()
+				]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 회원정보 업데이트 -->
+	<update id="update_member_info" parameterType="membervo">
+		update member
+		set
+			name = aes_encrypt(#{name}, 'bugwang'),
+			phone = aes_encrypt(#{phone}, 'bugwang'),
+			telephone = aes_encrypt(#{telephone}, 'bugwang'),
+			email = aes_encrypt(#{email}, 'bugwang'),
+			birth = #{birthday},
+			update_date = now()
+		where no = #{no} and id = #{id} and password = sha2(#{password}, 512)
+	</update>
+	
+	<!-- 회원삭제 - 진짜 삭제-->
+	<delete id="delete_member" parameterType="long">
+		delete from member where no = #{no}
+	</delete>
+	
+	<!-- 회원 탈퇴 요청  -->
+	<update id="leave_member" parameterType="membervo">
+		update member
+		set
+			m_state = '-1',
+			leave_date = now()
+		where no = #{no} and id = #{id} and password = sha2(#{password}, 512)
+	</update>
+	
+	
+	<!-- 회원리스트 -->
+	<select id="get_member_list" resultType="membervo">
+		SELECT 
+			m.no, 
+			m.id, 
+			AES_DECRYPT(m.name, 'bugwang') as name, 
+			AES_DECRYPT(m.phone, 'bugwang') as phone, 
+			AES_DECRYPT(m.telephone, 'bugwang') as telephone, 
+			AES_DECRYPT(m.email, 'bugwang') as email, 
+			m.birth as birthday , m.point, 
+			AES_DECRYPT(a.address, 'bugwang'),
+			m.join_date, m.update_date, m.leave_date, m.m_state
+		 FROM member AS m
+		 LEFT JOIN address AS a ON m.`no` = a.member_no 
+		WHERE (a.is_default = 'Y' OR a.is_default IS NULL) 
+	
+	</select>
+</mapper>

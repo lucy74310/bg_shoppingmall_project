@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+
+	<insert id="insert" parameterType="categoryvo">
+		<![CDATA[
+			insert into category
+				(category_name, category_explain, category_order, upper_no)
+				values (#{category_name}, #{category_explain}, #{category_order}, #{upper_no});
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="categoryvo">
+		<![CDATA[
+			update category 
+				set 
+					category_name = #{category_name}, 
+					category_explain= #{category_explain}, 
+					category_order = #{category_order},
+					upper_no= #{upper_no}
+				where no = #{no}
+		]]>
+	</update>
+
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			delete from category where no = #{value};
+		]]>
+	</delete>
+	
+	
+	<select id="getlist" resultType="categoryvo">
+		<![CDATA[
+			select no, category_name, category_explain, category_order, upper_no from category
+		]]>
+	</select>
+	
+	<select id="get_category_list" resultType="categoryvo">
+		<![CDATA[
+			SELECT 
+				c.* , c2.category_name AS upper_category_name , c2.upper_no AS upper_no2
+			FROM product_category as pc LEFT JOIN category AS c ON  pc.category_no = c.`no` 
+			LEFT JOIN category AS c2 ON c.upper_no = c2.no
+			WHERE pc.product_no = #{value}
+		]]>
+	</select>
+	
+	<select id="get_upper_category" resultType="categoryvo">
+		<![CDATA[
+			SELECT 
+				c.* , c2.category_name AS upper_category_name , c2.upper_no AS upper_no2
+			FROM category AS c LEFT JOIN category AS c2 ON c.upper_no = c2.no
+			WHERE c.no = #{value};
+		]]>
+	</select>
+</mapper>

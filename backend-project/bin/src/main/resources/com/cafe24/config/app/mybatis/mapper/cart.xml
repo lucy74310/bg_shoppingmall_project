@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+
+	<insert id="insert_cart" parameterType="cartvo">
+		<![CDATA[
+			INSERT INTO cart (member_no, non_member_no, product_option_no, count, price)
+			values(#{member_no} , #{non_member_no}, #{product_option_no}, #{count}, #{price})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id();
+		</selectKey> 
+	</insert>
+	
+	<update id="update_cart" parameterType="cartvo">
+		<![CDATA[
+			update cart 
+				set
+				count = #{count}
+			where
+				product_option_no = #{product_option_no}
+		 	and (non_member_no = #{non_member_no} or #{non_member_no} is null ) 
+		 	and (member_no = #{member_no} or #{member_no} is null ) 
+		]]>
+	</update>	
+
+	<delete id="delete_cart" parameterType="long">
+		delete from cart 
+		 where 
+		 	product_option_no = #{product_option_no}
+		 	and (non_member_no = #{non_member_no} or #{non_member_no} is null ) 
+		 	and (member_no = #{member_no} or #{member_no} is null )
+	</delete>
+	
+	<select id="get_member_cart_list" resultType="cartvo" parameterType="long">
+	<![CDATA[
+		select 
+				c.no, c.member_no, c.product_option_no, c.count, c.price, po.po_name, pi.url as main_image_url
+		from cart as c join product_option as po on c.product_option_no = po.no 
+        join product as p on p.no = po.product_no
+        left join product_image as pi on p.no = pi.product_no
+		where c.member_no = #{no} and pi.is_main='Y'
+	]]>
+	</select>
+	
+	
+	<select id="get_nonmember_cart_list" resultType="cartvo" parameterType="long">
+		<![CDATA[
+			select 
+					c.no, c.member_no, c.product_option_no, c.count, c.price, po.po_name, pi.url as main_image_url
+			from cart as c join product_option as po on c.product_option_no = po.no 
+	        join product as p on p.no = po.product_no
+	        left join product_image as pi on p.no = pi.product_no
+			where c.non_member_no = #{no} and pi.is_main='Y'
+		]]> 
+	</select>
+	 <select id="check_has" resultType="cartvo" parameterType="map">
+		<![CDATA[
+			select 
+				no,
+				count  
+			from cart 
+			where 
+				(member_no = #{member_no} OR #{member_no} is null)
+				and (non_member_no = #{non_member_no} OR #{non_member_no} is null)
+				and (product_option_no = #{po_no} OR #{po_no} is null)
+		]]>
+	</select>
+	<!-- <select id="check_has_when_member" resultType="cartvo" parameterType="map">
+		<![CDATA[
+			select 
+				no,
+				count  
+			from cart 
+			where 
+				member_no = #{member_no}
+				and (product_option_no = #{po_no} OR #{po_no} is null)
+		]]>
+	</select>
+	
+	<select id="check_has_when_nonmember" resultType="string" parameterType="map">
+		<![CDATA[
+			select 
+				no,
+				count 
+			from cart 
+			where 
+				non_member_no = #{non_member_no}
+				and (product_option_no = #{po_no} OR #{po_no} is null)
+		]]> 
+	</select>
+ -->		
+</mapper>

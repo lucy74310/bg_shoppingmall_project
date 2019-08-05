@@ -59,7 +59,6 @@ public class CategoryControllerTest {
 		assertNotNull(mockMvc);		
 	}
 	/*카테고리 목록 */
-	@Ignore
 	@Test
 	public void categoryListTest() throws Exception {
 		ResultActions resultActions =

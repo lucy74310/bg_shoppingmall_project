@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product">
+	
+	<!-- INSERT -->
+	<insert id="insert_product" parameterType="productvo">
+		<![CDATA[
+			insert into product  
+				(product_name, product_price, product_short_explain, 
+				product_detail, displayed, selling, use_option, use_stock, stock, soldout_mark, 
+				reg_date) 
+			values (#{product_name}, #{product_price}, #{product_short_explain}, #{product_detail}, 
+			#{displayed}, #{selling}, #{use_option}, #{use_stock},
+			 #{stock}, #{soldout_mark}, now()) 
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_option" parameterType="optionvo">
+		<![CDATA[
+			insert into op  (op_name, op_explain, op_order, product_no)
+			values (#{op_name}, #{op_explain}, #{op_order}, #{product_no});
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_option_detail" parameterType="optiondetailvo">
+		<![CDATA[
+			insert into opd  (opd_name, opd_order, plus_price, option_no)
+			values (#{opd_name}, #{opd_order}, #{plus_price}, #{option_no})
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_product_category" parameterType="map">
+		<![CDATA[
+			insert into product_category (category_no, product_no)
+			values(#{category_no}, #{product_no})
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_image" parameterType="imagevo">
+		<![CDATA[
+			insert into product_image (url, is_main, product_no , image_order ) values (#{url}, #{is_main}, #{product_no}, #{image_order})
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insert_product_option" parameterType="productoptionvo">
+		<![CDATA[
+			insert into product_option 
+ 				(po_name, po_code, use_stock, displayed, selling, plus_price, po_order, product_no) 
+			values ( #{po_name}, #{po_code}, #{use_stock}, #{displayed}, #{selling}, #{plus_price}, #{po_order}, #{product_no} )
+		
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
+			<![CDATA[
+			select last_insert_id()
+			]]>
+			
+		</selectKey>
+	</insert>
+	
+	
+	
+	
+	<!-- UPDATE -->
+	<update id="update_image" parameterType="imagevo">
+		<![CDATA[
+			update product_image
+				set url = #{url} , 
+					is_main = #{is_main} 
+		    	where no = #{no};
+	    ]]>
+	</update>
+	
+	
+	<!-- DELETE -->
+	<delete id="delete_product_category" parameterType="long">
+		delete from product_category where product_no = #{product_no};	
+	</delete> 
+	
+	
+	<delete id="delete_option_detail" parameterType="long">
+		delete from opd where option_no = #{option_no};	
+	</delete>
+	
+	
+	<delete id="delete_option" parameterType="long">
+		delete from op where product_no = #{product_no};	
+	</delete>
+	
+	
+	<delete id="delete_product_option" parameterType="long">
+		delete from product_option where product_no = #{product_no};	
+	</delete>
+	
+	
+	<delete id="delete_image" parameterType="long">
+		delete from product_image where product_no = #{product_no};	
+	</delete>
+
+	<delete id="delete_product" parameterType="long">
+		delete from product where no = #{product_no};	
+	</delete>	
+	
+	
+	<!-- SELECT -->
+	
+	<select id="get_list" resultType="productvo">
+		<![CDATA[
+		select 
+			no, product_name, product_price, product_short_explain, 
+			product_detail, displayed, selling, use_option, use_stock, stock,
+			soldout_mark, save_percentage, shipping_price 
+		from product
+		
+		]]>
+	</select>
+	
+	<select id="get_option_no_list" resultType="long">
+		<![CDATA[
+		select 
+			no
+		from op where product_no = #{product_no}
+		ORDER BY op_order ASC
+		]]>
+	</select>
+	
+	
+	<select id="get_product" resultType="productvo">
+		<![CDATA[
+			SELECT 
+				no, product_name, product_price, product_short_explain, 
+				product_detail, displayed, selling,use_option, use_stock,
+				stock,soldout_mark,save_percentage,shipping_price 
+			FROM product 
+			WHERE no = #{value};
+		
+		]]>
+	</select>
+
+	<select id="get_option_list" resultType="optionvo">
+		<![CDATA[
+			SELECT 
+				no, op_name, op_explain, op_order, product_no 
+			FROM op 
+			WHERE product_no = #{value}
+			ORDER BY op_order ASC
+		]]>
+	</select>
+	
+	<select id="get_product_option_list" resultType="productoptionvo">
+		<![CDATA[
+			SELECT 
+				no, po_name, po_code, stock, use_stock, selling, 
+				displayed, plus_price, po_order, product_no 
+			FROM product_option 
+			WHERE product_no = #{value}
+			ORDER BY po_order ASC
+		]]>
+	</select>
+
+	<select id="get_option_detail_list" resultType="optiondetailvo">
+		<![CDATA[
+			SELECT 
+				no, opd_name, opd_order, is_use, plus_price, option_no 
+			FROM opd 
+			WHERE option_no = #{value}
+			ORDER BY opd_order ASC
+		]]>
+	</select>
+	
+	<select id="get_image_list" resultType="imagevo">
+		<![CDATA[
+			SELECT 
+				no, url, is_main, image_order, product_no
+			FROM product_image 
+			WHERE product_no = #{value}
+			ORDER BY image_order ASC
+		]]>
+	</select>
+
+	
+	
+	
+	
+</mapper>

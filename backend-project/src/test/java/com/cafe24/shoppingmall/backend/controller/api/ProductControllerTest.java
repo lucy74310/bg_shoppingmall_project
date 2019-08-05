@@ -57,7 +57,6 @@ public class ProductControllerTest {
 	}
 	
 	// 리스트가 있을 때
-	@Ignore
 	@Test
 	public void getProductListTest() throws Exception {
 		mockMvc.perform(get("/api/product/list"))
@@ -67,7 +66,6 @@ public class ProductControllerTest {
 	}
 	
 	// 리스트가 없을 때
-	@Ignore
 	@Rollback(true)
 	@Test
 	public void getProductListNoDataTest() throws Exception {
