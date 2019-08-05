@@ -3,7 +3,6 @@ package com.cafe24.shoppingmall.scenario;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shoppingmall.config.AppConfig;
+import com.cafe24.shoppingmall.backend.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)

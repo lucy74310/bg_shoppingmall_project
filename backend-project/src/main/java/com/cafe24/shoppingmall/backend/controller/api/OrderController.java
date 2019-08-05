@@ -23,10 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.backend.dto.JSONResult;
 import com.cafe24.shoppingmall.backend.service.OrderService;
-import com.cafe24.shoppingmall.backend.vo.CartVo;
 import com.cafe24.shoppingmall.backend.vo.OrderProductVo;
 import com.cafe24.shoppingmall.backend.vo.OrderVo;
-import com.cafe24.shoppingmall.backend.vo.ProductVo;
 
 import io.swagger.annotations.ApiOperation;
 

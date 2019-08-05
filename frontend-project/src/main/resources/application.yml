@@ -1,0 +1,46 @@
+server:
+       port: 8888
+       contextPath: /shoppingmall
+               
+       error:
+             whitelabel:
+                        enabled: false
+
+spring:
+       profiles:
+                active: dev
+       devtools:
+                livereload:
+                           enabled: true
+       http:
+            encoding:
+                     charset: UTF-8
+                     enabled: true
+                     forced: true
+                     forced-request: true
+                     forced-response: true
+       aop:
+           auto: true
+       aop-proxy-target-class: true
+
+
+       datasource:
+                  driver-class-name: org.mariadb.jdbc.Driver
+                  url: jdbc:mariadb://192.168.1.190:3307/pjmall
+                  username: pjmall
+                  password: pjmall
+                  
+       mvc:
+          view:
+               prefix: /WEB-INF/views/
+               suffix: .jsp
+
+#security:
+#         user:
+#              name: test
+#              password: 5678
+#         oauth2:
+#                client:
+#                       client-id: pjmall
+#                       client-secret: 1234
+       

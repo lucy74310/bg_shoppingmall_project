@@ -1,4 +1,4 @@
-package com.cafe24.shoppingmall.exception;
+package com.cafe24.shoppingmall.backend.exception;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;

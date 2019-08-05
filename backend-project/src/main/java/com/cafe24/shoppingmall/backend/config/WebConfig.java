@@ -1,18 +1,20 @@
-package com.cafe24.shoppingmall.config;
+package com.cafe24.shoppingmall.backend.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
-import com.cafe24.config.app.DBConfig;
-import com.cafe24.config.app.MyBatisConfig;
-
+import com.cafe24.config.web.MVCConfig;
+import com.cafe24.config.web.MessageConfig;
+import com.cafe24.config.web.SwaggerConfig;
 
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan({"com.cafe24.shoppingmall"})
-@Import({DBConfig.class, MyBatisConfig.class})
-public class AppConfig {
+@Import({MVCConfig.class, MessageConfig.class, SwaggerConfig.class})
+public class WebConfig {
+	
+	
 	
 }

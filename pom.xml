@@ -6,5 +6,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>backend-project</module>
+  	<module>frontend-project</module>
   </modules>
 </project>

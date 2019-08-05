@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shoppingmall.config.AppConfig;
+import com.cafe24.shoppingmall.backend.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
 
 

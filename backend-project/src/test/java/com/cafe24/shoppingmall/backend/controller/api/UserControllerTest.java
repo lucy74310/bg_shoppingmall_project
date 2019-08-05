@@ -26,10 +26,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.cafe24.shoppingmall.backend.config.AppConfig;
 import com.cafe24.shoppingmall.backend.vo.LoginVo;
 import com.cafe24.shoppingmall.backend.vo.MemberVo;
 import com.cafe24.shoppingmall.backend.vo.NonMemberVo;
-import com.cafe24.shoppingmall.config.AppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.google.gson.Gson;
 
