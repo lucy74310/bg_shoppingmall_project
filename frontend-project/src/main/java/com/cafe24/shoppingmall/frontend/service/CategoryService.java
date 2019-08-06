@@ -3,12 +3,8 @@ package com.cafe24.shoppingmall.frontend.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -71,7 +67,6 @@ public class CategoryService {
 			}
 		}
 		
-		System.out.println(final_cate_list);
 		return final_cate_list;
 	}
 

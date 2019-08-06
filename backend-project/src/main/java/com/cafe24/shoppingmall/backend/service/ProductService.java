@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.shoppingmall.backend.repository.CategoryDao;
 import com.cafe24.shoppingmall.backend.repository.ProductDao;
 import com.cafe24.shoppingmall.backend.vo.CategoryVo;
 import com.cafe24.shoppingmall.backend.vo.ImageVo;
@@ -25,6 +27,8 @@ public class ProductService {
 	@Autowired
 	private ProductDao productDao;
 	
+	@Autowired
+	private CategoryDao categoryDao;
 	
 	
 	//상품 삭제
@@ -345,6 +349,30 @@ public class ProductService {
 
 	public ProductOptionVo getProductOptionInfo(Long pono) {
 		return productDao.getProductOption(pono);
+	}
+
+	public List<ProductVo> getListByCategory(Long category_no) {
+		List<CategoryVo> c_list = categoryDao.getList();
+		List<String> c_no_list = new ArrayList<String>();
+		c_no_list.add(category_no.toString());
+		// 하위 no 찾기 
+		for(CategoryVo c1 : c_list) {
+			if(category_no == c1.getUpper_no()) {
+				c_no_list.add(c1.getNo().toString());
+				for(CategoryVo c2 : c_list) {
+					if(c1.getNo() == c2.getUpper_no()) {
+						c_no_list.add(c2.getNo().toString());
+						for(CategoryVo c3 : c_list) {
+							if(c2.getNo() == c3.getUpper_no()) {
+								c_no_list.add(c3.getNo().toString());
+							}
+						}
+					}
+				}
+			}
+		}
+		String joinNo = String.join(",",c_no_list);
+		return productDao.getListByCategory(joinNo);
 	}
 
 	

@@ -15,6 +15,11 @@ import com.cafe24.shoppingmall.frontend.service.CategoryService;
 import com.cafe24.shoppingmall.frontend.service.ProductService;
 import com.cafe24.shoppingmall.frontend.vo.CategoryVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
+import jdk.nashorn.internal.parser.JSONParser;
 
 @Controller
 public class MainController {
@@ -25,20 +30,27 @@ public class MainController {
 	@Autowired
 	private ProductService productService;
 	
-	@GetMapping(value={"/{category_no}", "/main/{category_no}"})
+	@GetMapping(value={"/", "/{no}"})
 	public String main(
-			Model model, 
-			@PathVariable("category_no") Optional<Long> category_no 
+			Model model,
+			@PathVariable("no") Optional<Long> category_no
 	) {
-		
 		List<CategoryVo> categories = categoryService.getListAll();
-		List<ProductVo> products = null;
+		List<ProductVo> products = productService.getListAll();;
 		if(category_no.isPresent()) {
-			products = productService.getByCategory(category_no.get());
+			products = productService.getByCategory(category_no.get()); 
 		} else {
-			products = productService.getListAll();
+			products = productService.getListAll(); 
 		}
 		
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String json_categories = "";
+		try {
+			json_categories = ow.writeValueAsString(categories);
+			model.addAttribute("json_categories", json_categories);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);

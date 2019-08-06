@@ -5,13 +5,37 @@
 	
 	<!-- SELECT -->
 	
-	<select id="get_list" resultType="productvo">
+	<resultMap id="get_list_type" type="productvo">
+		<id property="no" column="no"/>
+	    <result property="product_name" column="product_name"/>
+	    <result property="product_price" column="product_price"/>
+	    <result property="product_short_explain" column="product_short_explain"/>
+	    <result property="use_stock" column="use_stock"/>
+	    <result property="stock" column="stock"/>
+	    <result property="soldout_mark" column="soldout_mark"/>
+	    <result property="shipping_price" column="shipping_price"/>
+	    <result property="save_percentage" column="save_percentage"/>
+	    <collection property="image_list" column="no" javaType="java.util.ArrayList" ofType="imagevo" select="get_image_list"/>
+	</resultMap>
+	<!-- 전체목록 -->
+	<select id="get_list" resultMap="get_list_type">
 		<![CDATA[
 		select 
 			no, product_name, product_price, product_short_explain, 
-			product_detail, displayed, selling, use_option, use_stock, stock,
-			soldout_mark, save_percentage, shipping_price 
+			use_stock, stock, soldout_mark, save_percentage, shipping_price 
 		from product
+		
+		]]>
+	</select>
+		
+	<!-- 특정 카테고리에 해당하는 상품 -->
+	<select id="get_list_by_category" resultMap="get_list_type" parameterType="string">
+		<![CDATA[
+		select 
+			p.no, p.product_name, p.product_price, p.product_short_explain, 
+			p.use_stock, p.stock, p.soldout_mark, p.save_percentage, p.shipping_price 
+		from product_category  as pc left join product as p on pc.product_no = p.no
+        where pc.category_no IN (#{join_no_list});
 		
 		]]>
 	</select>

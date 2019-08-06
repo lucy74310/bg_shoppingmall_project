@@ -149,8 +149,7 @@ public class ProductDao {
 
 	public List<CategoryVo> getCategoryList(Long product_no) {
 		return sqlSession.selectList("category.get_category_list", product_no );
-	}
-	
+	}	
 	//상위카테고리 하나 가져오기
 	public CategoryVo getUpperCateogry(Long upper_no2) {
 		return sqlSession.selectOne("category.get_upper_category", upper_no2);
@@ -163,6 +162,10 @@ public class ProductDao {
 
 	public ProductOptionVo getProductOption(Long pono) {
 		return sqlSession.selectOne("product_r.get_product_option_one", pono);
+	}
+
+	public List<ProductVo> getListByCategory(String join_no_list) {
+		return sqlSession.selectList("product_r.get_list_by_category", join_no_list);
 	}
 
 	

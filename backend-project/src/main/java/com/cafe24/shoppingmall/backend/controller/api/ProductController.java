@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -116,16 +117,22 @@ public class ProductController {
 	
 	
 	@ApiOperation("상품목록")
-	@GetMapping("/list")
-	public ResponseEntity<JSONResult> getList() {
-		
-		List<ProductVo> list = productService.getList();
+	@GetMapping({"/list", "/list/{category_no}"})
+	public ResponseEntity<JSONResult> getList(
+		@PathVariable("category_no") Optional<Long> category_no 
+	) {
+		List<ProductVo> list = null;
+		if(category_no.isPresent()) { 
+			list = productService.getListByCategory(category_no.get());
+		} else {
+			list = productService.getList();
+		}
 		
 		if(list.size() > 0) {
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(list));
 		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			return ResponseEntity.status(HttpStatus.OK)
 					.body(JSONResult.fail("등록된 상품이 없습니다", null));
 		}
 		

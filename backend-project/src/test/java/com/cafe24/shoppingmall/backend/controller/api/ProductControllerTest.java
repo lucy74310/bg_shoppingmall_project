@@ -106,7 +106,69 @@ public class ProductControllerTest {
 	@Rollback(false)
 	@Test
 	public void addSuccessTest() throws Exception {
-		insertProcess();
+		List<ImageVo> image_list = new ArrayList<ImageVo>();
+
+		image_list.add(new ImageVo("/bgshop/goodsimages/A03.png", "Y", 1));
+		image_list.add(new ImageVo("/bgshop/goodsimages/A04.png", "N", 2));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B03.png", "N", 3));
+		image_list.add(new ImageVo("/bgshop/goodsimages/B04.png", "N", 4));
+		
+		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
+
+		od_list.add(new OptionDetailVo("소라", 1500L, 1, "Y"));
+		od_list.add(new OptionDetailVo("퍼플", 2500L, 2, "Y"));
+		
+		List<OptionVo> option_list = new ArrayList<OptionVo>();
+		option_list.add(new OptionVo("색상", od_list));
+		
+		od_list = new ArrayList<OptionDetailVo>();
+
+		od_list.add(new OptionDetailVo("short", 0L, 1, "Y"));
+		od_list.add(new OptionDetailVo("long", 1000L, 1, "Y"));
+		
+		
+		option_list.add(new OptionVo("기장", od_list));
+		
+		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
+		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
+		category_list.add(new ProductCategoryVo(31L));
+		
+		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
+		
+		
+//		int size = option_list.size();
+//		int i = 0;
+//		int order = 1;
+//		List<String> poname = new ArrayList<String>();
+//		List<Long> plus_price = new ArrayList<Long>(); 
+		//po_list = makeProductOpionList(option_list, size, i, po_list, poname, plus_price, order);
+		
+		po_list.add(new ProductOptionVo("여름무지셔츠2|소라/short", "Y", "Y", 1500L, 1));
+		po_list.add(new ProductOptionVo("여름무지셔츠2|소라/long", "Y", "Y", 2500L, 2));
+		po_list.add(new ProductOptionVo("여름무지셔츠2|퍼플/short", "Y", "Y", 2500L, 3));
+		po_list.add(new ProductOptionVo("여름무지셔츠2|퍼플/long", "Y", "Y", 3500L, 4));
+
+		ProductVo productVo = new ProductVo(
+				"여름무지셔츠2", 17000L, "여름 기본템 무지 컬러 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
+				"Y",0, option_list, category_list, image_list, po_list);
+		
+		
+		
+		
+		MvcResult result = 
+		mockMvc.perform(post("/api/product/add").contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(productVo)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.data", notNullValue()))
+				.andReturn();
+		
+		String contentAsString = result.getResponse().getContentAsString();
+		JSONResult jsonResult = new ObjectMapper().readValue(contentAsString, JSONResult.class);
+		
+		Long insert_product_no = new Long(jsonResult.getData().toString());
+		
 	}
 	
 	@Ignore
@@ -223,75 +285,6 @@ public class ProductControllerTest {
 		.andExpect(jsonPath("$.data" , is(not(1))))
 		.andExpect(jsonPath("$.message" , is("상품이 삭제되지 않았습니다.")));
 	}
-	
-	private Long insertProcess() throws Exception {
-		List<ImageVo> image_list = new ArrayList<ImageVo>();
-
-		image_list.add(new ImageVo("/bgshop/goodsimages/A03.png", "Y", 1));
-		image_list.add(new ImageVo("/bgshop/goodsimages/A04.png", "N", 2));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B03.png", "N", 3));
-		image_list.add(new ImageVo("/bgshop/goodsimages/B04.png", "N", 4));
-		
-		List<OptionDetailVo> od_list = new ArrayList<OptionDetailVo>();
-
-		od_list.add(new OptionDetailVo("소라", 1500L, 1, "Y"));
-		od_list.add(new OptionDetailVo("퍼플", 2500L, 2, "Y"));
-		
-		List<OptionVo> option_list = new ArrayList<OptionVo>();
-		option_list.add(new OptionVo("색상", od_list));
-		
-		od_list = new ArrayList<OptionDetailVo>();
-
-		od_list.add(new OptionDetailVo("short", 0L, 1, "Y"));
-		od_list.add(new OptionDetailVo("long", 1000L, 1, "Y"));
-		
-		
-		option_list.add(new OptionVo("기장", od_list));
-		
-		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
-		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
-		category_list.add(new ProductCategoryVo(31L));
-		
-		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
-		
-		
-//		int size = option_list.size();
-//		int i = 0;
-//		int order = 1;
-//		List<String> poname = new ArrayList<String>();
-//		List<Long> plus_price = new ArrayList<Long>(); 
-		//po_list = makeProductOpionList(option_list, size, i, po_list, poname, plus_price, order);
-		
-		po_list.add(new ProductOptionVo("여름무지셔츠|소라/short", "Y", "Y", 1500L, 1));
-		po_list.add(new ProductOptionVo("여름무지셔츠|소라/long", "Y", "Y", 2500L, 2));
-		po_list.add(new ProductOptionVo("여름무지셔츠|퍼플/short", "Y", "Y", 2500L, 3));
-		po_list.add(new ProductOptionVo("여름무지셔츠|퍼플/long", "Y", "Y", 3500L, 4));
-
-		ProductVo productVo = new ProductVo(
-				"여름무지셔츠", 17000L, "여름 기본템 무지 컬러 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
-				"Y",0, option_list, category_list, image_list, po_list);
-		
-		
-		
-		
-		MvcResult result = 
-		mockMvc.perform(post("/api/product/add").contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(productVo)))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data", notNullValue()))
-				.andReturn();
-		
-		String contentAsString = result.getResponse().getContentAsString();
-		JSONResult jsonResult = new ObjectMapper().readValue(contentAsString, JSONResult.class);
-		
-		Long insert_product_no = new Long(jsonResult.getData().toString());
-		
-		return insert_product_no;
-	}
-	
-	
 	
 	
 	private ProductVo getProductVo() {
