@@ -14,7 +14,37 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
+	<!-- Font Family Noto Sans KR -->
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<style>
+div .bg-drop-down a:hover {
+	text-decoration: none;
+}
+
+div .bg-drop-down {
+	width:20px;
+	height:20px;
+	background-image: url("${pageContext.servletContext.contextPath }/assets/image/icon/drop-down-arrow.png");
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: center center;
+	position: absolute;
+	right:14px;
+	top: 14px;
+}
+
+div .bg-category-name{
+	font-family: 'Noto Sans KR',sans-serif;
+	font-family:'Noto Sans KR',sans-serif;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: #000000;
+	font-size:16px;
+}
+
+</style>	
 </head>
+
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/navigation.jsp'>
@@ -26,11 +56,47 @@
 		<div class="row">
 
 			<div class="col-lg-3">
-				<h1 class="my-4">PJMall</h1>
+				<h1 class="my-4" id="shop-title">BSHOP</h1>
 				<div class="list-group">
-					<a href="#" class="list-group-item">Category 1</a> <a href="#"
-						class="list-group-item">Category 2</a> <a href="#"
-						class="list-group-item">Category 3</a>
+					<c:forEach items="${categories}" var="c" >
+						<div class="list-group-item" >
+							<a href="#" class="bg-category-name" >${c.category_name}</a>
+							<c:if test="${not empty c.sub_categories }">
+								<span class="bg-drop-down"></span>
+							</c:if>
+						</div>
+						<c:if test="${not empty c.sub_categories }">
+							<c:forEach items="${c.sub_categories}" var="sub1">
+								<div class="list-group-item" style="display:none">
+									<a href="#" class="bg-category-name" style="margin-left:20px;">${sub1.category_name}</a>
+									<c:if test="${not empty sub1.sub_categories }">
+										<span class="bg-drop-down"></span>
+									</c:if>
+								</div>
+								<c:if test="${not empty sub1.sub_categories }">
+									<c:forEach items="${sub1.sub_categories}" var="sub2">
+										<div class="list-group-item" style="display:none">
+											<a href="#" class="bg-category-name" style="margin-left:40px;">${sub2.category_name}</a>
+											<c:if test="${not empty sub2.sub_categories }">
+												<span class="bg-drop-down"></span>
+											</c:if>
+										</div>
+										<c:if test="${not empty sub2.sub_categories }">
+											<c:forEach items="${sub2.sub_categories}" var="sub3">
+												<div class="list-group-item" style="display:none">
+													<a href="#" class="bg-category-name" style="margin-left:60px;">${sub3.category_name}</a>
+													<c:if test="${not empty sub3.sub_categories }">
+														<span class="bg-drop-down"></span>
+													</c:if>
+												</div>
+												<a href="#" class="list-group-item">${sub2.category_name}</a>
+											</c:forEach>
+										</c:if>
+									</c:forEach>
+								</c:if>
+							</c:forEach>
+						</c:if> 
+					</c:forEach>
 				</div>
 			</div>
 			<!-- /.col-lg-3 -->

@@ -4,10 +4,10 @@ import org.hibernate.validator.constraints.Length;
 
 public class LoginVo {
 	
-	@Length(min=1, message="idë¥? ?ž…? ¥?•´ì£¼ì„¸?š”.")
+	@Length(min=1, message="idë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.")
 	private String id;
 	
-	@Length(min=1, message="ë¹„ë?ë²ˆí˜¸ë¥? ?ž…? ¥?•´ì£¼ì„¸?š”.")
+	@Length(min=1, message="ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.")
 	private String password;
 	
 	public String getId() {

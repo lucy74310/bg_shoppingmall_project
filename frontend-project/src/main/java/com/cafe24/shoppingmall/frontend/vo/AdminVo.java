@@ -5,14 +5,14 @@ import org.hibernate.validator.constraints.Length;
 public class AdminVo {
 	private Long no;
 	
-	@Length(min=4, max=12, message="idë¥? ?…? ¥?•´ì£¼ì„¸?š”.(4~12?)")
+	@Length(min=4, max=12, message="idë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.(4~12ì)")
 	private String id;
 	
-	@Length(min=4, max=16, message="ë¹„ë?ë²ˆí˜¸ë¥? ?…? ¥?•´ì£¼ì„¸?š”.(4~16?)")
+	@Length(min=4, max=16, message="ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.(4~16ì)")
 	private String password;
 	private String ROLE = "ADMIN";
 	
-	@Length(min=4, max=16, message="ë¹„ë?ë²ˆí˜¸ë¥? ?…? ¥?•´ì£¼ì„¸?š”.(4~16?)")
+	@Length(min=4, max=16, message="ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.(4~16ì)")
 	private String update_password;
 	
 	

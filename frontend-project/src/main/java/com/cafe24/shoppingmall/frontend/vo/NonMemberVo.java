@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class NonMemberVo {
 	private Long no;
 	
-	@Length(min=1,message="sessionê°’ì´ ?—†?Šµ?‹ˆ?‹¤.")
+	@Length(min=1,message="sessionê°’ì´ ì—†ìŠµë‹ˆë‹¤.")
 	private String sessionID;
 	private String expire_date;
 	

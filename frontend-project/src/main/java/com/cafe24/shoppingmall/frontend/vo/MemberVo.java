@@ -12,26 +12,26 @@ public class MemberVo {
 	
 	private Long no;
 	
-	@Pattern(regexp="(([a-z0-9])(?=\\S+$).{3,15})", message="?˜ë¬¸ì†Œë¬¸ì/?ˆ«?, 4~16?")
-	@NotEmpty(message="id?Š” ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@Pattern(regexp="(([a-z0-9])(?=\\S+$).{3,15})", message="ì˜ë¬¸ì†Œë¬¸ì/ìˆ«ì, 4~16ì")
+	@NotEmpty(message="idëŠ” í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String id;
 	
-	@NotEmpty(message="?´ë¦„ì? ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="ì´ë¦„ì€ í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String name;
 	
-	@Pattern(regexp="((?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&+=_])(?=\\S+$).{7,15})", message="?˜ë¬? ???†Œë¬¸ì/?ˆ«?/?Š¹?ˆ˜ë¬¸ì 3ê°?ì§? ì¡°í•©, 8?~16?, ê³µë°±ë¶ˆê?")
-	@NotEmpty(message="ë¹„ë?ë²ˆí˜¸?Š” ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@Pattern(regexp="((?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&+=_])(?=\\S+$).{7,15})", message="ì˜ë¬¸ ëŒ€ì†Œë¬¸ì/ìˆ«ì/íŠ¹ìˆ˜ë¬¸ì 3ê°€ì§€ ì¡°í•©, 8ì~16ì, ê³µë°±ë¶ˆê°€")
+	@NotEmpty(message="ë¹„ë°€ë²ˆí˜¸ëŠ” í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String password;
 	
 	private String phone;
 	
-	@NotEmpty(message="?œ´??? „?™”ë²ˆí˜¸?Š” ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="íœ´ëŒ€ì „í™”ë²ˆí˜¸ëŠ” í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String telephone;
 	
-	@NotEmpty(message="?´ë©”ì¼?? ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="ì´ë©”ì¼ì€ í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String email;
 	
-	@NotEmpty(message="?ƒ?¼?? ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="ìƒì¼ì€ í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String birthday;
 	
 	private String join_date;
@@ -56,7 +56,7 @@ public class MemberVo {
 		
 	}
 	
-	//?´ë¦?, ? „?™”ë²ˆí˜¸, ?œ´??? „?™”ë²ˆí˜¸, ?´ë©”ì¼, ?ƒ?¼ ?ˆ˜? • ê°??Š¥
+	//ì´ë¦„, ì „í™”ë²ˆí˜¸, íœ´ëŒ€ì „í™”ë²ˆí˜¸, ì´ë©”ì¼, ìƒì¼ ìˆ˜ì • ê°€ëŠ¥
 	public MemberVo(Long no, String id, String name, String password, String phone, String telephone, String email,
 			String birthday) {
 		super();
@@ -70,7 +70,7 @@ public class MemberVo {
 		this.birthday = birthday;
 	}
 	
-	//?‚­? œ ?…Œ?Š¤?Š¸ ?‹œ 
+	//ì‚­ì œ í…ŒìŠ¤íŠ¸ ì‹œ 
 	public MemberVo(Long no, String id, String password) {
 		this.no = no;
 		this.id = id;

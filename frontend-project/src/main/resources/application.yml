@@ -1,6 +1,6 @@
 server:
        port: 8888
-       contextPath: /shoppingmall
+       contextPath: /shop
                
        error:
              whitelabel:
@@ -26,9 +26,9 @@ spring:
 
        datasource:
                   driver-class-name: org.mariadb.jdbc.Driver
-                  url: jdbc:mariadb://192.168.1.190:3307/pjmall
-                  username: pjmall
-                  password: pjmall
+                  url: jdbc:mariadb://192.168.1.190:3307/shop
+                  username: shop
+                  password: shop
                   
        mvc:
           view:

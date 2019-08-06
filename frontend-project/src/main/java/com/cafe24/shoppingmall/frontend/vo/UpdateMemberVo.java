@@ -7,17 +7,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UpdateMemberVo {
 private Long no;
 	
-	@Pattern(regexp="(([a-z0-9])(?=\\S+$).{3,15})", message="?˜ë¬¸ì†Œë¬¸ì/?ˆ«?, 4~16?")
-	@NotEmpty(message="id?Š” ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@Pattern(regexp="(([a-z0-9])(?=\\S+$).{3,15})", message="ì˜ë¬¸ì†Œë¬¸ì/ìˆ«ì, 4~16ì")
+	@NotEmpty(message="idëŠ” í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String id;
-	@NotEmpty(message="?´ë¦„ì? ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="ì´ë¦„ì€ í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String name;
 	private String phone;
-	@NotEmpty(message="?œ´??? „?™”ë²ˆí˜¸?Š” ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="íœ´ëŒ€ì „í™”ë²ˆí˜¸ëŠ” í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String telephone;
-	@NotEmpty(message="?´ë©”ì¼?? ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="ì´ë©”ì¼ì€ í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String email;
-	@NotEmpty(message="?ƒ?¼?? ?•„?ˆ˜ ?…? ¥ ?‚¬?•­?…?‹ˆ?‹¤.")
+	@NotEmpty(message="ìƒì¼ì€ í•„ìˆ˜ ì…ë ¥ ì‚¬í•­ì…ë‹ˆë‹¤.")
 	private String birthday;
 	private String join_date;
 	private String address;

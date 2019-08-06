@@ -10,8 +10,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ProductVo {
 	private Long no;
 	
-	@NotEmpty(message="?ƒ?’ˆëª…ì„ ?…? ¥?•´ ì£¼ì„¸?š”.(1~20?)")
-	@Length(min=1, max=20, message="?ƒ?’ˆëª…ì„ ?…? ¥?•´ ì£¼ì„¸?š”.(1~20?)")
+	@NotEmpty(message="ìƒí’ˆëª…ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”.(1~20ì)")
+	@Length(min=1, max=20, message="ìƒí’ˆëª…ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”.(1~20ì)")
 	private String product_name;
 	
 	private Long product_price;
@@ -42,7 +42,7 @@ public class ProductVo {
 	
 	public ProductVo() {
 	}
-	//?…Œ?Š¤?Š¸?—?„œ ?‚¬?š©
+	//í…ŒìŠ¤íŠ¸ì—ì„œ ì‚¬ìš©
 	public ProductVo(String product_name, Long product_price, String product_short_explain, String displayed,
 			String selling, String use_option, String use_stock, int stock, String soldout_mark, int shipping_price,
 			List<OptionVo> o_list, List<ProductCategoryVo> category_list, List<ImageVo> image_list, 

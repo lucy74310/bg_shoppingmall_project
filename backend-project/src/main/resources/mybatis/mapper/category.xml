@@ -38,7 +38,9 @@
 	
 	<select id="getlist" resultType="categoryvo">
 		<![CDATA[
-			select no, category_name, category_explain, category_order, upper_no from category
+			SELECT 
+				c.* , c2.category_name AS upper_category_name , c2.upper_no AS upper_no2
+			FROM category AS c LEFT JOIN category AS c2 ON c.upper_no = c2.no;
 		]]>
 	</select>
 	

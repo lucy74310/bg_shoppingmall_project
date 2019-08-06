@@ -8,7 +8,7 @@ public class CartVo {
 	private Long no;
 	private Long member_no;
 	private Long non_member_no;
-	@NotNull(message="?ƒ?’ˆ?˜µ?…˜ ë²ˆí˜¸?Š” ?•„?ˆ˜?•­ëª©ì…?‹ˆ?‹¤.")
+	@NotNull(message="ìƒí’ˆì˜µì…˜ ë²ˆí˜¸ëŠ” í•„ìˆ˜í•­ëª©ì…ë‹ˆë‹¤.")
 	private Long product_option_no;
 	
 	private Long price;

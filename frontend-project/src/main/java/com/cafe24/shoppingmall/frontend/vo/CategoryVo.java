@@ -1,5 +1,6 @@
 package com.cafe24.shoppingmall.frontend.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
@@ -9,8 +10,6 @@ public class CategoryVo {
 	
 	private Long no;
 	
-	@NotEmpty(message="1~20?ûê ?Ç¨?ù¥Î°? ?ûÖ?†•?ï¥ Ï£ºÏÑ∏?öî")
-	@Length(min=1, max=20, message="1~20?ûê ?Ç¨?ù¥Î°? ?ûÖ?†•?ï¥ Ï£ºÏÑ∏?öî")
 	private String category_name;
 	private String category_explain;
 	private Long upper_no;
@@ -18,8 +17,7 @@ public class CategoryVo {
 	private String upper_category_name;
 	private Long upper_no2;
 	
-	
-	private List<CategoryVo> sub_categories;
+	private List<CategoryVo> sub_categories = new ArrayList<CategoryVo>();
 	private String flag;
 	
 	public CategoryVo() {

@@ -1,0 +1,33 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+div .bg-drop-down a:hover {
+	text-decoration: none;
+}
+
+div .bg-drop-down {
+	width:20px;
+	height:20px;
+	background-image: url("${pageContext.servletContext.contextPath }/assets/image/icon/drop-down-arrow.png");
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: center center;
+	position: absolute;
+	right:14px;
+	top: 14px;
+}
+
+div .bg-category-name{
+	font-family: 'Noto Sans KR',sans-serif;
+	font-family:'Noto Sans KR',sans-serif;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: #000000;
+	font-size:16px;
+}

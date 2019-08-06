@@ -11,32 +11,32 @@ public class OrderVo {
 	private String order_name;
 	private String order_date;
 	
-	@Length(min=1, message="ì£¼ë¬¸? ?´ë¦„ì? ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
-	@NotEmpty(message="ì£¼ë¬¸? ?´ë¦„ì? ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
+	@Length(min=1, message="ì£¼ë¬¸ì ì´ë¦„ì€ í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
+	@NotEmpty(message="ì£¼ë¬¸ì ì´ë¦„ì€ í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
 	private String orderer_name;
 	
-	@Length(min=1, message="ì£¼ë¬¸? ?´ë©”ì¼?? ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
-	@NotEmpty(message="ì£¼ë¬¸? ?´ë©”ì¼?? ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
+	@Length(min=1, message="ì£¼ë¬¸ì ì´ë©”ì¼ì€ í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
+	@NotEmpty(message="ì£¼ë¬¸ì ì´ë©”ì¼ì€ í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
 	private String orderer_email;
 	
 	private String orderer_addr;
 	
 	private String orderer_phone;
 	
-	@Length(min=1, message="ì£¼ë¬¸? ?œ´??ë²ˆí˜¸?Š” ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
-	@NotEmpty(message="ì£¼ë¬¸? ?œ´??ë²ˆí˜¸?Š” ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
+	@Length(min=1, message="ì£¼ë¬¸ì íœ´ëŒ€ë²ˆí˜¸ëŠ” í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
+	@NotEmpty(message="ì£¼ë¬¸ì íœ´ëŒ€ë²ˆí˜¸ëŠ” í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
 	private String orderer_telephone;
 	
-	@Length(min=1, message="?ˆ˜ì·¨ì ?´ë¦„ì? ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
-	@NotEmpty(message="?ˆ˜ì·¨ì ?´ë¦„ì? ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
+	@Length(min=1, message="ìˆ˜ì·¨ì ì´ë¦„ì€ í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
+	@NotEmpty(message="ìˆ˜ì·¨ì ì´ë¦„ì€ í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
 	private String receiver_name;
 	
-	@Length(min=1, message="?ˆ˜ì·¨ì ì£¼ì†Œ?Š” ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
-	@NotEmpty(message="?ˆ˜ì·¨ì ì£¼ì†Œ?Š” ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
+	@Length(min=1, message="ìˆ˜ì·¨ì ì£¼ì†ŒëŠ” í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
+	@NotEmpty(message="ìˆ˜ì·¨ì ì£¼ì†ŒëŠ” í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
 	private String receiver_addr;
 	
-	@Length(min=1, message="?ˆ˜ì·¨ì ?œ´??ë²ˆí˜¸?Š” ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
-	@NotEmpty(message="?ˆ˜ì·¨ì ?œ´??ë²ˆí˜¸?Š” ?•„?ˆ˜?…? ¥ ?‚¬?–¥?…?‹ˆ?‹¤.")
+	@Length(min=1, message="ìˆ˜ì·¨ì íœ´ëŒ€ë²ˆí˜¸ëŠ” í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
+	@NotEmpty(message="ìˆ˜ì·¨ì íœ´ëŒ€ë²ˆí˜¸ëŠ” í•„ìˆ˜ì…ë ¥ ì‚¬í–¥ì…ë‹ˆë‹¤.")
 	private String receiver_telephone;
 	
 	private String receiver_phone;
@@ -57,7 +57,7 @@ public class OrderVo {
 	public OrderVo() {
 	}
 	
-	//?šŒ?›ì£¼ë¬¸?…Œ?Š¤?Š¸ ?ƒ?„±?
+	//íšŒì›ì£¼ë¬¸í…ŒìŠ¤íŠ¸ ìƒì„±ì
 	public OrderVo(String orderer_name, String orderer_email, String orderer_telephone,
 			String receiver_name, String receiver_addr, String receiver_telephone, int pay_amount, Long member_no,
 			List<CartVo> cart_list) {
@@ -72,7 +72,7 @@ public class OrderVo {
 		this.cart_list = cart_list;
 	}
 	
-	//ë¹„íšŒ?›ì£¼ë¬¸?…Œ?Š¤?Š¸ ?ƒ?„±?
+	//ë¹„íšŒì›ì£¼ë¬¸í…ŒìŠ¤íŠ¸ ìƒì„±ì
 	public OrderVo(String orderer_name, String orderer_email, String orderer_telephone,
 			String receiver_name, String receiver_addr, String receiver_telephone, int pay_amount,
 			String order_check_password, List<CartVo> cart_list) {

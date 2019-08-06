@@ -20,13 +20,13 @@
 		<typeAlias alias="orderproductvo" type="com.cafe24.shoppingmall.backend.vo.OrderProductVo"/>
     </typeAliases>	
 	<mappers>
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/category.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_r.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_ud.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/product_c.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/cart.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/order.xml" />
-		<mapper resource="com/cafe24/config/app/mybatis/mapper/admin.xml" />
+		<mapper resource="mybatis/mapper/user.xml" />
+		<mapper resource="mybatis/mapper/category.xml" />
+		<mapper resource="mybatis/mapper/product_r.xml" />
+		<mapper resource="mybatis/mapper/product_ud.xml" />
+		<mapper resource="mybatis/mapper/product_c.xml" />
+		<mapper resource="mybatis/mapper/cart.xml" />
+		<mapper resource="mybatis/mapper/order.xml" />
+		<mapper resource="mybatis/mapper/admin.xml" />
 	</mappers>
 </configuration>
