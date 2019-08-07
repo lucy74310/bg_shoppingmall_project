@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -79,29 +80,29 @@ public class AdminController {
 	}
 	
 	@ApiOperation(value="관리자 로그인")
-	@PostMapping("/login")
+	@PostMapping(value="/login", consumes=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<JSONResult> login(
-			@RequestBody @Valid AdminVo adminVo,
-			BindingResult valid
+			@RequestBody AdminVo adminVo
 	) throws IOException {
 		
-		if(valid.hasErrors()) {
-			Map<String, String> errMap = new HashMap<String, String>();
-			for(ObjectError err : valid.getAllErrors()) {
-				FieldError f = (FieldError) err;
-				errMap.put(f.getField(), f.getDefaultMessage());
-			}
+//		if(valid.hasErrors()) {
+//			Map<String, String> errMap = new HashMap<String, String>();
+//			for(ObjectError err : valid.getAllErrors()) {
+//				FieldError f = (FieldError) err;
+//				errMap.put(f.getField(), f.getDefaultMessage());
+//			}
 			
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
-		}
-		
+//			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+//		}
+
 		AdminVo getAdminVo = adminService.getByIdPwd(adminVo);
-		
 		if(getAdminVo == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(JSONResult.fail("id및 password를 확인해 주세요."));
 		}
+
+		//		ResponseEntity.HeadersBuilder<HeadersBuilder<B>>
 		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(getAdminVo));

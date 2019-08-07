@@ -156,7 +156,7 @@
 	<!-- /.Footer -->
 	
 <!-- JQuery -->
-<script src="${pageContext.servletContext.contextPath }/assets/vendor/js/jquery/jquery.min.js"></script>
+<script src="${pageContext.servletContext.contextPath }/assets/vendor/jquery/jquery.min.js"></script>
 <!-- Category Drop Down JS -->
 <script src="${pageContext.servletContext.contextPath }/assets/js/dropdown.js"></script>
 </body>

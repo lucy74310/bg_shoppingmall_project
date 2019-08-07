@@ -26,9 +26,22 @@ public class MainController {
 
 	@Autowired
 	private ProductService productService;
-	
-	@GetMapping(value={"/", "/{no}"})
+	@GetMapping(value={"/", "/main"})
 	public String main(
+			Model model,
+			@PathVariable("no") Optional<Long> category_no
+	) {
+		List<CategoryVo> categories = categoryService.getListAll();
+		List<ProductVo> products = productService.getListAll(); 
+		
+		model.addAttribute("categories", categories);
+		model.addAttribute("products", products);
+		
+		return "main/index"; 
+	}
+	
+	@GetMapping(value={"/list", "/list/{no}"})
+	public String list(
 			Model model,
 			@PathVariable("no") Optional<Long> category_no
 	) {

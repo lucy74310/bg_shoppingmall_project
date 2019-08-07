@@ -75,9 +75,8 @@ private MockMvc mockMvc;
 		
 	}
 	// A-1.관리자 추가 성공
-	@Ignore
 	@Test 
-	@Rollback(true)
+	@Rollback(false)
 	public void insertTest() throws Exception {
 		AdminVo adminVo = new AdminVo();
 		adminVo.setId("test");

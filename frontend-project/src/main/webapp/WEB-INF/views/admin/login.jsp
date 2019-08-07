@@ -25,19 +25,19 @@
 <body class="bg-dark">
 
   <div class="container">
-    <div class="card card-login mx-auto mt-5">
-      <div class="card-header" style="font-family:'Noto Sans KR',sans-serif;">관리자 로그인</div>
+    <div class="card card-login mx-auto mt-5" style="font-family:'Noto Sans KR',sans-serif;">
+      <div class="card-header">관리자 로그인</div>
       <div class="card-body">
-        <form method="post" action="${pageContext.servletContext.contextPath}/admin/login">
+        <form method="post" action="${pageContext.servletContext.contextPath}/manage/auth">
           <div class="form-group">
             <div class="form-label-group">
-              <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-              <label for="inputEmail">ID</label>
+              <input type="text" id="inputId" name="id" class="form-control" placeholder="ID" required="required" autofocus="autofocus">
+              <label for="inputId">ID</label>
             </div>
           </div>
           <div class="form-group">
             <div class="form-label-group">
-              <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+              <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="required">
               <label for="inputPassword">Password</label>
             </div>
           </div>
@@ -49,7 +49,7 @@
               </label>
             </div>
           </div>
-          <a class="btn btn-primary btn-block" href="index.html">Login</a>
+          <button type="submit" class="btn btn-primary btn-block">로그인</button>
         </form>
         <!-- <div class="text-center">
           <a class="d-block small mt-3" href="register.html">Register an Account</a>

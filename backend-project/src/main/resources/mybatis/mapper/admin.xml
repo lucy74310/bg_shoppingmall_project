@@ -17,7 +17,7 @@
 		<![CDATA[
 			insert into admin 
 			values 
-				(null, #{id}, sha2(#{password}, 512), 'ADMIN');
+				(null, #{id}, #{password}, 'ROLE_ADMIN');
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
 			<![CDATA[
@@ -32,9 +32,9 @@
 	<select id="select_by_id_pwd" resultType="adminvo" parameterType="adminvo">
 		<![CDATA[
 		SELECT 
-			no, id 
+			no, id, password, role
 		 FROM admin 
-		WHERE id = #{id} and password = sha2(#{password},512)
+		WHERE id = #{id} 
 		]]>
 	</select>
 	

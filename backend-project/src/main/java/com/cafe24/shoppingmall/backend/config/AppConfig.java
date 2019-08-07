@@ -12,9 +12,9 @@ import com.cafe24.shoppingmall.backend.config.app.MyBatisConfig;
 
 
 @Configuration
-@EnableTransactionManagement
+@EnableAspectJAutoProxy
 @ComponentScan({"com.cafe24.shoppingmall.backend"})
-@Import({DBConfig.class, MyBatisConfig.class})
+@Import({DBConfig.class,MyBatisConfig.class})
 public class AppConfig {
 	public AppConfig() {
 		System.out.println("appConfig");

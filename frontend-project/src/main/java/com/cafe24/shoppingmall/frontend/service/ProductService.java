@@ -25,14 +25,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProductService {
 
 	@Autowired
-	RestTemplate restTemplate = new RestTemplate();
+	private RestTemplate restTemplate = new RestTemplate();
 
 	private ObjectMapper om = new ObjectMapper();
-	private String HOST = "http://localhost:8080";
+	private String HOST = "http://localhost:8080/backend-project";
 
 	public List<ProductVo> getListAll() {
 
-		String url = "/backend-project/api/product/list";
+		String url = "/api/product/list";
+		
 		JSONResult jsonResult = null;
 		
 		try {

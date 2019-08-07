@@ -52,18 +52,36 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 	//
 	@Bean
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-		Jackson2ObjectMapperBuilder builder = 
-				new Jackson2ObjectMapperBuilder()
-				.indentOutput(true)
-				.dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
-				.modulesToInstall(new ParameterNamesModule());
-				
-		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(builder.build());
-		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
+		System.out.println("message Converter");
+		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+			.indentOutput( true )
+			.dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
+			.modulesToInstall(new ParameterNamesModule() );
 		
-		
-		return converter;
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(builder.build());  		
+		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));	
+
+		return converter;		
 	}
+//	@Bean
+//	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//		Jackson2ObjectMapperBuilder builder = 
+//				new Jackson2ObjectMapperBuilder()
+//				.indentOutput(true)
+//				.dateFormat(new SimpleDateFormat("yyyy-MM-dd"))
+//				.modulesToInstall(new ParameterNamesModule());
+//				
+//		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(builder.build());
+//		converter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
+//		
+//		
+//		return converter;
+//	}
+//	
+//	
+	
+	
+	
 	
 	@Bean
 	public StringHttpMessageConverter stringHttpMessageConverter() {
@@ -77,7 +95,5 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 		converters.add(mappingJackson2HttpMessageConverter());
 		converters.add(stringHttpMessageConverter());
 	}
-	
-	
 	
 }

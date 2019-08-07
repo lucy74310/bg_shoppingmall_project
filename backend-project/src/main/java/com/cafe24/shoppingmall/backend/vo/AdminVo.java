@@ -1,18 +1,17 @@
 package com.cafe24.shoppingmall.backend.vo;
 
-import org.hibernate.validator.constraints.Length;
 
 public class AdminVo {
 	private Long no;
 	
-	@Length(min=4, max=12, message="id를 입력해주세요.(4~12자)")
+	//@Length(min=4, max=12, message="id를 입력해주세요.(4~12자)")
 	private String id;
 	
-	@Length(min=4, max=16, message="비밀번호를 입력해주세요.(4~16자)")
+	//@Length(min=4, max=16, message="비밀번호를 입력해주세요.(4~16자)")
 	private String password;
-	private String ROLE = "ADMIN";
+	private String role = "ADMIN";
 	
-	@Length(min=4, max=16, message="비밀번호를 입력해주세요.(4~16자)")
+	//@Length(min=4, max=16, message="비밀번호를 입력해주세요.(4~16자)")
 	private String update_password;
 	
 	
@@ -41,17 +40,18 @@ public class AdminVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getROLE() {
-		return ROLE;
+	public String getRole() {
+		return role;
 	}
-	public void setROLE(String ROLE) {
-		this.ROLE = ROLE;
+	public void setRole(String role) {
+		this.role = role;
 	}
 	@Override
 	public String toString() {
-		return "AdminVo [no=" + no + ", id=" + id + ", password=" + password + ", ROLE=" + ROLE + ", update_password="
+		return "AdminVo [no=" + no + ", id=" + id + ", password=" + password + ", role=" + role + ", update_password="
 				+ update_password + "]";
 	}
+	
 	
 	
 }

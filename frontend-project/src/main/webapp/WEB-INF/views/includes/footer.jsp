@@ -7,6 +7,6 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="${pageContext.servletContext.contextPath }/assets/js/jquery/jquery.min.js"></script>
-  <script src="${pageContext.servletContext.contextPath }/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath }/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     

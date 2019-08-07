@@ -34,13 +34,13 @@ public class GlobalExceptionHandler {
 		
 		
 		// 1. 로깅
-		e.printStackTrace(); 
+		// e.printStackTrace(); 
 		StringWriter errors = new StringWriter(); 
 		e.printStackTrace(new PrintWriter(errors));
 		
 		
-		LOGGER.error(errors.toString());
-		System.out.println(errors.toString());
+		//LOGGER.error(errors.toString());
+		//System.out.println(errors.toString());
 		 
 		
 		//요청이 json을 요청했는지 html을 요청했는지 확인
