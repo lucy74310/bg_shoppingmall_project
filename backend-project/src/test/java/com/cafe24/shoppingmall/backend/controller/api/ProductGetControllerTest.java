@@ -35,7 +35,7 @@ private MockMvc mockMvc;
 	//상품상세보기
 	@Test
 	public void getProductDetailInfoTest() throws Exception{
-		mockMvc.perform(get("/api/product/{no}",3L))
+		mockMvc.perform(get("/api/product/detail/{no}",3L))
 			.andDo(print());
 	}
 	

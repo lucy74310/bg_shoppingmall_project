@@ -6,7 +6,9 @@
 body {
   padding-top: 56px;
 }
-
+div.bg-wrap{
+	margin : -1px 0;
+}
 div .bg-drop-down a:hover {
 	text-decoration: none;
 }
@@ -25,7 +27,6 @@ div .bg-drop-down {
 }
 
 div .bg-category-name{
-	font-family: 'Noto Sans KR',sans-serif;
 	font-family:'Noto Sans KR',sans-serif;
 	letter-spacing: 1px;
 	text-decoration: none;

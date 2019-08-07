@@ -127,13 +127,13 @@ public class ProductController {
 		} else {
 			list = productService.getList();
 		}
-		
-		if(list.size() > 0) {
+		if(list.size() > 0) { 
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(list));
 		} else {
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(JSONResult.fail("등록된 상품이 없습니다", null));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("등록된 상품이 없습니다"));
+			
 		}
 		
 	}
@@ -142,7 +142,7 @@ public class ProductController {
 	
 	
 	@ApiOperation("상품정보")
-	@GetMapping("/{no}")
+	@GetMapping("/detail/{no}")
 	public ResponseEntity<JSONResult> getProductInfo(
 			@PathVariable(value="no") Long no
 	) {

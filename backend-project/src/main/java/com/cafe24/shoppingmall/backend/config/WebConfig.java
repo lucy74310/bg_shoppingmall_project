@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import com.cafe24.shoppingmall.backend.config.web.MVCConfig;
-import com.cafe24.shoppingmall.backend.config.web.MessageConfig;
 import com.cafe24.shoppingmall.backend.config.web.SwaggerConfig;
 
 @Configuration
@@ -16,7 +13,7 @@ import com.cafe24.shoppingmall.backend.config.web.SwaggerConfig;
 @EnableAspectJAutoProxy
 @ComponentScan({"com.cafe24.shoppingmall.backend.controller.api",
 	"com.cafe24.shoppingmall.backend.controller", "com.cafe24.shoppingmall.backend.exception"})
-@Import({MVCConfig.class, MessageConfig.class, SwaggerConfig.class})
+@Import({MVCConfig.class, SwaggerConfig.class})
 public class WebConfig {
 	
 	public WebConfig() {

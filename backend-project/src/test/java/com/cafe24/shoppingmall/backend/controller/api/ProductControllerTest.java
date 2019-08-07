@@ -89,14 +89,14 @@ public class ProductControllerTest {
 	public void getDetailInfoTest() throws Exception {
 		
 		//있는 상품
-		mockMvc.perform(get("/api/product/{no}", 2L))
+		mockMvc.perform(get("/api/product/detail/{no}", 2L))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")))
 			.andExpect(jsonPath("$.data.no" , is(2)));
 		
 		// 없는 상품 
-		mockMvc.perform(get("/api/product/{no}", 3L))
+		mockMvc.perform(get("/api/product/detail/{no}", 3L))
 			.andDo(print())
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.result", is("fail")));

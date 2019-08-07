@@ -33,7 +33,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 		resolver.setPrefix("/WEB-INF/views/");
 		resolver.setSuffix(".jsp");
 		resolver.setExposeContextBeansAsAttributes(true);
-		System.out.println("ViewResolver");
 		return resolver;
 	}
 
@@ -78,5 +77,7 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 		converters.add(mappingJackson2HttpMessageConverter());
 		converters.add(stringHttpMessageConverter());
 	}
+	
+	
 	
 }

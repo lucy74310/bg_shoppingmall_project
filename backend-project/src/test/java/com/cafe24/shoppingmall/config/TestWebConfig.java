@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
-import com.cafe24.shoppingmall.backend.config.web.MessageConfig;
 import com.cafe24.shoppingmall.backend.config.web.SwaggerConfig;
 
 @Configuration
@@ -13,7 +12,7 @@ import com.cafe24.shoppingmall.backend.config.web.SwaggerConfig;
 @EnableAspectJAutoProxy
 // spring-servlet.xml의 <context:component-scan base-package="com.cafe24.springex.controller" />
 @ComponentScan({"com.cafe24.shoppingmall.backend.controller.api"})
-@Import({TestMVCConfig.class, MessageConfig.class, SwaggerConfig.class})
+@Import({TestMVCConfig.class, SwaggerConfig.class})
 public class TestWebConfig {
 	
 	

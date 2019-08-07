@@ -34,7 +34,13 @@ spring:
           view:
                prefix: /WEB-INF/views/
                suffix: .jsp
-
+       restTemplate:
+                    factory:
+                            readTimeout: 5000
+                            connectTimeout: 3000
+                    httpClient:
+                              maxConnTotal: 100
+                              maxConnPerRoute: 5
 #security:
 #         user:
 #              name: test

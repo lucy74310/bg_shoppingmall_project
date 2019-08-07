@@ -11,19 +11,12 @@
 	<meta name="author" content="">
 	<title>Shop Homepage - Start Bootstrap Template</title>
 	<!-- Bootstrap core CSS -->
-	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<!-- Custom styles for this template -->
-	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
+	<link href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Font Family Noto Sans KR -->
 	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-	<script src="${pageContext.servletContext.contextPath }/assets/js/jquery/jquery.min.js"></script>
+	<!-- Custom styles for this template -->
+	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
 </head>
-<style>
-div.bg-wrap{
-	margin : -1px 0;
-	
-}
-</style>
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/navigation.jsp'>
@@ -162,61 +155,10 @@ div.bg-wrap{
 	<c:import url='/WEB-INF/views/includes/footer.jsp' />
 	<!-- /.Footer -->
 	
-	
-<script>
-
-$(document).ready(function(){
-	//dropDownList.click(drop_down_click);
-	/* Object.values(dropDownList).forEach(function(value, index){
-		value.addEventListener('click', drop_down_click);
-	})
-	console.log(typeof dropDownList); */
-});
-
-/* var drop_down_click = function(event) {
-	console.log('drop_down_click');
-	
-	console.log(event.target);
-	console.log(event.target.dataset.no);
-	var data_no = event.target.dataset.no;
-	console.log($('div.list-group-item'));
-	console.log($('div.list-group-item[data-parent="'+data_no+'"]'));
-	$('div.list-group-item[data-parent="'+data_no+'"]').css('display', 'block');
-} */
-
-var dropdown2 = function(no) {
-	/* var changeSubject = document.querySelectorAll('div.list-group-item[data-parent="'+no+'"]');
-	var lists = $('div.list-group-item[data-parent="'+no+'"]')
-	var flag = changeSubject[0].dataset.flag;
-	if(flag == "false") {
-		lists.css('display', 'block');
-		$('.list-group-item span[data-no="'+no+'"]').css('background-image', 'url(${pageContext.servletContext.contextPath }/assets/image/icon/drop-up-arrow.png)');
-		Object.values(changeSubject).forEach(function(value, index){
-			value.dataset.flag = true;
-		});
-	} else {
-		lists.css('display', 'none');
-		$('.list-group-item span[data-no="'+no+'"]').css('background-image', 'url(${pageContext.servletContext.contextPath }/assets/image/icon/drop-down-arrow.png)');
-		Object.values(changeSubject).forEach(function(value, index){
-			value.dataset.flag = false;
-		});
-	} */
-	var subject = $('div.bg-wrap[data-parent="'+no+'"]');
-	var s =document.querySelector('div.bg-wrap[data-parent="'+no+'"]');
-	var flag = s.dataset.flag;
-	if(flag == "false") {
-		s.dataset.flag=true;
-		subject.css('display', 'block');
-	} else {
-		s.dataset.flag=false;
-		subject.css('display', 'none');
-	}
-	
-}
-
-
-</script>
-	
+<!-- JQuery -->
+<script src="${pageContext.servletContext.contextPath }/assets/vendor/js/jquery/jquery.min.js"></script>
+<!-- Category Drop Down JS -->
+<script src="${pageContext.servletContext.contextPath }/assets/js/dropdown.js"></script>
 </body>
 
 </html>
