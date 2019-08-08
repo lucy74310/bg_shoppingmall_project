@@ -1,0 +1,11 @@
+.etc-item-box{
+	display:inline-block;
+}
+.etc-item-box .etc-item{
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+.option-box .card {
+	margin-bottom: 10px;
+}

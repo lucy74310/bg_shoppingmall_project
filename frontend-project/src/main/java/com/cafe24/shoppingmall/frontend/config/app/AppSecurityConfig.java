@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.cafe24.shoppingmall.frontend.security.CustomAuthenticationFailureHandler;
 import com.cafe24.shoppingmall.frontend.security.CustomUrlAuthenticationSuccessHandler;
 
+
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -38,40 +39,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		System.out.println("spring http security");
-		//인터셉터 url에 접근 제어 (Basic ACL)
 		http
-//			.authorizeRequests()
-//				.antMatchers("/manage/","/manage/**","/manage/main").hasRole("ADMIN")
-//				.anyRequest().permitAll()
-		
-		// 관리자 로그인 설정
-//		.and()
-//			.formLogin()
-//				.loginPage("/managelogin")
-//				.loginProcessingUrl("/manageauth")
-//				.failureUrl("/managelogin?result=fail")
-//				//.failureHandler(authenticationFailureHandler())
-//				.successHandler(authenticationSuccessHandler())
-//				.usernameParameter("id")
-//				.passwordParameter("password")
-				
-		//관리자 로그아웃 
-//		.and()
-//			.logout()
-//				.logoutUrl("/manage/logout")
-//				.logoutSuccessUrl("/managelogin")
-//				.deleteCookies("JSESSIONID")
-//				.invalidateHttpSession(true)
-				
-		//사용자 로그아웃 
-//		.and()
-//			.logout()
-//				.logoutUrl("/userlogout")
-//				.logoutSuccessUrl("/")
-//				.deleteCookies("JSESSIONID")
-//				.invalidateHttpSession(true)
-				
 		// 예외
 		.exceptionHandling()
 		.accessDeniedPage("/WEB-INF/view/error/exception.jsp")
@@ -126,10 +94,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	    return authProvider;
 	}	
 	
-//	@Bean
-//	public UserDetailsService DetailsService() {
-//		return new UserDetailsServiceImpl();
-//   }
 	
 	@Configuration
 	@Order(1)

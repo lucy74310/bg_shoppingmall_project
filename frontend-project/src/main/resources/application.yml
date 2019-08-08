@@ -19,6 +19,11 @@ spring:
                      forced: true
                      forced-request: true
                      forced-response: true
+            multipart:
+                      enabled: true
+                      max-file-size: 50MB
+                      max-request-size: 50MB
+                      location: file:/shoppingmall-uploads
        aop:
            auto: true
        aop-proxy-target-class: true
@@ -41,6 +46,9 @@ spring:
                     httpClient:
                               maxConnTotal: 100
                               maxConnPerRoute: 5
+       static:
+              resource:
+                       location: file:/shoppingmall-uploads
 #security:
 #         user:
 #              name: test
