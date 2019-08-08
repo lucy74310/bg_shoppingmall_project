@@ -6,6 +6,22 @@
 body {
   overflow-x: hidden;
 }
+#sidebar-wrapper .bg-active {
+	font-weight: bold;
+	color: #fff;
+	background-color: #000!important;
+}
+#sidebar-wrapper .bg-active-child {
+	color: #000;
+	background-color: #fff!important;
+}
+#sidebar-wrapper .child-active {
+	font-weight: bold;
+	letter-spacing: 2px;
+	color: #000;
+	background-color: #fff!important;
+}
+
 
 #sidebar-wrapper {
   min-height: 100vh;
@@ -46,4 +62,5 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
+  
 }

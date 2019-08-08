@@ -90,8 +90,8 @@ public class CategoryControllerTest {
 	@Rollback(false)
 	@Test
 	public void categoryAddSuccessTest() throws Exception {
-//		CategoryVo subCateVo1_1 = new CategoryVo("크롭티", 1);
-//		CategoryVo subCateVo1_2 = new CategoryVo("오버핏", 2);
+//		CategoryVo subCateVo1_1 = new CategoryVo("프린팅", 1);
+//		CategoryVo subCateVo1_2 = new CategoryVo("린넨", 2);
 //		List<CategoryVo> sub_cate_list_1 = new ArrayList<CategoryVo>();
 //		sub_cate_list_1.add(subCateVo1_1);
 //		sub_cate_list_1.add(subCateVo1_2);
@@ -109,21 +109,21 @@ public class CategoryControllerTest {
 //			.andExpect(status().isOk())
 //			.andExpect(jsonPath("$.data", notNullValue()));
 		
-//		CategoryVo subCateVo1_1 = new CategoryVo("린넨반바지", 1);
-//		CategoryVo subCateVo1_2 = new CategoryVo("면반바지", 2);
-//		CategoryVo subCateVo1_3 = new CategoryVo("쿨반바지", 3);
-//		List<CategoryVo> sub_cate_list_1 = new ArrayList<CategoryVo>();
-//		sub_cate_list_1.add(subCateVo1_1);
-//		sub_cate_list_1.add(subCateVo1_2);
-//		sub_cate_list_1.add(subCateVo1_3);
-//		CategoryVo subCateVo1 = new CategoryVo("청바지", 1);
-//		CategoryVo subCateVo2 = new CategoryVo("반바지", 2, sub_cate_list_1);
-//		List<CategoryVo> sub_cate_list = new ArrayList<CategoryVo>();
-//		sub_cate_list.add(subCateVo1);
-//		sub_cate_list.add(subCateVo2);
-//		
-//		CategoryVo categoryVo = new CategoryVo("하의", 1, sub_cate_list);
-		CategoryVo categoryVo = new CategoryVo("BestSellers", 1);
+		CategoryVo subCateVo1_1 = new CategoryVo("린넨반바지", 1);
+		CategoryVo subCateVo1_2 = new CategoryVo("면반바지", 2);
+		CategoryVo subCateVo1_3 = new CategoryVo("쿨링팬츠", 3);
+		List<CategoryVo> sub_cate_list_1 = new ArrayList<CategoryVo>();
+		sub_cate_list_1.add(subCateVo1_1);
+		sub_cate_list_1.add(subCateVo1_2);
+		sub_cate_list_1.add(subCateVo1_3);
+		CategoryVo subCateVo1 = new CategoryVo("청바지", 1);
+		CategoryVo subCateVo2 = new CategoryVo("반바지", 2, sub_cate_list_1);
+		List<CategoryVo> sub_cate_list = new ArrayList<CategoryVo>();
+		sub_cate_list.add(subCateVo1);
+		sub_cate_list.add(subCateVo2);
+		
+		CategoryVo categoryVo = new CategoryVo("하의", 1, sub_cate_list);
+		//CategoryVo categoryVo = new CategoryVo("BestSellers", 1);
 		System.out.println(categoryVo);
 		mockMvc.perform(post("/api/category/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))

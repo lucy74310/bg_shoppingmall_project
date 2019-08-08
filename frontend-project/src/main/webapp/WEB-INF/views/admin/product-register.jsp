@@ -7,7 +7,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Shop Homepage - Start Bootstrap Template</title>
+	<title>상품 등록</title>
 	<!-- Bootstrap core CSS -->
 	<link href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
@@ -19,7 +19,7 @@
 
 		<!-- Sidebar -->
 		<c:import url='/WEB-INF/views/admin/includes/sidebar.jsp'>
-			<c:param name="active" value="product-list" />
+			<c:param name="active" value="product-register" />
 		</c:import>
 		<!-- /#sidebar-wrapper -->
 
@@ -31,7 +31,7 @@
 			<!-- /navigation -->
 
 			<div class="container-fluid">
-				<h1 class="mt-4">Simple Sidebar</h1>
+				<h1 class="mt-4">상품 등록</h1>
 				<p>The starting state of the menu will appear collapsed on
 					smaller screens, and will appear non-collapsed on larger screens.
 					When toggled using the button below, the menu will change.</p>

@@ -28,7 +28,7 @@
     <div class="card card-login mx-auto mt-5" style="font-family:'Noto Sans KR',sans-serif;">
       <div class="card-header">관리자 로그인</div>
       <div class="card-body">
-        <form method="post" action="${pageContext.servletContext.contextPath}/manage/auth">
+        <form method="post" action="${pageContext.servletContext.contextPath}/manageauth">
           <div class="form-group">
             <div class="form-label-group">
               <input type="text" id="inputId" name="id" class="form-control" placeholder="ID" required="required" autofocus="autofocus">

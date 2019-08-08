@@ -102,7 +102,6 @@ public class ProductControllerTest {
 			.andExpect(jsonPath("$.result", is("fail")));
 	}
 	
-	@Ignore
 	@Rollback(false)
 	@Test
 	public void addSuccessTest() throws Exception {
@@ -131,7 +130,7 @@ public class ProductControllerTest {
 		
 		// 전제조건 : 실재로 db에 있는 카테고리 번호를 넣어야 한다.
 		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
-		category_list.add(new ProductCategoryVo(31L));
+		category_list.add(new ProductCategoryVo(5L));
 		
 		List<ProductOptionVo> po_list =  new ArrayList<ProductOptionVo>();
 		
@@ -143,13 +142,13 @@ public class ProductControllerTest {
 //		List<Long> plus_price = new ArrayList<Long>(); 
 		//po_list = makeProductOpionList(option_list, size, i, po_list, poname, plus_price, order);
 		
-		po_list.add(new ProductOptionVo("여름무지셔츠2|소라/short", "Y", "Y", 1500L, 1));
-		po_list.add(new ProductOptionVo("여름무지셔츠2|소라/long", "Y", "Y", 2500L, 2));
-		po_list.add(new ProductOptionVo("여름무지셔츠2|퍼플/short", "Y", "Y", 2500L, 3));
-		po_list.add(new ProductOptionVo("여름무지셔츠2|퍼플/long", "Y", "Y", 3500L, 4));
+		po_list.add(new ProductOptionVo("여름 린넨 셔츠|소라/short", "Y", "Y", 1500L, 1));
+		po_list.add(new ProductOptionVo("여름 린넨 셔츠|소라/long", "Y", "Y", 2500L, 2));
+		po_list.add(new ProductOptionVo("여름 린넨 셔츠|퍼플/short", "Y", "Y", 2500L, 3));
+		po_list.add(new ProductOptionVo("여름 린넨 셔츠|퍼플/long", "Y", "Y", 3500L, 4));
 
 		ProductVo productVo = new ProductVo(
-				"여름무지셔츠2", 17000L, "여름 기본템 무지 컬러 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
+				"여름 린넨 셔츠", 17000L, "여름 기본 린넨 셔츠! 배송비 무료","Y","Y","Y","Y", 15,
 				"Y",0, option_list, category_list, image_list, po_list);
 		
 		

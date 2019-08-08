@@ -40,47 +40,45 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		//인터셉터 url에 접근 제어 (Basic ACL)
 		http
 			.authorizeRequests()
-			
-				.antMatchers("/manage/main","/manage/main/**").hasRole("ADMIN")
-				
+				.antMatchers("/manage/","/manage/**","/manage/main").hasRole("ADMIN")
 				.anyRequest().permitAll()
 		
 		// 관리자 로그인 설정
 		.and()
 			.formLogin()
-				.loginPage("/manage/login")
-				.loginProcessingUrl("/manage/auth")
-				.failureUrl("/manage/login?result=fail")
+				.loginPage("/managelogin")
+				.loginProcessingUrl("/manageauth")
+				.failureUrl("/managelogin?result=fail")
 				//.failureHandler(authenticationFailureHandler())
 				.successHandler(authenticationSuccessHandler())
 				.usernameParameter("id")
 				.passwordParameter("password")
 				
 		// 사용자 로그인 설정
-		.and()
-			.formLogin()
-				.loginPage("/login")
-				.loginProcessingUrl("/auth")
-				.failureUrl("/login?result=fail")
-				.successHandler(authenticationSuccessHandler())
-				.usernameParameter("id")
-				.usernameParameter("password")		
+//		.and()
+//			.formLogin()
+//				.loginPage("/user/login")
+//				.loginProcessingUrl("/user/auth")
+//				.failureUrl("/user/login?result=fail")
+//				.successHandler(authenticationSuccessHandler())
+//				.usernameParameter("id")
+//				.usernameParameter("password")		
 		
 		//관리자 로그아웃 
 		.and()
 			.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/manage/logout"))
-				.logoutSuccessUrl("/")
+				.logoutUrl("/manage/logout")
+				.logoutSuccessUrl("/managelogin")
 				.deleteCookies("JSESSIONID")
 				.invalidateHttpSession(true)
 				
 		//사용자 로그아웃 
-		.and()
-			.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-				.logoutSuccessUrl("/")
-				.deleteCookies("JSESSIONID")
-				.invalidateHttpSession(true)
+//		.and()
+//			.logout()
+//				.logoutUrl("/userlogout")
+//				.logoutSuccessUrl("/")
+//				.deleteCookies("JSESSIONID")
+//				.invalidateHttpSession(true)
 				
 		// 예외
 		.and()
@@ -90,7 +88,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		 // RememberMeConfigurer
         .and()
         	.rememberMe()
-        		.key("mysite")
+        		.key("shop")
         		.rememberMeParameter("remember-me")
         		
         		
