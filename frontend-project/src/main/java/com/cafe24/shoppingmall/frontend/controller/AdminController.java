@@ -2,13 +2,20 @@ package com.cafe24.shoppingmall.frontend.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cafe24.shoppingmall.frontend.dto.JSONResult;
 import com.cafe24.shoppingmall.frontend.service.AdminService;
 import com.cafe24.shoppingmall.frontend.service.ProductService;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
@@ -22,7 +29,7 @@ public class AdminController {
 	@Autowired
 	private ProductService productService;
 	
-	@GetMapping({"/admin", "/admin/main", "/admin/product/list"})
+	@GetMapping({"/admin", "/admin/main", "/admin/product","/admin/product/list"})
 	public String main(Model model) {
 		
 		List<ProductVo> products = productService.getListAll(); 
@@ -42,10 +49,29 @@ public class AdminController {
 	
 	
 	@GetMapping("/admin/product/register")
-	public String productAdd() {
+	public String productAddPage() {
 		
 		return "admin/product-register";
 	}
+	@PostMapping("/admin/product/register")
+	public String productAdd(
+			ProductVo productVo, 
+			@RequestParam("image_add_list") List<MultipartFile> images,
+			Model model
+	) {
+		
+		List<String> image_url =  productService.uploadImages(images);
+		JSONResult result = adminService.registerProduct(productVo, image_url);
+		
+		if("success".equals(result.getResult())) {
+			return "redirect:/admin/product";
+		} else {
+			model.addAttribute("error", result.getData());
+			return "admin/product-register";
+		}
+		
+	}
+	
 	@GetMapping("/admin/category")
 	public String category() {
 		
@@ -59,12 +85,6 @@ public class AdminController {
 		
 		return "admin/user-list";
 	}
-	
-//	@PostMapping("/auth")
-//	public String auth() {
-//		return "admin/index";
-//	}
-	
 	
 	
 }

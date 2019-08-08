@@ -49,7 +49,7 @@ $(document).ready(function() {
 	
 	/*이미지 추가*/
 	$('#add-image').click(function(e) {
-		$('.image-list').append('<input type="file" name="image" class="btn btn-light" />');
+		$('.image-list').append('<input type="file" name="image_add_list" class="btn btn-light" />');
 	})
 	
 });

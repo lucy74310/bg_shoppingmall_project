@@ -23,7 +23,6 @@ spring:
                       enabled: true
                       max-file-size: 50MB
                       max-request-size: 50MB
-                      location: file:/shoppingmall-uploads
        aop:
            auto: true
        aop-proxy-target-class: true
@@ -48,7 +47,7 @@ spring:
                               maxConnPerRoute: 5
        static:
               resource:
-                       location: file:/shoppingmall-uploads
+                       location: file:./D:/shoppingmall-uploads/
 #security:
 #         user:
 #              name: test

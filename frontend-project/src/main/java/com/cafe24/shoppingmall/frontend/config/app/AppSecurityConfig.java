@@ -65,7 +65,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	// 사용자 세부 서비스를 설정
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		System.out.println("AuthenticationManagerBuilder");
 		auth
 			.userDetailsService(userDetailsService)
 			.and()
@@ -85,11 +84,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public AuthenticationProvider authProvider() {
-		System.out.println("authProvider");
 	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 	    authProvider.setUserDetailsService(userDetailsService);
 //	    authProvider.setPasswordEncoder(passwordEncoder());
-	    System.out.println(authProvider.getUserCache());
 	    
 	    return authProvider;
 	}	

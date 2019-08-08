@@ -139,18 +139,22 @@
 					<c:forEach items="${products}" var="p">
 						<div class="col-lg-4 col-md-6 mb-4">
 							<div class="card h-100">
-								<c:if test="${empty p.image_list}">
-									<a href="#"><img class="card-img-top"
-										src="${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png"
-										alt="${p.product_name}이미지"></a>
-								</c:if>
-								<c:forEach items="${p.image_list}" var="i">
-									<c:if test="${i.is_main == 'Y'}">
-										<a href="#"><img class="card-img-top" src="${i.url}"
-											onerror="this.src='${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png'"
-											alt="${p.product_name}_이미지"></a>
-									</c:if>
-								</c:forEach>
+								<c:choose>
+									<c:when test="${empty p.image_list}">
+										<a href="#"><img class="card-img-top"
+											src="${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png"
+											alt="${p.product_name}이미지"></a>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${p.image_list}" var="i">
+											<c:if test="${i.is_main == 'Y'}">
+												<a href="#"><img class="card-img-top" style="max-height:190px;" src="${pageContext.servletContext.contextPath }${i.url}"
+													onerror="this.src='${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png'"
+													alt="${p.product_name}_이미지"></a>
+											</c:if>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 								<div class="card-body">
 									<h4 class="card-title">
 										<a href="#">${p.product_name}</a>
@@ -159,8 +163,8 @@
 									<p class="card-text">${p.product_short_explain}</p>
 								</div>
 								<div class="card-footer">
-									<!-- <small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small> -->
+									<small class="text-muted">&#9733; &#9733; &#9733;
+									&#9733; &#9734;</small> 
 								</div>
 							</div>
 						</div>
@@ -178,6 +182,7 @@
 	<!-- Footer -->
 	<c:import url='/WEB-INF/views/includes/footer.jsp' />
 	<!-- /.Footer -->
+	<script type="text/javascript" src="${pageContext.servletContext.contextPath }/assets/js/dropdown.js"></script>
 </body>
 
 </html>

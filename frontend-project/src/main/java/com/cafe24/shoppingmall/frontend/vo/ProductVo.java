@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class ProductVo {
@@ -205,7 +206,6 @@ public class ProductVo {
 				+ ", category_list=" + category_list + ", category_list_with_name=" + category_list_with_name
 				+ ", image_list=" + image_list + ", po_list=" + po_list + "]";
 	}
-	
 	
 	
 	

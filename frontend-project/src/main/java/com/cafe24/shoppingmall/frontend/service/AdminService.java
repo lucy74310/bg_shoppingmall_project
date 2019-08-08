@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.shoppingmall.frontend.dto.JSONResult;
+import com.cafe24.shoppingmall.frontend.vo.ImageVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -62,9 +64,52 @@ public class AdminService {
 			return null;
 		}
 		
+	}
+
+	public JSONResult registerProduct(ProductVo productVo, List<String> image_url) {
 		
+		List<ImageVo> images = new ArrayList<ImageVo>();
+		int i = 1;
+		ImageVo vo;
+		if(image_url.size() > 0) {
+			for(String s : image_url) {
+				if (i == 1) {
+					vo = new ImageVo(s, "Y", i++);	
+				} else {
+					vo = new ImageVo(s, "N", i++);
+				}
+				images.add(vo);
+			}
+			
+			productVo.setImage_list(images);
+		}
+		JSONResult jsonResult = null;
+		String uri = "/api/product/add";
+		System.out.println(productVo);
+		try {
+			jsonResult = restTemplate.postForObject(HOST+ uri, productVo, JSONResult.class );
+		} catch(HttpClientErrorException e) {
+			String responseBody = e.getResponseBodyAsString();
+			try {
+				jsonResult = om.readValue(responseBody, JSONResult.class);
+			} catch (JsonParseException e1) {
+				e1.printStackTrace();
+			} catch (JsonMappingException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			System.out.println("400");
+			System.out.println(jsonResult);
+			return jsonResult;
+		}
+		System.out.println("200");
+		System.out.println(jsonResult);
+		if("success".equals(jsonResult.getResult())){
+			return jsonResult;
+		}
 		
-		
+		return null;
 	}
 
 }

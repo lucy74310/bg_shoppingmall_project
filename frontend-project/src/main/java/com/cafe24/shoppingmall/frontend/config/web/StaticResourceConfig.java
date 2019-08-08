@@ -13,7 +13,8 @@ public class StaticResourceConfig extends WebMvcConfigurerAdapter{
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/assets/uploads/**").addResourceLocations(staticResourceLocation);
+		System.out.println(staticResourceLocation);
+		registry.addResourceHandler("/uploads/**").addResourceLocations(staticResourceLocation);
 	}
 	
 	

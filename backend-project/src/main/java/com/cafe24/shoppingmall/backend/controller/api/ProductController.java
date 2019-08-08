@@ -52,13 +52,14 @@ public class ProductController {
 	) throws IOException {
 		
 		if(valid.hasErrors()) {
-			Map<String, String> errMap = new HashMap<String, String>();
-			for(ObjectError err : valid.getAllErrors()) {
-				FieldError f = (FieldError) err;
-				errMap.put(f.getField(), f.getDefaultMessage());
-			}
+//			Map<String, String> errMap = new HashMap<String, String>();
+//			for(ObjectError err : valid.getAllErrors()) {
+//				FieldError f = (FieldError) err;
+//				errMap.put(f.getField(), f.getDefaultMessage());
+//			}
+			System.out.println(valid.getModel().getClass().getName());
 			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
+					.body(JSONResult.fail("양식을 맞춰주세요.", valid.getModel()));
 		} 
 		
 		Long productNo = productService.addProduct(productVo);
