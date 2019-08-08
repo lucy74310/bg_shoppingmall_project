@@ -41,7 +41,7 @@
 				<div class="list-group">
 					<c:forEach items="${categories}" var="c">
 						<div class="list-group-item">
-							<a href="${pageContext.servletContext.contextPath }/${c.no}"
+							<a href="${pageContext.servletContext.contextPath }/list/${c.no}"
 								class="bg-category-name">${c.category_name}</a>
 							<c:if test="${not empty c.sub_categories }">
 								<span class="bg-drop-down"
@@ -54,7 +54,7 @@
 								<c:forEach items="${c.sub_categories}" var="sub1">
 									<div class="list-group-item">
 										<a
-											href="${pageContext.servletContext.contextPath }/${sub1.no}"
+											href="${pageContext.servletContext.contextPath }/list/${sub1.no}"
 											class="bg-category-name" style="margin-left: 20px;">${sub1.category_name}</a>
 										<c:if test="${not empty sub1.sub_categories }">
 											<span class="bg-drop-down"
@@ -67,7 +67,7 @@
 											<c:forEach items="${sub1.sub_categories}" var="sub2">
 												<div class="list-group-item">
 													<a
-														href="${pageContext.servletContext.contextPath }/${sub2.no}"
+														href="${pageContext.servletContext.contextPath }/list/${sub2.no}"
 														class="bg-category-name" style="margin-left: 40px;">${sub2.category_name}</a>
 													<c:if test="${not empty sub2.sub_categories }">
 														<span class="bg-drop-down"
@@ -80,7 +80,7 @@
 														<c:forEach items="${sub2.sub_categories}" var="sub3">
 															<div class="list-group-item">
 																<a
-																	href="${pageContext.servletContext.contextPath }/${sub3.no}"
+																	href="${pageContext.servletContext.contextPath }/list/${sub3.no}"
 																	class="bg-category-name" style="margin-left: 60px;">${sub3.category_name}</a>
 															</div>
 														</c:forEach>
@@ -137,37 +137,41 @@
 						<h4>등록된 상품이 없습니다.</h4>
 					</c:if>
 					<c:forEach items="${products}" var="p">
-						<div class="col-lg-4 col-md-6 mb-4">
-							<div class="card h-100">
-								<c:choose>
-									<c:when test="${empty p.image_list}">
-										<a href="#"><img class="card-img-top"
-											src="${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png"
-											alt="${p.product_name}이미지"></a>
-									</c:when>
-									<c:otherwise>
-										<c:forEach items="${p.image_list}" var="i">
-											<c:if test="${i.is_main == 'Y'}">
-												<a href="#"><img class="card-img-top" style="max-height:190px;" src="${pageContext.servletContext.contextPath }${i.url}"
-													onerror="this.src='${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png'"
-													alt="${p.product_name}_이미지"></a>
-											</c:if>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-								<div class="card-body">
-									<h4 class="card-title">
-										<a href="#">${p.product_name}</a>
-									</h4>
-									<h5>${p.product_price}</h5>
-									<p class="card-text">${p.product_short_explain}</p>
-								</div>
-								<div class="card-footer">
-									<small class="text-muted">&#9733; &#9733; &#9733;
-									&#9733; &#9734;</small> 
+						<c:if test="${p.displayed =='Y' }">
+							<div class="col-lg-4 col-md-6 mb-4">
+								<div class="card h-100">
+									<c:choose>
+										<c:when test="${empty p.image_list}">
+											<a href="#"><img class="card-img-top"
+												src="${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png"
+												alt="${p.product_name}이미지"></a>
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${p.image_list}" var="i">
+												<c:if test="${i.is_main == 'Y'}">
+													<a href="#"><img class="card-img-top"
+														style="max-height: 190px;"
+														src="${pageContext.servletContext.contextPath }${i.url}"
+														onerror="this.src='${pageContext.servletContext.contextPath }/assets/image/icon/present_custom.png'"
+														alt="${p.product_name}_이미지"></a>
+												</c:if>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+									<div class="card-body">
+										<h4 class="card-title">
+											<a href="#">${p.product_name}</a>
+										</h4>
+										<h5>${p.product_price}</h5>
+										<p class="card-text">${p.product_short_explain}</p>
+									</div>
+									<div class="card-footer">
+										<small class="text-muted">&#9733; &#9733; &#9733;
+											&#9733; &#9734;</small>
+									</div>
 								</div>
 							</div>
-						</div>
+						</c:if>
 					</c:forEach>
 				</div>
 				<!-- /.row -->
@@ -178,11 +182,14 @@
 		<!-- /.row -->
 	</div>
 	<!-- /.container -->
-
+	<br>
+	<br>
+	<br>
 	<!-- Footer -->
 	<c:import url='/WEB-INF/views/includes/footer.jsp' />
 	<!-- /.Footer -->
-	<script type="text/javascript" src="${pageContext.servletContext.contextPath }/assets/js/dropdown.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.servletContext.contextPath }/assets/js/dropdown.js"></script>
 </body>
 
 </html>

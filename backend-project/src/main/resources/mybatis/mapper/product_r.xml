@@ -10,6 +10,9 @@
 	    <result property="product_name" column="product_name"/>
 	    <result property="product_price" column="product_price"/>
 	    <result property="product_short_explain" column="product_short_explain"/>
+	    <result property="displayed" column="displayed"/>
+	    <result property="selling" column="selling"/>
+	    <result property="use_option" column="use_option"/>
 	    <result property="use_stock" column="use_stock"/>
 	    <result property="stock" column="stock"/>
 	    <result property="soldout_mark" column="soldout_mark"/>
@@ -21,7 +24,7 @@
 	<select id="get_list" resultMap="get_list_type">
 		<![CDATA[
 		select 
-			no, product_name, product_price, product_short_explain, 
+			no, product_name, product_price, product_short_explain, displayed, selling, use_option, 
 			use_stock, stock, soldout_mark, save_percentage, shipping_price 
 		from product
 		
@@ -32,7 +35,7 @@
 	<select id="get_list_by_category" resultMap="get_list_type" parameterType="string">
 		<![CDATA[
 		select 
-			p.no, p.product_name, p.product_price, p.product_short_explain, 
+			p.no, p.product_name, p.product_price, p.product_short_explain, p.displayed, p.selling, p.use_option, 
 			p.use_stock, p.stock, p.soldout_mark, p.save_percentage, p.shipping_price 
 		from product_category  as pc left join product as p on pc.product_no = p.no
         where pc.category_no IN (#{join_no_list});

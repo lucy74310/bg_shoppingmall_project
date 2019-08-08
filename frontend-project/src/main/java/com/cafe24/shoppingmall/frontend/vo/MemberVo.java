@@ -11,19 +11,26 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class MemberVo {
 	
 	private Long no;
-	
+	@Pattern(regexp="(([a-z0-9])(?=\\S+$).{3,15})", message="영문소문자/숫자, 4~16자")
+	@NotEmpty(message="id는 필수 입력 사항입니다.")
 	private String id;
 	
+	@NotEmpty(message="이름은 필수 입력 사항입니다.")
 	private String name;
 	
+	@Pattern(regexp="((?=.*[0-9])(?=.*[a-zA-Z])(?=.*[~!@#$%^&+=_])(?=\\S+$).{7,15})", message="영문 대소문자/숫자/특수문자 3가지 조합, 8자~16자, 공백불가")
+	@NotEmpty(message="비밀번호는 필수 입력 사항입니다.")
 	private String password;
 	
 	private String phone;
 	
+	@NotEmpty(message="휴대전화번호는 필수 입력 사항입니다.")
 	private String telephone;
 	
+	@NotEmpty(message="이메일은 필수 입력 사항입니다.")
 	private String email;
 	
+	@NotEmpty(message="생일은 필수 입력 사항입니다.")
 	private String birthday;
 	
 	private String join_date;

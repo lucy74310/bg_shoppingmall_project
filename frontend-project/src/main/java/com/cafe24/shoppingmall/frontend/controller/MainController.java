@@ -48,20 +48,24 @@ public class MainController {
 		List<CategoryVo> categories = categoryService.getListAll();
 		List<ProductVo> products = null;
 		if(category_no.isPresent()) {
-			products = productService.getByCategory(category_no.get()); 
+			if(category_no.get() == 13L) {
+				products = productService.getListAll();
+			}else {
+				products = productService.getByCategory(category_no.get());
+			}
 		} else {
 			products = productService.getListAll(); 
 		}
-		
-		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String json_categories = "";
-		try {
-			json_categories = ow.writeValueAsString(categories);
-			model.addAttribute("json_categories", json_categories);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
+		System.out.println(products);
+//		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//		String json_categories = "";
+//		try {
+//			json_categories = ow.writeValueAsString(categories);
+//			model.addAttribute("json_categories", json_categories);
+//		} catch (JsonProcessingException e) {
+//			e.printStackTrace();
+//		}
+//		
 		model.addAttribute("categories", categories);
 		model.addAttribute("products", products);
 		

@@ -34,6 +34,7 @@ public class CategoryService {
 			
 			
 		} catch(HttpClientErrorException e) {
+			
 			String responseBody = e.getResponseBodyAsString();
 			try {
 				jsonResult = om.readValue(responseBody, JSONResult.class);
@@ -45,7 +46,6 @@ public class CategoryService {
 				e1.printStackTrace();
 			}
 		} 
-		
 		if("success".equals(jsonResult.getResult())) {
 			List<?> list2 = om.convertValue(jsonResult.getData(), ArrayList.class);
 			

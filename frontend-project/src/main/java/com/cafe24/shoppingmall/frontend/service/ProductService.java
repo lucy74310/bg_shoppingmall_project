@@ -71,8 +71,8 @@ public class ProductService {
 	}
 
 	public List<ProductVo> getByCategory(Long category_no) {
-
-		String url = "/backend-project/api/product/list/{category_no}";
+		System.out.println(category_no);
+		String url = "/api/product/list/{category_no}";
 		JSONResult jsonResult = null;
 
 		try {
@@ -91,8 +91,9 @@ public class ProductService {
 				e1.printStackTrace();
 			}
 		}
-
-		if ("success".equals(jsonResult.getResult())) {
+		System.out.println(jsonResult);
+		if ("success".equals(jsonResult.getResult().toString())) {
+			System.out.println("list");
 			List<?> list2 = om.convertValue(jsonResult.getData(), ArrayList.class);
 			List<ProductVo> product_list = new ArrayList<ProductVo>();
 			for (Object o : list2) {

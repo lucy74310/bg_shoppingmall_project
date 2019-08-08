@@ -12,11 +12,11 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <meta name="description" content="">
    <meta name="author" content="">
-   <title>Shop Homepage - Start Bootstrap Template</title>
+   <title>회원가입</title>
    <!-- Bootstrap core CSS -->
    <link href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!-- Custom styles for this template -->
-   <link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
+   <link href="${pageContext.servletContext.contextPath }/assets/css/shop-join.css" rel="stylesheet">
    <script type="text/javascript">
    $(function () {
       $('#id').focus();
@@ -32,10 +32,7 @@
    
    <div id="container">
       <div class="card card-container">
-      	<p>
-      	dd
-      	</p>
-            <%-- <form:form modelAttribute="memberVo" id="join-form" name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join" >
+            <form:form modelAttribute="memberVo" id="join-form" name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join" >
                <label class="block-label" for="id">아이디</label>
                <input type="button" id="check-button" value="체크" class="btn btn-light">
                <img style="display:none" id="check-image" src="${pageContext.servletContext.contextPath }/assets/images/check.png" />
@@ -49,7 +46,7 @@
                
                <label class="block-label" for="name">이름</label>
                <input id="name" name="name" type="text" value="" class="form-control">
-               <spring:hasBindErrors name="memberVo">
+               <spring:hasBindErrors name="userVo">
                    <c:if test="${errors.hasFieldErrors('name') }">
                      <p style="font-weight:bold; color:red; text-align:left; padding:0">
                            <spring:message 
@@ -84,7 +81,7 @@
                
                <input type="submit" value="가입하기" class="btn btn-lg btn-primary btn-block btn-join">
                
-            </form:form> --%>
+            </form:form>
       </div>
    </div>
    <c:import url="/WEB-INF/views/includes/footer.jsp" />

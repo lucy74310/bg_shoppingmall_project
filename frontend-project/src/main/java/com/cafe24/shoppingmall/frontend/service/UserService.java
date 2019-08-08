@@ -71,6 +71,10 @@ public class UserService {
 		System.out.println(adminVo);
 		return adminVo;
 	}
+
+	public void joinMember(MemberVo memberVo) {
+		
+	}
 	
 	
 }
