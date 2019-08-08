@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cafe24.shoppingmall.frontend.service.AdminService;
 import com.cafe24.shoppingmall.frontend.service.ProductService;
+import com.cafe24.shoppingmall.frontend.vo.MemberVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 
 @Controller
@@ -21,7 +22,7 @@ public class AdminController {
 	@Autowired
 	private ProductService productService;
 	
-	@GetMapping({"/manage", "/manage/main", "/manage/product/list"})
+	@GetMapping({"/admin", "/admin/main", "/admin/product/list"})
 	public String main(Model model) {
 		
 		List<ProductVo> products = productService.getListAll(); 
@@ -33,29 +34,28 @@ public class AdminController {
 		return "admin/product-list";
 	}
 	
-	@GetMapping("/managelogin")
+	@GetMapping("/loginAdmin")
 	public String login() {
 		
 		return "admin/login";
 	}
-	@GetMapping("/managelogout")
-	public String logout() {
-		
-		return "main/index";
-	}
 	
-	@GetMapping("/manage/product/register")
+	
+	@GetMapping("/admin/product/register")
 	public String productAdd() {
 		
 		return "admin/product-register";
 	}
-	@GetMapping("/manage/category")
+	@GetMapping("/admin/category")
 	public String category() {
 		
 		return "admin/category";
 	}
-	@GetMapping({"/manage/user", "/manage/user/list"})
-	public String user() {
+	@GetMapping({"/admin/user", "/admin/user/list"})
+	public String user(Model model) {
+		List<MemberVo> members = adminService.getMemberListAll();
+		
+		model.addAttribute("members", members);
 		
 		return "admin/user-list";
 	}

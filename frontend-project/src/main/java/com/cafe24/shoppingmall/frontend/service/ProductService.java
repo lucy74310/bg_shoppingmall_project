@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ProductService {
 
 	@Autowired
-	private RestTemplate restTemplate = new RestTemplate();
+	private RestTemplate restTemplate;
 
 	private ObjectMapper om = new ObjectMapper();
 	private String HOST = "http://localhost:8080/backend-project";

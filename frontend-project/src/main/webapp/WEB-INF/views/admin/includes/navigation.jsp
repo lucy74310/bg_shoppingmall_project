@@ -16,7 +16,7 @@
               <a class="nav-link" href="${pageContext.servletContext.contextPath }">홈 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="${pageContext.servletContext.contextPath }/manage/logout">로그아웃</a>
+              <a class="nav-link" href="${pageContext.servletContext.contextPath }/admin_logout">로그아웃</a>
             </li>
           </ul>
         </div>

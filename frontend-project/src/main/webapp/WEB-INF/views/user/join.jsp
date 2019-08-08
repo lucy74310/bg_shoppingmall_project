@@ -14,11 +14,9 @@
    <meta name="author" content="">
    <title>Shop Homepage - Start Bootstrap Template</title>
    <!-- Bootstrap core CSS -->
-   <link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <!-- Custom styles for this template -->
-   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   <link href="${pageContext.servletContext.contextPath }/assets/css/shop-join.css" rel="stylesheet">
-   <script src="${pageContext.servletContext.contextPath }/assets/js/user/shop-join.js" type="text/javascript"></script>
+   <link href="${pageContext.servletContext.contextPath }/assets/css/shop-homepage.css" rel="stylesheet">
    <script type="text/javascript">
    $(function () {
       $('#id').focus();
@@ -34,7 +32,10 @@
    
    <div id="container">
       <div class="card card-container">
-            <form:form modelAttribute="memberVo" id="join-form" name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join" >
+      	<p>
+      	dd
+      	</p>
+            <%-- <form:form modelAttribute="memberVo" id="join-form" name="joinForm" method="post" action="${pageContext.servletContext.contextPath }/user/join" >
                <label class="block-label" for="id">아이디</label>
                <input type="button" id="check-button" value="체크" class="btn btn-light">
                <img style="display:none" id="check-image" src="${pageContext.servletContext.contextPath }/assets/images/check.png" />
@@ -83,7 +84,7 @@
                
                <input type="submit" value="가입하기" class="btn btn-lg btn-primary btn-block btn-join">
                
-            </form:form>
+            </form:form> --%>
       </div>
    </div>
    <c:import url="/WEB-INF/views/includes/footer.jsp" />

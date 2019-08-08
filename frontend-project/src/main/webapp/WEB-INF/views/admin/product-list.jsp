@@ -14,6 +14,8 @@
 <link
 	href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <!-- Custom styles for this template -->
 <link
 	href="${pageContext.servletContext.contextPath }/assets/css/shop-admin.css"
@@ -30,7 +32,7 @@
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
-		<div id="page-content-wrapper">
+		<div id="page-content-wrapper ">
 
 			<!-- navigation -->
 			<c:import url='/WEB-INF/views/admin/includes/navigation.jsp' />
@@ -39,42 +41,44 @@
 			<div class="container-fluid">
 				<h2 class="mt-4">상품목록</h2>
 				<br>
-				<table class="table">
-					<thead class="thead-dark">
-						<tr>
-							<th scope="col">NO</th>
-							<th scope="col">상품명</th>
-							<th scope="col">가격</th>
-							<th scope="col">요약설명</th>
-							<th scope="col">진열여부</th>
-							<th scope="col">판매여부</th>
-							<th scope="col">옵션사용</th>
-							<th scope="col">재고사용</th>
-							<th scope="col">재고</th>
-							<th scope="col">품절표시</th>
-							<th scope="col">적립율</th>
-							<th scope="col">배송비</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${products}" var="p" varStatus="i">
+				<div class="table-responsive">
+					<table class="table table-hover" style="overflow-y: hidden;">
+						<thead class="thead-dark">
 							<tr>
-								<th scope="row">${i.index}+1</th>
-								<td>${p.product_name }</td>
-								<td>${p.product_price }</td>
-								<td>${p.product_short_explain}</td>
-								<td>${p.displayed}</td>
-								<td>${p.selling}</td>
-								<td>${p.use_option}</td>
-								<td>${p.use_stock}</td>
-								<td>${p.stock}</td>
-								<td>${p.soldout_mark}</td>
-								<td>${p.save_percentage}</td>
-								<td>${p.shipping_price}</td>
+								<th scope="col">NO</th>
+								<th scope="col">상품명</th>
+								<th scope="col">가격</th>
+								<th scope="col">요약설명</th>
+								<th scope="col">진열여부</th>
+								<th scope="col">판매여부</th>
+								<th scope="col">옵션사용</th>
+								<th scope="col">재고사용</th>
+								<th scope="col">재고</th>
+								<th scope="col">품절표시</th>
+								<th scope="col">적립율</th>
+								<th scope="col">배송비</th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							<c:forEach items="${products}" var="p" varStatus="i">
+								<tr>
+									<th scope="row">${i.index+1}</th>
+									<td>${p.product_name }</td>
+									<td>${p.product_price }</td>
+									<td>${p.product_short_explain}</td>
+									<td>${p.displayed}</td>
+									<td>${p.selling}</td>
+									<td>${p.use_option}</td>
+									<td>${p.use_stock}</td>
+									<td>${p.stock}</td>
+									<td>${p.soldout_mark}</td>
+									<td>${p.save_percentage}</td>
+									<td>${p.shipping_price}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<!-- /#page-content-wrapper -->

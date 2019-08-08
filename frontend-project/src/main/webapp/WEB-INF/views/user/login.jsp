@@ -11,7 +11,7 @@
 	<meta name="author" content="">
 	<title>Shop Homepage - Start Bootstrap Template</title>
 	<!-- Bootstrap core CSS -->
-	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-login.css" rel="stylesheet">
 </head>

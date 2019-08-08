@@ -63,8 +63,8 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
 	            getRedirectStrategy().sendRedirect( request, response, "/" );
     		} else {
     			System.out.println("3");
-    			response.sendRedirect("/shop/manage/main");
-    			//getRedirectStrategy().sendRedirect( request, response, "/manage/main" );
+    			response.sendRedirect("/shop/admin");
+    			//getRedirectStrategy().sendRedirect( request, response, "/admin" );
     		}
     		return;
     	}

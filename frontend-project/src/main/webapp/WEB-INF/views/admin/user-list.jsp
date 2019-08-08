@@ -31,18 +31,42 @@
 			<!-- /navigation -->
 
 			<div class="container-fluid">
-				<h1 class="mt-4">사용자 목록</h1>
-				<p>The starting state of the menu will appear collapsed on
-					smaller screens, and will appear non-collapsed on larger screens.
-					When toggled using the button below, the menu will change.</p>
-				<p>
-					Make sure to keep all page content within the
-					<code>#page-content-wrapper</code>
-					. The top navbar is optional, and just for demonstration. Just
-					create an element with the
-					<code>#menu-toggle</code>
-					ID which will toggle the menu when clicked.
-				</p>
+				<h2 class="mt-4">사용자 목록</h2>
+				<br>
+				<div class="table-responsive">
+					<table class="table table-hover" style="overflow-y: hidden;">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">NO</th>
+								<th scope="col">id</th>
+								<th scope="col">이름</th>
+								<th scope="col">전화번호</th>
+								<th scope="col">휴대전화번호</th>
+								<th scope="col">이메일</th>
+								<th scope="col">생일</th>
+								<th scope="col">포인트</th>
+								<th scope="col">가입일</th>
+								<th scope="col">탈퇴일</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${members}" var="m" varStatus="i">
+								<tr>
+									<th scope="row">${i.index+1}</th>
+									<td>${m.id }</td>
+									<td>${m.name }</td>
+									<td>${m.phone }</td>
+									<td>${m.telephone }</td>
+									<td>${m.email }</td>
+									<td>${m.birthday }</td>
+									<td>${m.point }</td>
+									<td>${m.join_date }</td>
+									<td>${m.leave_date }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<!-- /#page-content-wrapper -->

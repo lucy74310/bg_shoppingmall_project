@@ -36,7 +36,7 @@
 			insert into member 
 			(id, name, password, phone, telephone, email, birth, point, join_date, m_state) 
 			values 
-				(#{id}, aes_encrypt(#{name},'bugwang'), sha2(#{password}, 512), 
+				(#{id}, aes_encrypt(#{name},'bugwang'), #{password}, 
 				aes_encrypt(#{phone}, 'bugwang'), aes_encrypt(#{telephone}, 'bugwang'), 
 				aes_encrypt(#{email}, 'bugwang'), #{birthday}, 0, now(), '0');
 		

@@ -94,7 +94,7 @@ public class UserControllerTest {
 	@Test
 	public void requiredFeildCompleted() throws Exception {
 		//id 중복 없다는 전제 
-		MemberVo memVo = new MemberVo("lucyhi1", "조부광", "Lucy7443!", 
+		MemberVo memVo = new MemberVo("lucy4", "조부광", "lucy1234@", 
 				"01049047443", "lucy74310@gmail.com", 
 				"1993-10-10", "12345 서울시 강남구");
 		
