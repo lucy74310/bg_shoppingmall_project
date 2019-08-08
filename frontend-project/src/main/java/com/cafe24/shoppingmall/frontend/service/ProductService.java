@@ -91,9 +91,7 @@ public class ProductService {
 				e1.printStackTrace();
 			}
 		}
-		System.out.println(jsonResult);
 		if ("success".equals(jsonResult.getResult().toString())) {
-			System.out.println("list");
 			List<?> list2 = om.convertValue(jsonResult.getData(), ArrayList.class);
 			List<ProductVo> product_list = new ArrayList<ProductVo>();
 			for (Object o : list2) {

@@ -9,10 +9,10 @@
 			insert into product  
 				(product_name, product_price, product_short_explain, 
 				product_detail, displayed, selling, use_option, use_stock, stock, soldout_mark, 
-				reg_date) 
+				reg_date, save_percentage, shipping_price) 
 			values (#{product_name}, #{product_price}, #{product_short_explain}, #{product_detail}, 
 			#{displayed}, #{selling}, #{use_option}, #{use_stock},
-			 #{stock}, #{soldout_mark}, now()) 
+			 #{stock}, #{soldout_mark}, now(), #{save_percentage}, #{shipping_price}) 
 		
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 

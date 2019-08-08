@@ -122,14 +122,12 @@ public class ProductController {
 	public ResponseEntity<JSONResult> getList(
 		@PathVariable("category_no") Optional<Long> category_no 
 	) {
-		System.out.println("list");
 		List<ProductVo> list = null;
 		if(category_no.isPresent()) { 
 			list = productService.getListByCategory(category_no.get());
 		} else {
 			list = productService.getList();
 		}
-		System.out.println(list);
 		if(list.size() > 0) { 
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(JSONResult.success(list));

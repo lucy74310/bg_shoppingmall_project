@@ -32,15 +32,15 @@
 	</select>
 		
 	<!-- 특정 카테고리에 해당하는 상품 -->
-	<select id="get_list_by_category" resultMap="get_list_type" parameterType="string">
-		<![CDATA[
+	<select id="get_list_by_category" resultMap="get_list_type" parameterType="map">
 		select 
 			p.no, p.product_name, p.product_price, p.product_short_explain, p.displayed, p.selling, p.use_option, 
 			p.use_stock, p.stock, p.soldout_mark, p.save_percentage, p.shipping_price 
 		from product_category  as pc left join product as p on pc.product_no = p.no
-        where pc.category_no IN (#{join_no_list});
-		
-		]]>
+        where pc.category_no IN 
+         <foreach item="item" collection="list"  open="(" separator="," close=")">
+          #{item}
+   		 </foreach>
 	</select>
 	
 	

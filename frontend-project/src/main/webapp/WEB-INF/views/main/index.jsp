@@ -11,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Shop Homepage - Start Bootstrap Template</title>
+<title>BSHOP</title>
 <!-- Bootstrap core CSS -->
 <link
 	href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css"
@@ -99,7 +99,8 @@
 			<!-- /.col-lg-3 -->
 
 			<div class="col-lg-9">
-				<div id="carouselExampleIndicators" class="carousel slide my-4"
+				<br><br><br><br>
+				<!-- <div id="carouselExampleIndicators" class="carousel slide my-4"
 					data-ride="carousel">
 					<ol class="carousel-indicators">
 						<li data-target="#carouselExampleIndicators" data-slide-to="0"
@@ -130,7 +131,7 @@
 						class="carousel-control-next-icon" aria-hidden="true"></span> <span
 						class="sr-only">Next</span>
 					</a>
-				</div>
+				</div> -->
 
 				<div class="row">
 					<c:if test="${empty products}">

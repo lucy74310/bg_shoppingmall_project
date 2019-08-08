@@ -164,8 +164,10 @@ public class ProductDao {
 		return sqlSession.selectOne("product_r.get_product_option_one", pono);
 	}
 
-	public List<ProductVo> getListByCategory(String join_no_list) {
-		return sqlSession.selectList("product_r.get_list_by_category", join_no_list);
+	public List<ProductVo> getListByCategory(List<Long> c_no_list) {
+		Map<String, Object> list = new HashMap<String, Object>();
+		list.put("list", c_no_list);
+		return sqlSession.selectList("product_r.get_list_by_category", list);
 	}
 
 	
