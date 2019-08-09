@@ -54,14 +54,18 @@ public class UserController {
 			BindingResult valid,
 			Model model
 	) {
-		System.out.println(joinVo);
 		if(valid.hasErrors()) {
 			model.addAllAttributes(valid.getModel());
 			return "user/join";
 		}
 		
-		userService.joinMember(joinVo);
-		return "redirect:/loginUser";
+		Boolean result = userService.joinMember(joinVo);
+		if(result) {
+			
+			return "redirect:/loginUser";
+		} else {
+			return "user/join";
+		}
 	}
 	
 	
