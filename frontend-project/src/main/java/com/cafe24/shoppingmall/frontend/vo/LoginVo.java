@@ -10,6 +10,9 @@ public class LoginVo {
 	@Length(min=1, message="비밀번호를 입력해주세요.")
 	private String password;
 	
+	public LoginVo(String id) {
+		this.id = id;
+	}
 	public String getId() {
 		return id;
 	}

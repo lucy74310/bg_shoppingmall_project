@@ -54,7 +54,7 @@
 						</span>
 					</div>
 					<form:input path="name" class="form-control" placeholder="Name"
-						type="text" />
+						type="text" autofocus="autofocus"/>
 				</div>
 				 <p class="errormsg"><form:errors path="name" /></p>
 				

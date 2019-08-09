@@ -13,8 +13,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cafe24.shoppingmall.frontend.dto.JSONResult;
+import com.cafe24.shoppingmall.frontend.dto.JSONResult2;
 import com.cafe24.shoppingmall.frontend.vo.AdminVo;
 import com.cafe24.shoppingmall.frontend.vo.JoinVo;
+import com.cafe24.shoppingmall.frontend.vo.LoginVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -27,40 +29,43 @@ public class UserService {
 	private RestTemplate restTemplate;
 	private ObjectMapper om = new ObjectMapper();
 
-	public MemberVo get(String id) {
-		String uri = "/api/admin/login";
+	public MemberVo getMember(String id) {
+		String uri = "/api/user/login";
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		AdminVo adminVo = new AdminVo("test");
+		LoginVo loginVo = new LoginVo(id);
 
-		JSONResult result = null;
+		JSONResult2 result = null;
 		MemberVo memberVo = null;
-
+		
 		try {
-			result = restTemplate.postForObject(ProductService.restUrl + uri, adminVo, JSONResult.class);
+			result = restTemplate.postForObject(ProductService.restUrl + uri, loginVo, JSONResult2Member.class);
+			memberVo = (MemberVo) result.getData();
+			System.out.println(result);
 		} catch (HttpClientErrorException e) {
-			String result2 = e.getResponseBodyAsString();
+			String failResult = e.getResponseBodyAsString();
+			memberVo = om.convertValue(failResult, JSONResult2Member.class).getData();
 		}
-		adminVo = om.convertValue(result.getData(), AdminVo.class);
-		System.out.println(memberVo);
-
+		
 		return memberVo;
 	}
 
 	public AdminVo adminGet(String id) {
 		String uri = "/api/admin/login";
 
-		AdminVo adminVo = new AdminVo("test");
+		AdminVo adminVo = new AdminVo(id);
 
 		JSONResult result = null;
 
 		try {
 			result = restTemplate.postForObject(ProductService.restUrl + uri, adminVo, JSONResult.class);
+			System.out.println(result);
 		} catch (HttpClientErrorException e) {
 			String result2 = e.getResponseBodyAsString();
+			return null;
 		}
-		adminVo = om.convertValue(result.getData(), AdminVo.class);
+		if("success".equals(result.getResult())) {
+			adminVo = om.convertValue(result.getData(), AdminVo.class);
+		}
 		return adminVo;
 	}
 
@@ -110,6 +115,9 @@ public class UserService {
 			}
 		}
 		return result;
+	}
+	
+	private static class JSONResult2Member extends JSONResult2<MemberVo> {
 	}
 
 }

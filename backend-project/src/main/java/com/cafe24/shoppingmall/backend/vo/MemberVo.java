@@ -36,7 +36,7 @@ public class MemberVo {
 	private String address;
 	private int point;
 	private String m_state;
-	
+	private String role;
 	public MemberVo() {}
 	
 	
@@ -159,6 +159,12 @@ public class MemberVo {
 	public void setPoint(int point) {
 		this.point = point;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 
 	@Override
@@ -166,7 +172,7 @@ public class MemberVo {
 		return "MemberVo [no=" + no + ", id=" + id + ", name=" + name + ", password=" + password + ", phone=" + phone
 				+ ", telephone=" + telephone + ", email=" + email + ", birth=" + birth + ", join_date=" + join_date
 				+ ", update_date=" + update_date + ", leave_date=" + leave_date + ", address=" + address + ", point="
-				+ point + ", m_state=" + m_state + "]";
+				+ point + ", m_state=" + m_state + ", role=" + role + "]";
 	}
 
 

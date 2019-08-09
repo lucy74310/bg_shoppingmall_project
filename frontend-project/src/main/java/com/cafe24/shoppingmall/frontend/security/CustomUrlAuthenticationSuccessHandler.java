@@ -55,15 +55,14 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
 		System.out.println(accept);
 		
     	if( accept == null || accept.matches( ".*application/json.*" ) == false ) {
-    		System.out.println("1");
     		request.getSession(true).setAttribute("loginNow", true);
-    		if("ROLE_USER".equals(securityUser.getAuthorities().toString())) {
-    			System.out.println("2");
-	            getRedirectStrategy().sendRedirect( request, response, "/" );
+    		System.out.println(securityUser.getAuthorities().toString());
+    		if("[ROLE_USER]".equals(securityUser.getAuthorities().toString())) {
+	            response.sendRedirect("/shop");
+	            System.out.println("user");	            
     		} else {
-    			System.out.println("3");
     			response.sendRedirect("/shop/admin");
-    			//getRedirectStrategy().sendRedirect( request, response, "/admin" );
+    			System.out.println("admin");
     		}
     		return;
     	}

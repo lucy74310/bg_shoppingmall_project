@@ -7,7 +7,7 @@
 	<select id="check_id" parameterType="string" resultType="membervo">
 		<![CDATA[
 			select 
-				no, id, m_state
+				no, id
 			from member 
 			where id = #{id}	
 		]]> 
@@ -17,16 +17,10 @@
 	<select id="get_login_member" resultType="membervo" parameterType="loginvo">
 		<![CDATA[
 		SELECT 
-			m.no, m.id, 
-			AES_DECRYPT(m.name, 'bugwang'), 
-			AES_DECRYPT(m.phone, 'bugwang'), 
-			AES_DECRYPT(m.telephone, 'bugwang'), 
-			AES_DECRYPT(m.email, 'bugwang'), m.birth, m.point, 
-			AES_DECRYPT(a.address, 'bugwang')
-		 FROM member AS m
-		 LEFT JOIN address AS a ON m.`no` = a.member_no
-		WHERE id = #{id} and password = sha2(#{password},512) and m_state = '0'
-		  AND (a.is_default = 'Y' OR a.is_default IS NULL);
+			no, id, 
+			password, role
+		 FROM member
+		WHERE id = #{id} and m_state = '0'
 		]]>
 	</select>
 	
@@ -34,11 +28,11 @@
 	<insert id="insert" parameterType="membervo">
 		<![CDATA[
 			insert into member 
-			(id, name, password, phone, telephone, email, birth, point, join_date, m_state) 
+			(id, name, password, phone, telephone, email, birth, point, join_date, m_state,ROLE) 
 			values 
 				(#{id}, aes_encrypt(#{name},'bugwang'), #{password}, 
 				aes_encrypt(#{phone}, 'bugwang'), aes_encrypt(#{telephone}, 'bugwang'), 
-				aes_encrypt(#{email}, 'bugwang'), #{birth}, 0, now(), '0');
+				aes_encrypt(#{email}, 'bugwang'), #{birth}, 0, now(), '0', 'ROLE_USER');
 		
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 

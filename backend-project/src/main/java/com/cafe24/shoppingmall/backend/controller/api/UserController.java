@@ -101,19 +101,8 @@ public class UserController {
 	@ApiOperation(value="로그인")
 	@PostMapping(value= {"/login"})
 	public ResponseEntity<JSONResult> login(
-		@RequestBody @Valid LoginVo loginVo,
-		BindingResult valid
+		@RequestBody LoginVo loginVo
 	) {
-		//id, pwd 입력 체크 
-		if(valid.hasErrors()) {
-			Map<String, String> errMap = new HashMap<String, String>();
-			for(ObjectError err : valid.getAllErrors()) {
-				FieldError f = (FieldError) err;
-				errMap.put(f.getField(), f.getDefaultMessage());
-			}
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수항목을 입력해주세요", errMap));
-		}
 		
 		//db에서 id,pwd 일치하는 회원 정보 가져오기
 		MemberVo memVo = userService.getLoginMember(loginVo);
