@@ -24,13 +24,13 @@ public class CategoryService {
 	private ObjectMapper om = new ObjectMapper();
 	private JSONResult jsonResult = null;
 	
+	
 	public List<CategoryVo> getListAll() {
 		List<CategoryVo> cate_list = new ArrayList<CategoryVo>();
 		RestTemplate restTemplate = new RestTemplate();
-		String host = "http://localhost:8080";
-		String url = "/backend-project/api/category/list";
+		String url = "/api/category/list";
 		try {
-			jsonResult = restTemplate.getForObject(host + url, JSONResult.class );
+			jsonResult = restTemplate.getForObject(ProductService.restUrl + url, JSONResult.class );
 			
 			
 		} catch(HttpClientErrorException e) {
@@ -84,5 +84,8 @@ public class CategoryService {
 		
 		return null;
 	}
+	
+	
+	
 
 }

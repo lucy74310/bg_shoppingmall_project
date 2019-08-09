@@ -137,7 +137,7 @@ public class UserControllerTest {
 		memVo.setName("조부광");
 		memVo.setTelephone("010-4904-7443");
 		memVo.setEmail("lucy@gmail.com");
-		memVo.setBirthday("1993-10-10");
+		memVo.setBirth("1993-10-10");
 		memVo.setPassword("password7443!");
 		
 		//id 양식미충족 - 4자 미안
@@ -170,7 +170,7 @@ public class UserControllerTest {
 		memVo.setName("조부광");
 		memVo.setTelephone("010-4904-7443");
 		memVo.setEmail("lucy@gmail.com");
-		memVo.setBirthday("1993-10-10");
+		memVo.setBirth("1993-10-10");
 		memVo.setId("test");
 		
 		//password 양식미충족 - 8자 미만
@@ -223,7 +223,7 @@ public class UserControllerTest {
 		memVo.setName("조부광");
 		memVo.setTelephone("010-4904-7443");
 		memVo.setEmail("lucy@gmail.com");
-		memVo.setBirthday("1993-10-10");
+		memVo.setBirth("1993-10-10");
 		
 		memVo.setId("test_user1");
 		memVo.setPassword("test_user1!");

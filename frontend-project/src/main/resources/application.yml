@@ -48,6 +48,9 @@ spring:
        static:
               resource:
                        location: file:./D:/shoppingmall-uploads/
+myrest:
+       url: http://localhost:8080/backend-project
+ 
 #security:
 #         user:
 #              name: test

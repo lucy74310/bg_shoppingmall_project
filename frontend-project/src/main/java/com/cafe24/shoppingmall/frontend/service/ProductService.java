@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProductService {
-
+	
+	@Value("${myrest.url}")
+	public static String restUrl = "http://localhost:8080/backend-project";
+	
+	
 	@Autowired
 	private RestTemplate restTemplate;
 
 	private ObjectMapper om = new ObjectMapper();
-	private String HOST = "http://localhost:8080/backend-project";
+	
+	
 	private static final String SAVE_PATH = "/shoppingmall-uploads/";
 
 	public List<ProductVo> getListAll() {
@@ -42,7 +48,7 @@ public class ProductService {
 		JSONResult jsonResult = null;
 
 		try {
-			ResponseEntity<JSONResult> response = restTemplate.exchange(HOST + url, HttpMethod.GET, null,
+			ResponseEntity<JSONResult> response = restTemplate.exchange(restUrl + url, HttpMethod.GET, null,
 					JSONResult.class);
 			jsonResult = response.getBody();
 		} catch (HttpClientErrorException e) {
@@ -76,7 +82,7 @@ public class ProductService {
 		JSONResult jsonResult = null;
 
 		try {
-			ResponseEntity<JSONResult> response = restTemplate.exchange(HOST + url, HttpMethod.GET, null,
+			ResponseEntity<JSONResult> response = restTemplate.exchange(restUrl + url, HttpMethod.GET, null,
 					JSONResult.class, category_no);
 			jsonResult = response.getBody();
 		} catch (HttpClientErrorException e) {

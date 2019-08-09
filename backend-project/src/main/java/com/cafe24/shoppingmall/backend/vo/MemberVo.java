@@ -1,9 +1,5 @@
 package com.cafe24.shoppingmall.backend.vo;
 
-
-
-
-
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,7 +28,7 @@ public class MemberVo {
 	private String email;
 	
 	@NotEmpty(message="생일은 필수 입력 사항입니다.")
-	private String birthday;
+	private String birth;
 	
 	private String join_date;
 	private String update_date;
@@ -45,20 +41,20 @@ public class MemberVo {
 	
 	
 	public MemberVo(String id, String name, String password, String telephone,
-			String email, String birthday, String address) {
+			String email, String birth, String address) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.telephone = telephone;
 		this.email = email;
 		this.address = address;
-		this.birthday = birthday;
+		this.birth = birth;
 		
 	}
 	
 	//이름, 전화번호, 휴대전화번호, 이메일, 생일 수정 가능
 	public MemberVo(Long no, String id, String name, String password, String phone, String telephone, String email,
-			String birthday) {
+			String birth) {
 		super();
 		this.no = no;
 		this.id = id;
@@ -67,7 +63,7 @@ public class MemberVo {
 		this.phone = phone;
 		this.telephone = telephone;
 		this.email = email;
-		this.birthday = birthday;
+		this.birth = birth;
 	}
 	
 	//삭제 테스트 시 
@@ -120,11 +116,11 @@ public class MemberVo {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getBirthday() {
-		return birthday;
+	public String getBirth() {
+		return birth;
 	}
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 	public String getJoin_date() {
 		return join_date;
@@ -168,10 +164,12 @@ public class MemberVo {
 	@Override
 	public String toString() {
 		return "MemberVo [no=" + no + ", id=" + id + ", name=" + name + ", password=" + password + ", phone=" + phone
-				+ ", telephone=" + telephone + ", email=" + email + ", birthday=" + birthday + ", join_date="
-				+ join_date + ", update_date=" + update_date + ", leave_date=" + leave_date + ", address=" + address
-				+ ", point=" + point + ", m_state=" + m_state + "]";
+				+ ", telephone=" + telephone + ", email=" + email + ", birth=" + birth + ", join_date=" + join_date
+				+ ", update_date=" + update_date + ", leave_date=" + leave_date + ", address=" + address + ", point="
+				+ point + ", m_state=" + m_state + "]";
 	}
+
+
 	
 	
 }

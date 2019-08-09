@@ -17,9 +17,8 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
-import com.cafe24.shoppingmall.frontend.dto.JSONResult2;
+import com.cafe24.shoppingmall.frontend.dto.JSONResult;
 
-import jdk.nashorn.internal.runtime.logging.Logger;
 
 
 public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -72,7 +71,7 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
     	MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
     	MediaType jsonMimeType = MediaType.APPLICATION_JSON;
 		
-    	JSONResult2 jsonResult = JSONResult2.success( securityUser );
+    	JSONResult jsonResult = JSONResult.success( securityUser );
     	if( jsonConverter.canWrite( jsonResult.getClass(), jsonMimeType ) ) {
         	jsonConverter.write( jsonResult, jsonMimeType, new ServletServerHttpResponse( response ) );
     	}

@@ -1,31 +1,47 @@
 package com.cafe24.shoppingmall.frontend.dto;
 
-public class JSONResult2 {
+public class JSONResult2<T> {
 	private String result;  //success, fail
 	private String message; //if fail, set
-	private Object data;    //if success, set
+	private T data;    //if success, set
 
-	public static JSONResult2 success(Object data) {
-		return new JSONResult2("success", null, data);
+	public JSONResult2() {
+		super();
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public static JSONResult2 fail(String message) {
 		return new JSONResult2("fail", message, null);
 	}
 	
-	private JSONResult2(String result, String message, Object data) {
+	
+	public JSONResult2(String result, String message, T data) {
 		this.result = result;
 		this.message = message;
 		this.data = data;
 	}
-	
+
 	public String getResult() {
 		return result;
 	}
 	public String getMessage() {
 		return message;
 	}
-	public Object getData() {
+	public T getData() {
 		return data;
 	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+	
+	
 }

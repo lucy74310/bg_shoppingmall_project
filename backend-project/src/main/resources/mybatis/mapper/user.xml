@@ -38,7 +38,7 @@
 			values 
 				(#{id}, aes_encrypt(#{name},'bugwang'), #{password}, 
 				aes_encrypt(#{phone}, 'bugwang'), aes_encrypt(#{telephone}, 'bugwang'), 
-				aes_encrypt(#{email}, 'bugwang'), #{birthday}, 0, now(), '0');
+				aes_encrypt(#{email}, 'bugwang'), #{birth}, 0, now(), '0');
 		
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER"> 
@@ -88,7 +88,7 @@
 			phone = aes_encrypt(#{phone}, 'bugwang'),
 			telephone = aes_encrypt(#{telephone}, 'bugwang'),
 			email = aes_encrypt(#{email}, 'bugwang'),
-			birth = #{birthday},
+			birth = #{birth},
 			update_date = now()
 		where no = #{no} and id = #{id} and password = sha2(#{password}, 512)
 	</update>
@@ -117,7 +117,7 @@
 			AES_DECRYPT(m.phone, 'bugwang') as phone, 
 			AES_DECRYPT(m.telephone, 'bugwang') as telephone, 
 			AES_DECRYPT(m.email, 'bugwang') as email, 
-			m.birth as birthday , m.point, 
+			m.birth , m.point, 
 			AES_DECRYPT(a.address, 'bugwang'),
 			m.join_date, m.update_date, m.leave_date, m.m_state
 		 FROM member AS m

@@ -26,7 +26,6 @@ public class AdminService {
 	private RestTemplate restTemplate;
 	
 	private ObjectMapper om = new ObjectMapper();
-	private String HOST = "http://localhost:8080/backend-project";
 	
 	@SuppressWarnings("unchecked")
 	public List<MemberVo> getMemberListAll() {
@@ -36,7 +35,7 @@ public class AdminService {
 		String uri = "/api/user/list";
 		
 		try {
-			jsonResult = restTemplate.getForObject(HOST+uri, JSONResult.class);
+			jsonResult = restTemplate.getForObject(ProductService.restUrl+uri, JSONResult.class);
 		} catch(HttpClientErrorException e) {
 			String responseBody = e.getResponseBodyAsString();
 			try {
@@ -87,7 +86,7 @@ public class AdminService {
 		String uri = "/api/product/add";
 		System.out.println(productVo);
 		try {
-			jsonResult = restTemplate.postForObject(HOST+ uri, productVo, JSONResult.class );
+			jsonResult = restTemplate.postForObject(ProductService.restUrl+ uri, productVo, JSONResult.class );
 		} catch(HttpClientErrorException e) {
 			String responseBody = e.getResponseBodyAsString();
 			try {
