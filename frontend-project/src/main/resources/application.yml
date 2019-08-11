@@ -23,6 +23,7 @@ spring:
                       enabled: true
                       max-file-size: 50MB
                       max-request-size: 50MB
+            auto-config: true
        aop:
            auto: true
        aop-proxy-target-class: true

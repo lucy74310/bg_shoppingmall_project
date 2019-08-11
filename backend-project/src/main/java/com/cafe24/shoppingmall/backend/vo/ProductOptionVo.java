@@ -113,9 +113,9 @@ public class ProductOptionVo {
 	
 	
 	
-	public ProductOptionVo(String po_name, Long plus_price, int po_order) {
-		super();
+	public ProductOptionVo(String po_name, String po_code, Long plus_price, int po_order) {
 		this.po_name = po_name;
+		this.po_code = po_code;
 		this.plus_price = plus_price;
 		this.po_order = po_order;
 	}

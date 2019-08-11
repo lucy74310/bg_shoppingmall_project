@@ -32,6 +32,12 @@
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 <script>
+	var deleteOption = function(e) {
+		console.log('cancel-btn');
+		console.log(e.path[2].dataset.option);
+		var op_no = e.path[2].dataset.option;
+		$('*[data-option="' + op_no + '"]').remove();
+	}
 	$(document).ready(function() {
 
 		$('#summernote').summernote({
@@ -43,9 +49,9 @@
 		});
 	});
 </script>
+
 <!-- Menu Toggle Script -->
-<script
-	src="${pageContext.servletContext.contextPath }/assets/js/product-register.js"></script>
+
 </head>
 <body>
 
@@ -86,14 +92,15 @@
 										<span class="input-group-text" id="basic-addon1">상품명</span>
 									</div>
 									<input type="text" class="form-control" name="product_name"
-										placeholder="ex) 여름 무지 린넨 셔츠"
-										aria-label="Username" aria-describedby="basic-addon1" autofocus required/>
+										placeholder="ex) 여름 무지 린넨 셔츠" aria-label="Username"
+										aria-describedby="basic-addon1" autofocus required />
 								</div>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text">￦</span>
 									</div>
-									<input type="number" class="form-control" name="product_price" required>
+									<input type="number" class="form-control" name="product_price"
+										required>
 									<div class="input-group-append">
 										<span class="input-group-text">원</span>
 									</div>
@@ -149,28 +156,27 @@
 									</ul>
 								</div>
 								<div id="option-list" style="display: none;">
-									<div class="card text-center etc-item option"
-										style="width: 10rem;" data-option=1>
-										<div class="card-header">
-											<input type="text" name="op_name" style="width: 5rem;"
-												placeholder="옵션명" />
+									<%-- <div class='card text-center etc-item option' data-option=1
+										data-listorder=0>
+										<div class='card-header'>
+											<input type='text' name='o_list[0].op_name'
+												style='width: 7rem;' placeholder='옵션명' required /> <img
+												src='${pageContext.servletContext.contextPath}/assets/image/icon/cancel-button.png'
+												class='cancel-btn' onclick='javascript:deleteOption(event)'>
 										</div>
-										<ul class="list-group list-group-flush">
-											<li class="list-group-item" data-order=1><input
-												type="text" name="opd_name" style="width: 6rem;"
-												placeholder="옵션 항목명"></li>
-											<li class="list-group-item" data-order=2><input
-												type="text" name="opd_name" style="width: 6rem;"
-												placeholder="옵션 항목명"></li>
-											<li class="list-group-item" data-order=3><input
-												type="text" name="opd_name" style="width: 6rem;"
-												placeholder="옵션 항목명"></li>
+										<ul class='list-group list-group-flush opd'>
+											<li class='list-group-item'><input type='text'
+												name='o_list[0].od_list[0].opd_name' style='width: 6rem;'
+												placeholder='옵션 항목명' required> <input type='number'
+												name='o_list[0].od_list[0].plus_price'
+												style='width: 5.5rem;' placeholder='추가금액' required>원
+											</li>
 										</ul>
-										<ul class="list-group list-group-flush">
-											<li class="btn btn-primary option-detail-add-button"
-												style="border: none;">+항목추가</li>
+										<ul class='list-group list-group-flush'>
+											<li class='btn btn-primary option-detail-add-button'
+												style='border: none;' data-parent=1>+항목추가</li>
 										</ul>
-									</div>
+									</div> --%>
 								</div>
 							</div>
 						</div>
@@ -196,10 +202,34 @@
 								</ul>
 							</div>
 							<div class="card-body">
-								<h5 class="card-title">Special title treatment</h5>
-								<p class="card-text">With supporting text below as a natural
-									lead-in to additional content.</p>
-								<a href="#" class="btn btn-primary">Go somewhere</a>
+								<p class="card-text">
+									<c:forEach items="${categories }" var="c">
+										<p>
+											<input type="checkbox" id=${c.no } name="cate_list" value="${c.no }" /> 
+											<label for="${c.no }">(대분류)${c.category_name }</label>
+											&nbsp;&nbsp;&nbsp;&nbsp;
+											<c:if test="${not empty c.sub_categories }">
+												<c:forEach items="${c.sub_categories }" var="mid">
+													<input type="checkbox" id=${mid.no } name="cate_list" value="${mid.no }" />
+													<label for="${mid.no }">(중분류)${mid.category_name }</label> &nbsp;&nbsp;&nbsp;&nbsp;
+												<c:if test="${not empty mid.sub_categories }">
+														<c:forEach items="${mid.sub_categories }" var="sm">
+															<input type="checkbox" id=${sm.no } name="cate_list" value="${sm.no }" />
+															<label for="${sm.no }">(소분류)${sm.category_name }</label> &nbsp;&nbsp;&nbsp;&nbsp;
+															<c:if test="${not empty sm.sub_categories }">
+																<c:forEach items="${sm.sub_categories }" var="d">
+																	<input type="checkbox" id=${d.no } name="cate_list"
+																		value="${d.no }" />
+																	<label for="${d.no }">(상세분류)${d.category_name }</label> &nbsp;&nbsp;&nbsp;&nbsp;
+																</c:forEach><br>
+															</c:if>
+														</c:forEach>
+													</c:if>
+												</c:forEach>
+											</c:if>
+										</p>
+									</c:forEach>
+								</p>
 							</div>
 						</div>
 						<!-- 기타사항 -->
@@ -260,9 +290,8 @@
 								</div>
 							</div>
 						</div>
-						<br>
-						<input type="submit" class="btn btn-primary" style="float: left"
-							value="등록">
+						<br> <input type="submit" class="btn btn-primary"
+							style="float: left" value="등록">
 					</form>
 				</div>
 
@@ -274,7 +303,8 @@
 		<!-- /#page-content-wrapper -->
 	</div>
 	<!-- /#wrapper -->
-
+	<script
+		src="${pageContext.servletContext.contextPath }/assets/js/product-register.js"></script>
 </body>
 
 </html>

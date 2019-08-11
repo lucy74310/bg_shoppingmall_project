@@ -50,11 +50,7 @@ public class MainController {
 		List<CategoryVo> categories = categoryService.getListAll();
 		List<ProductVo> products = null;
 		if(category_no.isPresent()) {
-			if(category_no.get() == 13L) {
-				products = productService.getListAll();
-			}else {
-				products = productService.getByCategory(category_no.get());
-			}
+			products = productService.getByCategory(category_no.get());
 		} else {
 			products = productService.getListAll(); 
 		}

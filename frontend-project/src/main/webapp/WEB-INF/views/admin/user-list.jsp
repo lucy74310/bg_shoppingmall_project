@@ -58,7 +58,7 @@
 									<td>${m.phone }</td>
 									<td>${m.telephone }</td>
 									<td>${m.email }</td>
-									<td>${m.birthday }</td>
+									<td>${m.birth }</td>
 									<td>${m.point }</td>
 									<td>${m.join_date }</td>
 									<td>${m.leave_date }</td>

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cafe24.shoppingmall.frontend.dto.JSONResult;
 import com.cafe24.shoppingmall.frontend.vo.ImageVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
+import com.cafe24.shoppingmall.frontend.vo.ProductCategoryVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -65,12 +66,12 @@ public class AdminService {
 		
 	}
 
-	public JSONResult registerProduct(ProductVo productVo, List<String> image_url) {
+	public JSONResult registerProduct(ProductVo productVo, List<String> image_url, List<Long> category_no_list) {
 		
 		List<ImageVo> images = new ArrayList<ImageVo>();
 		int i = 1;
 		ImageVo vo;
-		if(image_url.size() > 0) {
+		if(image_url !=null && image_url.size() > 0) {
 			for(String s : image_url) {
 				if (i == 1) {
 					vo = new ImageVo(s, "Y", i++);	
@@ -81,6 +82,14 @@ public class AdminService {
 			}
 			
 			productVo.setImage_list(images);
+		}
+		List<ProductCategoryVo> category_list = new ArrayList<ProductCategoryVo>();
+		if(category_no_list != null && category_no_list.size() > 0) {
+			for(Long c : category_no_list) {
+				ProductCategoryVo pcvo = new ProductCategoryVo(c);
+				category_list.add(pcvo);
+			}
+			productVo.setCategory_list(category_list);
 		}
 		JSONResult jsonResult = null;
 		String uri = "/api/product/add";

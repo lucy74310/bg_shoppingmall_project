@@ -49,25 +49,25 @@ public class UserService {
 		return memberVo;
 	}
 
-	public AdminVo adminGet(String id) {
-		String uri = "/api/admin/login";
-
-		AdminVo adminVo = new AdminVo(id);
-
-		JSONResult result = null;
-
-		try {
-			result = restTemplate.postForObject(ProductService.restUrl + uri, adminVo, JSONResult.class);
-			System.out.println(result);
-		} catch (HttpClientErrorException e) {
-			String result2 = e.getResponseBodyAsString();
-			return null;
-		}
-		if("success".equals(result.getResult())) {
-			adminVo = om.convertValue(result.getData(), AdminVo.class);
-		}
-		return adminVo;
-	}
+//	public AdminVo adminGet(String id) {
+//		String uri = "/api/admin/login";
+//
+//		AdminVo adminVo = new AdminVo(id);
+//
+//		JSONResult result = null;
+//
+//		try {
+//			result = restTemplate.postForObject(ProductService.restUrl + uri, adminVo, JSONResult.class);
+//			System.out.println(result);
+//		} catch (HttpClientErrorException e) {
+//			String result2 = e.getResponseBodyAsString();
+//			return null;
+//		}
+//		if("success".equals(result.getResult())) {
+//			adminVo = om.convertValue(result.getData(), AdminVo.class);
+//		}
+//		return adminVo;
+//	}
 
 	public Boolean joinMember(JoinVo joinVo) {
 		String uri = "/api/user/join";

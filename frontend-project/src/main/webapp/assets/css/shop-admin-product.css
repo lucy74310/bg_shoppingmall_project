@@ -1,11 +1,31 @@
-.etc-item-box{
-	display:inline-block;
+.etc-item-box {
+	display: inline-block;
 }
-.etc-item-box .etc-item{
+
+.etc-item-box .etc-item {
 	float: left;
 	margin-right: 20px;
 	margin-bottom: 20px;
 }
+.option {
+	width: 17rem;
+}
 .option-box .card {
 	margin-bottom: 10px;
+}
+
+.cancel-btn {
+	position: absolute;
+	top: 17px;
+	right: 10px;
+	width: 20px;
+	height: 20px;
+}
+
+.cancel-detail-btn {
+	position: absolute;
+	top: 17px;
+	right: 5px;
+	width: 20px;
+	height: 20px;
 }

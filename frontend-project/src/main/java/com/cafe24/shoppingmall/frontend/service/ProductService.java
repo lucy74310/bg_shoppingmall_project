@@ -118,7 +118,7 @@ public class ProductService {
 		List<String> urls = new ArrayList<String>();
 		try {
 			for(MultipartFile f : images) {
-				
+				if(!f.isEmpty()) {
 				String originalFileName = f.getOriginalFilename();
 				
 				String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
@@ -134,6 +134,7 @@ public class ProductService {
 				
 				String url = "/uploads/" + saveFileName;
 				urls.add(url);
+				}
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -185,6 +186,7 @@ public class ProductService {
 		
 		if("success".equals(jsonResult.getResult())) {
 			ProductVo p = jsonResult.getData();
+			System.out.println(p);
 			return p;
 		}
 		return null;

@@ -30,12 +30,15 @@ public class ProductController {
 	public String detail(Model  model) {
 		
 		List<CategoryVo> categories = categoryService.getListAll();
+		System.out.println(categories);
 		model.addAttribute("categories", categories);
 		return "product/item";
 	}
 	
 	@GetMapping("/detail/{no}")
 	public String detailNo(Model model, @PathVariable("no") Optional<Long> no) {
+		List<CategoryVo> categories = categoryService.getListAll();
+		model.addAttribute("categories", categories);
 		if(no.isPresent()) {
 			ProductVo p = productService.getDetail(no.get());
 			model.addAttribute("p", p);

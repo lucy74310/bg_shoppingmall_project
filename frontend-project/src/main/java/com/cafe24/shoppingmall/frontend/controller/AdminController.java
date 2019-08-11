@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.shoppingmall.frontend.dto.JSONResult;
 import com.cafe24.shoppingmall.frontend.service.AdminService;
+import com.cafe24.shoppingmall.frontend.service.CategoryService;
 import com.cafe24.shoppingmall.frontend.service.ProductService;
+import com.cafe24.shoppingmall.frontend.vo.CategoryVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 
@@ -28,6 +30,9 @@ public class AdminController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	@GetMapping({"/admin", "/admin/main", "/admin/product","/admin/product/list"})
 	public String main(Model model) {
@@ -49,19 +54,25 @@ public class AdminController {
 	
 	
 	@GetMapping("/admin/product/register")
-	public String productAddPage() {
-		
+	public String productAddPage(Model model) {
+		List<CategoryVo> categories = categoryService.getListAll();
+		System.out.println(categories);
+		model.addAttribute("categories", categories);
 		return "admin/product-register";
 	}
+	
+	
+	
 	@PostMapping("/admin/product/register")
 	public String productAdd(
 			ProductVo productVo, 
 			@RequestParam("image_add_list") List<MultipartFile> images,
+			@RequestParam("cate_list") List<Long> category_no_list,
 			Model model
 	) {
-		
+		System.out.println(category_no_list);
 		List<String> image_url =  productService.uploadImages(images);
-		JSONResult result = adminService.registerProduct(productVo, image_url);
+		JSONResult result = adminService.registerProduct(productVo, image_url, category_no_list);
 		
 		if("success".equals(result.getResult())) {
 			return "redirect:/admin/product";

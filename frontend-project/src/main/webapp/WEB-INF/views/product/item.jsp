@@ -101,7 +101,14 @@
 						</div>
 						<br>
 						<p class="card-text">
-						<h5 class="info">옵션</h5>
+							<h5 class="info">옵션</h5>
+							<c:if test="${not empty p.po_list }" >
+								<select name="select_product_option" class="option-box">
+									<c:forEach items="${p.po_list }" var="po" varStatus="i">
+										<option value="${po.no}" class="opd">${po.po_name }&nbsp;&nbsp;&nbsp;&nbsp;+${po.plus_price }</option>
+									</c:forEach>
+								</select>
+							</c:if>
 						</p>
 						<div class="text-center">
 							<a href="#" class="btn btn-success buy-btn">구매하기</a> <a href="#"
