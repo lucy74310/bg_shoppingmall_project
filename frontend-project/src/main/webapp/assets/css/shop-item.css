@@ -4,5 +4,54 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-item/blob/master/LICENSE)
  */
 body {
+  font-family: 'Noto Sans KR', sans-serif;
   padding-top: 56px;
 }
+.wrap-div {
+	display: inline-block;
+}
+.carousel{
+	width:60%;
+	height:450px;
+	float: left;
+}
+.carousel-item{
+	height:450px;
+	text-align: center;
+	border: 1px solid #F1F3F4;
+}
+.carousel img {
+	height: 100%;
+	display: block; margin: 0px auto;
+	border-radius: 5px;
+}
+
+.detail-info {
+	width:40%;
+	float:left;
+	height: 450px;
+}
+
+@media all and (max-width: 768px) {
+	.carousel{
+		width:100%;
+	}
+	.detail-info {
+		width:100%;
+	}
+}
+
+.card-text .info {
+	margin : 15px 0;	
+}
+.btn {
+	width: 100%;
+}
+.buy-btn {
+	margin-bottom: 5px;
+}
+a.bshop-title , a.bshop-title:hover{
+	text-decoration: none;
+	color: #000;
+}
+

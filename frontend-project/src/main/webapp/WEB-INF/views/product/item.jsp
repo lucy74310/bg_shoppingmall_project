@@ -1,19 +1,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Shop Homepage - Start Bootstrap Template</title>
-	<!-- Bootstrap core CSS -->
-	<link href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<!-- Custom styles for this template -->
-	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Shop Homepage - Start Bootstrap Template</title>
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Custom styles for this template -->
+<link
+	href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -27,73 +34,103 @@
 	<div class="container">
 
 		<div class="row">
+			<!-- s:카테고리 -->
+			<c:import url='/WEB-INF/views/includes/category.jsp' />
+			<!-- e:카테고리 -->
 
-			<div class="col-lg-3">
-				<h1 class="my-4">Shop Name</h1>
-				<div class="list-group">
-					<a href="#" class="list-group-item active">Category 1</a>
-					<a href="#" class="list-group-item">Category 2</a>
-					<a href="#" class="list-group-item">Category 3</a>
+			<div class="col-lg-9 wrap-div">
+				<div id="carouselExampleIndicators" class="carousel slide my-4"
+					data-ride="carousel">
+					<ol class="carousel-indicators">
+						<c:if test="${not empty p.image_list }">
+							<c:forEach items="${p.image_list }" var="i" varStatus="index">
+								<c:choose>
+									<c:when test="${index.first }">
+										<li data-target="#carouselExampleIndicators"
+											data-slide-to="${index.index }" class="active"></li>
+									</c:when>
+									<c:otherwise>
+										<li data-target="#carouselExampleIndicators"
+											data-slide-to="${index.index }"></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</c:if>
+					</ol>
+					<div class="carousel-inner" role="listbox">
+						<c:if test="${not empty p.image_list }">
+							<c:forEach items="${p.image_list }" var="i" varStatus="index">
+								<c:choose>
+									<c:when test="${index.first }">
+										<div class="carousel-item active">
+											<img class="d-block img-fluid"
+												src="${pageContext.servletContext.contextPath }/${i.url}"
+												alt="product image">
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="carousel-item ">
+											<img class="d-block img-fluid"
+												src="${pageContext.servletContext.contextPath }/${i.url}"
+												alt="product image">
+										</div>
+									</c:otherwise>
+								</c:choose>
+
+							</c:forEach>
+						</c:if>
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators"
+						role="button" data-slide="prev"> <span
+						class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+						class="sr-only">Previous</span>
+					</a> <a class="carousel-control-next" href="#carouselExampleIndicators"
+						role="button" data-slide="next"> <span
+						class="carousel-control-next-icon" aria-hidden="true"></span> <span
+						class="sr-only">Next</span>
+					</a>
 				</div>
-			</div>
-			<!-- /.col-lg-3 -->
-
-			<div class="col-lg-9">
-
-				<div class="card mt-4">
-					<img class="card-img-top img-fluid"
-						src="http://placehold.it/900x400" alt="">
+				<div class="card detail-info my-4">
+					<div class="card-header"><h4>${p.product_name}</h4></div>
 					<div class="card-body">
-						<h3 class="card-title">Product Name</h3>
-						<h4>$24.99</h4>
+						<br>
+						<div class="card-text ">
+						<h6 class="info">￦  ${p.product_price }</h6>
+						<h6 class="info">(배송비)<c:choose><c:when test="${p.shipping_price eq 0}">  무료배송</c:when><c:otherwise>  ${p.shipping_price }</c:otherwise></c:choose></h6>
+						<h6 class="info"> ${p.save_percentage } % 적립</h6>
+						</div>
+						<br>
 						<p class="card-text">
-							Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque
-							facere, soluta. Totam id dolores, sint aperiam sequi pariatur
-							praesentium animi perspiciatis molestias iure, ducimus!
+						<h5 class="info">옵션</h5>
 						</p>
-						<span class="text-warning">&#9733; &#9733; &#9733; &#9733;
-							&#9734;</span> 4.0 stars
+						<div class="text-center">
+							<a href="#" class="btn btn-success buy-btn">구매하기</a> <a href="#"
+								class="btn btn-warning">장바구니 담기</a>
+						</div>
 					</div>
 				</div>
-				<!-- /.card -->
 
 				<div class="card card-outline-secondary my-4">
-					<div class="card-header">Product Reviews</div>
+					<div class="card-header">Product Details</div>
 					<div class="card-body">
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+						<p>${p.product_detail }</p>
+						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 							Omnis et enim aperiam inventore, similique necessitatibus neque
 							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.
-						</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
+							Sequi mollitia, necessitatibus quae sint natus.</p>
+						<small class="text-muted">Posted by Anonymous on 3/1/17</small> -->
 						<hr>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Omnis et enim aperiam inventore, similique necessitatibus neque
-							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.
-						</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-						<hr>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Omnis et enim aperiam inventore, similique necessitatibus neque
-							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.
-						</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-						<hr>
-						<a href="#" class="btn btn-success">Leave a Review</a>
+						<a href="#" class="btn btn-success" onclick="goTop()"> 위로 가기 </a>
 					</div>
 				</div>
-				<!-- /.card -->
-
 			</div>
-			<!-- /.col-lg-9 -->
+			<!-- /.card -->
+
 
 		</div>
+		<!-- /.col-lg-9 -->
+
+	</div>
 
 	</div>
 	<!-- /.container -->
@@ -101,6 +138,12 @@
 	<!-- Footer -->
 	<c:import url='/WEB-INF/views/includes/footer.jsp' />
 	<!-- /.Footer -->
+	<script>
+		function goTop(e) {
+			e.preventDefault();
+			$('html').scrollTop(0);
+		}
+	</script>
 </body>
 
 </html>

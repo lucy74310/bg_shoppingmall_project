@@ -63,7 +63,9 @@ public class ProductService {
 	public Long addProduct(ProductVo productVo) {
 		
 		// 상품 insert
+		System.out.println("productVo :" + productVo.getProduct_name());
 		Long no = productDao.insertProduct(productVo);
+		System.out.println(no);
 		
 		if (no != null) {
 			// 옵션,세부옵션,상품옵션 insert

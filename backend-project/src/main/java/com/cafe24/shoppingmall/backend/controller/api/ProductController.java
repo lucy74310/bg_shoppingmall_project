@@ -47,20 +47,20 @@ public class ProductController {
 	@ApiOperation("상품등록")
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> productAdd(
-			@RequestBody @Valid ProductVo productVo,
+			@RequestBody ProductVo productVo,
 			BindingResult valid
 	) throws IOException {
-		
-		if(valid.hasErrors()) {
+		System.out.println(productVo);
+//		if(valid.hasErrors()) {
 //			Map<String, String> errMap = new HashMap<String, String>();
 //			for(ObjectError err : valid.getAllErrors()) {
 //				FieldError f = (FieldError) err;
 //				errMap.put(f.getField(), f.getDefaultMessage());
 //			}
-			System.out.println(valid.getModel().getClass().getName());
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("양식을 맞춰주세요.", valid.getModel()));
-		} 
+//			System.out.println(valid.getModel().getClass().getName());
+//			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//					.body(JSONResult.fail("양식을 맞춰주세요.", valid.getModel()));
+//		} 
 		
 		Long productNo = productService.addProduct(productVo);
 		if(productNo == null) {

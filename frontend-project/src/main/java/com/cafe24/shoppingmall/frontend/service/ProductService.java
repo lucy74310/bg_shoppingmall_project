@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +21,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.shoppingmall.frontend.dto.JSONResult;
+import com.cafe24.shoppingmall.frontend.dto.JSONResult2;
 import com.cafe24.shoppingmall.frontend.vo.ImageVo;
+import com.cafe24.shoppingmall.frontend.vo.MemberVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -157,6 +160,37 @@ public class ProductService {
 		fileName += "." + ext;
 
 		return fileName;
+	}
+
+	public ProductVo getDetail(Long no) {
+		String url = "/api/product/detail/{no}";
+
+		JSONResult2Product jsonResult = null;
+		
+		try {
+			jsonResult = restTemplate.getForObject(restUrl + url, JSONResult2Product.class, no);
+		} catch(HttpClientErrorException e) {
+			String responseBody = e.getResponseBodyAsString();
+			try {
+				jsonResult = om.readValue(responseBody, JSONResult2Product.class);
+			} catch (JsonParseException e1) {
+				e1.printStackTrace();
+			} catch (JsonMappingException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		if("success".equals(jsonResult.getResult())) {
+			ProductVo p = jsonResult.getData();
+			return p;
+		}
+		return null;
+	}
+	
+	private static class JSONResult2Product extends JSONResult2<ProductVo> {
 	}
 
 }

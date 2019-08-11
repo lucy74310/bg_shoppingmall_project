@@ -58,6 +58,8 @@
 		<id property="no" column="no"/>
 	    <result property="product_name" column="product_name"/>
 	    <result property="product_price" column="product_price"/>
+	    <result property="product_short_explain" column="product_short_explain"/>
+	    <result property="product_detail" column="product_detail"/>
 	    <result property="stock" column="stock"/>
 	    <result property="use_stock" column="use_stock"/>
 	    <collection property="o_list" column="no" javaType="java.util.ArrayList" ofType="optionvo" select="get_option_list"/>
@@ -67,7 +69,7 @@
 
 	<select id="get_product_detail_info" resultMap="get_detail_info" parameterType="long">
 	    SELECT 
-	    	p.no, p.product_name, p.product_price, p.stock, p.use_stock, p.displayed, p.selling, p.use_option,
+	    	p.no, p.product_name, p.product_price,p.product_short_explain, p.product_detail, p.stock, p.use_stock, p.displayed, p.selling, p.use_option,
 	    	p.save_percentage, p.shipping_price
 	    FROM product AS p WHERE p.no = #{value}
 	</select>

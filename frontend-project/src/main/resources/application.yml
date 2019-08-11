@@ -47,7 +47,7 @@ spring:
                               maxConnPerRoute: 5
        static:
               resource:
-                       location: file:./D:/shoppingmall-uploads/
+                       location: file:./C:/shoppingmall-uploads/
 myrest:
        url: http://localhost:8080/backend-project
  

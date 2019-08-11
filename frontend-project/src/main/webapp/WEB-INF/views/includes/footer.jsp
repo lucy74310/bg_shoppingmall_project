@@ -12,3 +12,5 @@
 	src="${pageContext.servletContext.contextPath }/assets/vendor/jquery/jquery.min.js"></script>
 <script
 	src="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.servletContext.contextPath }/assets/js/dropdown.js"></script>

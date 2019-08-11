@@ -89,6 +89,7 @@ public class AdminService {
 			jsonResult = restTemplate.postForObject(ProductService.restUrl+ uri, productVo, JSONResult.class );
 		} catch(HttpClientErrorException e) {
 			String responseBody = e.getResponseBodyAsString();
+			System.out.println(responseBody);
 			try {
 				jsonResult = om.readValue(responseBody, JSONResult.class);
 			} catch (JsonParseException e1) {

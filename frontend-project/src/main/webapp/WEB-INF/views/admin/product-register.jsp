@@ -87,13 +87,13 @@
 									</div>
 									<input type="text" class="form-control" name="product_name"
 										placeholder="ex) 여름 무지 린넨 셔츠"
-										aria-label="Username" aria-describedby="basic-addon1"/>
+										aria-label="Username" aria-describedby="basic-addon1" autofocus required/>
 								</div>
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text">￦</span>
 									</div>
-									<input type="number" class="form-control" name="product_price">
+									<input type="number" class="form-control" name="product_price" required>
 									<div class="input-group-append">
 										<span class="input-group-text">원</span>
 									</div>

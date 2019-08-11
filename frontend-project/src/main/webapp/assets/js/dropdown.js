@@ -11,3 +11,9 @@ function dropdown2(no) {
 	}
 	
 }
+
+$(function(){
+	
+	
+});
+
