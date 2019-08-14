@@ -33,7 +33,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web
 			.ignoring()
-				.regexMatchers("\\A/(u|assets|error)/.*\\Z")
+				.regexMatchers("\\A/(u|assets|uploads)/.*\\Z")
 				.regexMatchers("\\A/favicon.ico");
 	}
 
@@ -49,7 +49,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         	.rememberMe()
         		.key("shop")
         		.rememberMeParameter("remember-me")
-        		
         		
 		.and().csrf().disable()
 		;

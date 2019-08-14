@@ -177,6 +177,12 @@
 			<!-- <version>2.8.5</version> -->
 			<scope>test</scope>
 		</dependency>
+		<!-- Object Mapper : Json to Object -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
 
 	</dependencies>
 

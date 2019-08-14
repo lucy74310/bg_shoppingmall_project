@@ -11,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Shop Homepage - Start Bootstrap Template</title>
+<title>상품디테일</title>
 <!-- Bootstrap core CSS -->
 <link
 	href="${pageContext.servletContext.contextPath }/assets/vendor/bootstrap/css/bootstrap.min.css"
@@ -20,7 +20,10 @@
 <link
 	href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css"
 	rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
+	rel="stylesheet">
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 </head>
 
 <body>
@@ -91,28 +94,50 @@
 					</a>
 				</div>
 				<div class="card detail-info my-4">
-					<div class="card-header"><h4>${p.product_name}</h4></div>
+					<div class="card-header">
+						<h4>${p.product_name}</h4>
+					</div>
 					<div class="card-body">
-						<br>
 						<div class="card-text ">
-						<h6 class="info">￦  ${p.product_price }</h6>
-						<h6 class="info">(배송비)<c:choose><c:when test="${p.shipping_price eq 0}">  무료배송</c:when><c:otherwise>  ${p.shipping_price }</c:otherwise></c:choose></h6>
-						<h6 class="info"> ${p.save_percentage } % 적립</h6>
+							<h6 class="info">￦ <span class="price">${p.product_price }</span></h6>
+							<h6 class="info">
+								(배송비)
+								<c:choose>
+									<c:when test="${p.shipping_price eq 0}">  무료배송</c:when>
+									<c:otherwise>  ${p.shipping_price }</c:otherwise>
+								</c:choose>
+							</h6>
+							<h6 class="info">${p.save_percentage }%적립</h6>
 						</div>
-						<br>
-						<p class="card-text">
-							<h5 class="info">옵션</h5>
-							<c:if test="${not empty p.po_list }" >
+						<hr>
+						<div>
+							<h6 class="info">옵션</h6>
+							<c:if test="${not empty p.po_list }">
 								<select name="select_product_option" class="option-box">
 									<c:forEach items="${p.po_list }" var="po" varStatus="i">
-										<option value="${po.no}" class="opd">${po.po_name }&nbsp;&nbsp;&nbsp;&nbsp;+${po.plus_price }</option>
+										<option value="${po.no}" class="opd" data-plusprice='${po.plus_price}'>${po.po_name }&nbsp;&nbsp;&nbsp;&nbsp;+${po.plus_price }</option>
 									</c:forEach>
 								</select>
 							</c:if>
-						</p>
+						</div>
+						<hr>
+						<div class="count">
+							<h6 class="info">수량</h6>
+							<div class="input-group mb-3 text-center">
+								<div class="input-group-prepend minus-count">
+									<span class="input-group-text"><i class="fas fa-minus"></i></span>
+								</div>
+								<input type="text" class="form-control text-center" id="count" name="count"
+									value="1">
+								<div class="input-group-append plus-count">
+									<span class="input-group-text"><i class="fas fa-plus"></i></span>
+								</div>
+							</div>
+						</div>
+						<hr>
 						<div class="text-center">
 							<a href="#" class="btn btn-success buy-btn">구매하기</a> <a href="#"
-								class="btn btn-warning">장바구니 담기</a>
+								class="btn btn-warning add-btn" >+ 장바구니</a>
 						</div>
 					</div>
 				</div>
@@ -121,13 +146,9 @@
 					<div class="card-header">Product Details</div>
 					<div class="card-body">
 						<p>${p.product_detail }</p>
-						<!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Omnis et enim aperiam inventore, similique necessitatibus neque
-							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small> -->
 						<hr>
-						<a href="#" class="btn btn-success" onclick="goTop()"> 위로 가기 </a>
+						<a href="#" class="btn btn-success gotop" onclick="goTop()">
+							위로 가기 </a>
 					</div>
 				</div>
 			</div>
@@ -141,7 +162,29 @@
 
 	</div>
 	<!-- /.container -->
-
+	<!-- Modal -->
+	<!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenterTitle">Modal
+						title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">...</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div> -->
 	<!-- Footer -->
 	<c:import url='/WEB-INF/views/includes/footer.jsp' />
 	<!-- /.Footer -->
@@ -149,6 +192,48 @@
 		function goTop(e) {
 			e.preventDefault();
 			$('html').scrollTop(0);
+		}
+
+		$(function() {
+			/* 수량 감소 */
+			$('.minus-count').click(function(e) {
+				var current = $('#count').val();
+				if (current > 1) {
+					$('#count').val(--current);
+				}
+			});
+			/* 수량 증가 */
+			$('.plus-count').click(function(e) {
+				var current = $('#count').val();
+				$('#count').val(++current);
+			});
+			
+			/* 장바구니 담기 */ 
+			$('.add-btn').click(add_cart);
+			
+			
+		});
+		var add_cart = function(e) {
+			var count = Number($('input[name="count"]').val());
+			var pono = $('select[name="select_product_option"]').val();
+			var price = Number($('.price').text()) + Number($('option[value='+pono+']').data('plusprice'));
+			var send_data = { 
+					'product_option_no' : pono,
+					'count' : count,
+					'price' : price
+			}
+			$.ajax({
+				url : '/shop/cart/add',
+				type: 'POST',
+				contentType : "application/json",
+				data : JSON.stringify(send_data),
+				success: function(res) {
+					alert('상품이 장바구니에 추가되었습니다.')
+				},
+				error: function(xhr, error) {
+					console.error("err : " , error);
+				}
+			}); 
 		}
 	</script>
 </body>

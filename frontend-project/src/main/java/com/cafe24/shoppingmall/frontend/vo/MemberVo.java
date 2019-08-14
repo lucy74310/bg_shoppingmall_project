@@ -26,6 +26,8 @@ public class MemberVo {
 	public MemberVo() {}
 	
 	
+
+
 	public MemberVo(String id, String name, String password, String telephone,
 			String email, String birth, String address) {
 		this.id = id;

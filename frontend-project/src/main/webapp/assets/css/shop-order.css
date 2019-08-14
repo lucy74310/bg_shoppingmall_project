@@ -1,0 +1,39 @@
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	padding-top: 56px;
+}
+a.bshop-title , a.bshop-title:hover{
+	text-decoration: none;
+	color: #000;
+}
+div.bg-wrap{
+	margin : -1px 0;
+}
+div .bg-drop-down a:hover {
+	text-decoration: none;
+}
+
+div .bg-drop-down {
+	width:20px;
+	height:20px;
+	background-image: url("../image/icon/drop-down-arrow.png");
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: center center;
+	position: absolute;
+	right:14px;
+	top: 14px;
+	border:none;
+}
+
+div .bg-category-name{
+	font-family:'Noto Sans KR',sans-serif;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: #000000;
+	font-size:16px;
+}
+
+.custom {
+	margin-top: 20px;
+}

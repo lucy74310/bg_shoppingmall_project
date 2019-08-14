@@ -1,0 +1,31 @@
+.image {
+	width:100%;
+	
+}
+.modal-body{
+	display:block;
+	position: relative;
+}
+#p_image{
+	width:40%;
+	float:left;
+}
+#po_list {
+	width:50%;
+	float: left;
+	margin: 20px;
+}
+#po_list select {
+	width: 80%;
+}
+
+.count{
+	width:50%;
+	float: left;
+	margin: 20px;
+}
+.count-title{
+	width:50%;
+	float: left;
+	margin: 0 20px -20px 20px;
+}

@@ -62,14 +62,14 @@ public class CartController {
 		if(valid.hasErrors()) {
 			for(ObjectError err : valid.getAllErrors()) {
 				FieldError f = (FieldError) err;
-				return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				return  ResponseEntity.status(HttpStatus.OK)
 						.body(JSONResult.fail(f.getDefaultMessage()));
 			}
 		}
 		
 		cartVo = cartService.addCart(cartVo);
 		if(cartVo.getNo() == null) {
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			return  ResponseEntity.status(HttpStatus.OK)
 					.body(JSONResult.fail("장바구니 담기 실패"));
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(cartVo));
@@ -96,12 +96,26 @@ public class CartController {
 		}
 	}
 	
-	@ApiOperation("장바구니 상품 삭제")
+	@ApiOperation("장바구니 상품 한개 삭제")
 	@DeleteMapping("/delete")
 	public ResponseEntity<JSONResult> deleteProductInCart(
-		@RequestBody @Valid CartVo cartVo
+		@RequestBody CartVo cartVo
 	) {
 		int count = cartService.deleteCart(cartVo);
+		if(count == 1) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
+		} else {
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(JSONResult.fail("장바구니 상품 삭제 실패", count));
+		}
+	}
+	@ApiOperation("장바구니 상품 여러개 삭제")
+	@DeleteMapping("/deletelist")
+	public ResponseEntity<JSONResult> deleteProductInCartMultiple(
+		@RequestParam("pono_list") List<Long> pono_list,
+		@RequestParam("mem_no") Long mem_no
+	) {
+		int count = cartService.deleteCartMultiple(pono_list,mem_no);
 		if(count == 1) {
 			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(count));
 		} else {
@@ -120,7 +134,6 @@ public class CartController {
 		
 		
 		int count = cartService.alreadyHasCheck(is_member, mem_no, po_no);
-		
 		if(count == -1) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니에 담겨져 있지 않은 상품입니다.", count));
 		}

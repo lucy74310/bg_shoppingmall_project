@@ -52,11 +52,21 @@
 					</c:choose>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item active"><a class="nav-link"
-						href="${pageContext.servletContext.contextPath }">홈<span
+					<c:choose>
+						<c:when test='${param.active == "cart" }'>
+							<li class="nav-item "><a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a></li>
+							<li class="nav-item active"><a class="nav-link"	href="${pageContext.servletContext.contextPath }/cart/list">장바구니<span
 									class="sr-only">(current)</span></a></li>
-					<li class="nav-item "><a class="nav-link"
-						href="${pageContext.servletContext.contextPath }/user_logout">로그아웃</span></a></li>					
+							<li class="nav-item "><a class="nav-link"
+								href="${pageContext.servletContext.contextPath }/user_logout">로그아웃</span></a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="nav-item active"><a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a></li>
+							<li class="nav-item "><a class="nav-link" href="${pageContext.servletContext.contextPath }/cart/list">장바구니</a></li>
+							<li class="nav-item "><a class="nav-link"
+								href="${pageContext.servletContext.contextPath }/user_logout">로그아웃</span></a></li>
+						</c:otherwise>
+					</c:choose>
 				</sec:authorize>
 			</ul>
 		</div>

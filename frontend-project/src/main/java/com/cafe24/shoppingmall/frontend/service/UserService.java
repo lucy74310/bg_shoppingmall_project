@@ -34,7 +34,7 @@ public class UserService {
 
 		LoginVo loginVo = new LoginVo(id);
 
-		JSONResult2 result = null;
+		JSONResult2Member result = null;
 		MemberVo memberVo = null;
 		
 		try {

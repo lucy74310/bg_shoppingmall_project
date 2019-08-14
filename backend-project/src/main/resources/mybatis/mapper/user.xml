@@ -18,7 +18,9 @@
 		<![CDATA[
 		SELECT 
 			no, id, 
-			password, role
+			password, role,
+			aes_decrypt(name, 'bugwang') as name, 
+			aes_decrypt(telephone, 'bugwang') as telephone
 		 FROM member
 		WHERE id = #{id} and m_state = '0'
 		]]>

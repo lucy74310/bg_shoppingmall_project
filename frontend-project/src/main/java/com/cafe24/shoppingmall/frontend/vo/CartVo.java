@@ -14,6 +14,7 @@ public class CartVo {
 	private Long price;
 	
 	private int count;
+	private String product_name;
 	private String po_name;
 	
 	private String flag;
@@ -78,6 +79,22 @@ public class CartVo {
 		this.flag = flag;
 	}
 
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+
+	public String getMain_image_url() {
+		return main_image_url;
+	}
+
+	public void setMain_image_url(String main_image_url) {
+		this.main_image_url = main_image_url;
+	}
+
 	public String getPo_name() {
 		return po_name;
 	}
@@ -91,11 +108,13 @@ public class CartVo {
 	public void setMain_url(String main_image_url) {
 		this.main_image_url = main_image_url;
 	}
+
 	@Override
 	public String toString() {
 		return "CartVo [no=" + no + ", member_no=" + member_no + ", non_member_no=" + non_member_no
-				+ ", product_option_no=" + product_option_no + ", price=" + price + ", count=" + count + ", po_name="
-				+ po_name + ", flag=" + flag + ", main_image_url=" + main_image_url + "]";
+				+ ", product_option_no=" + product_option_no + ", price=" + price + ", count=" + count
+				+ ", product_name=" + product_name + ", po_name=" + po_name + ", flag=" + flag + ", main_image_url="
+				+ main_image_url + "]";
 	}
 	
 }

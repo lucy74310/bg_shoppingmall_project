@@ -35,17 +35,12 @@
 
 	<div class="container">
 		<div class="row">
-			<!-- col-lg-3 -->
-			<!-- Category Navigation -->
-			<c:import url='/WEB-INF/views/includes/category.jsp'/>
-			<!-- /.Navigation -->
-			<!-- /.col-lg-3 -->
+		
 
-			<div class="col-lg-9">
+			<div class="col-lg-12">
 				<br><br><br><br>
 				<div class="row">
-					<h3> 에러 발생 </h3>
-					<p> 죄송합니다. 에러가 발생하였습니다. </p>
+					<p> 접근 권한이 없는 페이지 입니다. </p><br>
 				</div>
 				<!-- /.row -->
 			</div>

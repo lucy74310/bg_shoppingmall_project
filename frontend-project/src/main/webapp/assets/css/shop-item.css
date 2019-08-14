@@ -32,7 +32,7 @@ body {
 	height: 450px;
 }
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 800px) {
 	.carousel{
 		width:100%;
 	}
@@ -42,19 +42,60 @@ body {
 }
 
 .card-text .info {
-	margin : 15px 0;	
+	margin : 5px 0;	
 }
-.btn {
-	width: 100%;
+.add-btn , .buy-btn  {
+	width: 48%;
+	float:left;
+	overflow: hidden;
 }
 .buy-btn {
-	margin-bottom: 5px;
+	margin-right: 5px;
+}
+.add-btn {
+	font-weight: bold;
+}
+.gotop {
+	width:100%;
 }
 a.bshop-title , a.bshop-title:hover{
 	text-decoration: none;
 	color: #000;
 }
+div.bg-wrap{
+	margin : -1px 0;
+}
+/* s: 카테고리 css */
+div .bg-drop-down a:hover {
+	text-decoration: none;
+}
 
+div .bg-drop-down {
+	width:20px;
+	height:20px;
+	background-image: url("../image/icon/drop-down-arrow.png");
+	background-repeat: no-repeat;
+	background-size: 15px 15px;
+	background-position: center center;
+	position: absolute;
+	right:14px;
+	top: 14px;
+	border:none;
+}
+
+div .bg-category-name{
+	font-family:'Noto Sans KR',sans-serif;
+	letter-spacing: 1px;
+	text-decoration: none;
+	color: #000000;
+	font-size:16px;
+}
+/* e: 카테고리 css */
 .option-box {
 	width:100%;
+}
+.count {
+	width:150px;
+}
+.card-body {
 }

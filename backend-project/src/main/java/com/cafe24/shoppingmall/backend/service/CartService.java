@@ -27,12 +27,26 @@ public class CartService {
 	public int deleteCart(CartVo cartVo) {
 		return cartDao.deleteCart(cartVo);
 	}
-	
+	// 장바구니 여러개 삭제 
+	public int deleteCartMultiple(List<Long> pono_list, Long mem_no) {
+		CartVo cartVo = new CartVo();
+		cartVo.setMember_no(mem_no);
+		int count = 0;
+		for(Long pono : pono_list) {
+			cartVo.setProduct_option_no(pono);
+			count += cartDao.deleteCart(cartVo);
+		}
+		
+		return count;
+	}
 	// 장바구니 목록
 	public List<CartVo> getCartList(Boolean is_member, Long no) {
 		List<CartVo> cart_list;
 		if(is_member) {
 			cart_list = cartDao.getMemberCartList(no);
+			for(CartVo c : cart_list) {
+				
+			}
 		} else {
 			cart_list = cartDao.getNonMemberCartList(no);
 		}
@@ -49,5 +63,6 @@ public class CartService {
 		
 		return cartVo.getCount();
 	}
+
 
 }

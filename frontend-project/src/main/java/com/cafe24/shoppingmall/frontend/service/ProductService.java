@@ -60,10 +60,13 @@ public class ProductService {
 				jsonResult = om.readValue(responseBody, JSONResult.class);
 			} catch (JsonParseException e1) {
 				e1.printStackTrace();
+				return null;
 			} catch (JsonMappingException e1) {
 				e1.printStackTrace();
+				return null;
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				return null;
 			}
 		}
 

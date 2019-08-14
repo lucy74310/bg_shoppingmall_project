@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.cafe24.shoppingmall.frontend.service.UserService;
-import com.cafe24.shoppingmall.frontend.vo.AdminVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
 
 
@@ -25,14 +24,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		MemberVo memberVo = userService.getMember(id);
 		
 		SecurityUser securityUser = new SecurityUser();
-		
 		if(memberVo != null) {
 			securityUser.setNo(memberVo.getNo());
 			securityUser.setUsername(memberVo.getId());
 			securityUser.setPassword(memberVo.getPassword());
+			securityUser.setName(memberVo.getName());
+			securityUser.setTelephone(memberVo.getTelephone());
 			securityUser.setAuthorities(Arrays.asList(new SimpleGrantedAuthority(memberVo.getRole())));
 		} 
-		System.out.println(securityUser.toString());
 		return securityUser;
 	}	
 }

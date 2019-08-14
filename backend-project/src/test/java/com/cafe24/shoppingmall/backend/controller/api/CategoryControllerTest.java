@@ -124,7 +124,7 @@ public class CategoryControllerTest {
 		
 		CategoryVo categoryVo = new CategoryVo("하의", 1, sub_cate_list);
 //		CategoryVo categoryVo = new CategoryVo("BEST SELLER", 1);
-		System.out.println(categoryVo);
+//		System.out.println(categoryVo);
 		mockMvc.perform(post("/api/category/add").contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(categoryVo)))
 			.andDo(print())

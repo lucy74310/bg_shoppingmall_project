@@ -40,12 +40,17 @@ public class CategoryService {
 				jsonResult = om.readValue(responseBody, JSONResult.class);
 			} catch (JsonParseException e1) {
 				e1.printStackTrace();
+				return null;
 			} catch (JsonMappingException e1) {
 				e1.printStackTrace();
+				return null;
 			} catch (IOException e1) {
 				e1.printStackTrace();
+				return null;
 			}
-		} 
+		} catch(RestClientException e) {
+			return null;
+		}
 		if("success".equals(jsonResult.getResult())) {
 			List<?> list2 = om.convertValue(jsonResult.getData(), ArrayList.class);
 			

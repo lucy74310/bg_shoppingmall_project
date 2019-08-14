@@ -11,10 +11,10 @@ public class SecurityUser implements UserDetails {
 
 	private Long no;
 	private String name;
-
 	private String username;
 	private String password;
 	private Collection<? extends GrantedAuthority> authorities;
+	private String telephone;
 	
 	public Long getNo() {
 		return no;
@@ -30,6 +30,14 @@ public class SecurityUser implements UserDetails {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {

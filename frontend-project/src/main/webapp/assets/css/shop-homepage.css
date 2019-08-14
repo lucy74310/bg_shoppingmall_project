@@ -38,3 +38,14 @@ div .bg-category-name{
 	color: #000000;
 	font-size:16px;
 }
+.buy-btn, .add-btn{
+	width:48%;
+}
+.add-btn{
+	font-weight: bold;
+}
+
+.count{
+	float:right;
+	width:50%;
+}
