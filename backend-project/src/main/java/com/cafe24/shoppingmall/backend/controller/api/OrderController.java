@@ -40,23 +40,23 @@ public class OrderController {
 			@RequestBody @Valid OrderVo orderVo,
 			BindingResult valid
 	) throws IOException {
+//		if(valid.hasErrors()) {
+//			Map<String, String> errMap = new HashMap<String, String>();
+//			for(ObjectError err : valid.getAllErrors()) {
+//				FieldError f = (FieldError) err;
+//				errMap.put(f.getField(), f.getDefaultMessage());
+//			}
+//			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//					.body(JSONResult.fail("필수항목 양식을 맞춰 주세요.", errMap));
+//		}
 		System.out.println(orderVo);
-		if(valid.hasErrors()) {
-			Map<String, String> errMap = new HashMap<String, String>();
-			for(ObjectError err : valid.getAllErrors()) {
-				FieldError f = (FieldError) err;
-				errMap.put(f.getField(), f.getDefaultMessage());
-			}
-			return  ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body(JSONResult.fail("필수항목 양식을 맞춰 주세요.", errMap));
-		}
-		Long addedOrderNo = orderService.addOrder(orderVo);
+		OrderVo addedOrderVo = orderService.addOrder(orderVo);
 		
-		if(addedOrderNo == null) {
+		if(addedOrderVo == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("주문 실패"));
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(addedOrderNo));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(addedOrderVo));
 	}
 	
 	@ApiOperation("회원 주문 내역 조회")
@@ -117,6 +117,19 @@ public class OrderController {
 					.body(JSONResult.fail("상태변경이 일어나지 않았습니다.",count));
 		}
 		
+	}
+	
+	@ApiOperation("주문 리스트")
+	@GetMapping("/list")
+	public ResponseEntity<JSONResult> orderList() throws IOException {
+		
+		List<OrderVo> order_product_list = orderService.getList();
+		
+		if(order_product_list.size() > 0) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(order_product_list));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("주문 내역이 없습니다."));
+		}
 	}
 	
 }

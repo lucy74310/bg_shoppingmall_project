@@ -19,7 +19,9 @@ public class OrderVo {
 	@NotEmpty(message="주문자 이메일은 필수입력 사향입니다.")
 	private String orderer_email;
 	
-	private String orderer_addr;
+	private String orderer_zipcode;
+	private String orderer_addr1;
+	private String orderer_addr2;
 	
 	private String orderer_phone;
 	
@@ -31,9 +33,12 @@ public class OrderVo {
 	@NotEmpty(message="수취자 이름은 필수입력 사향입니다.")
 	private String receiver_name;
 	
+	
+	private String receiver_zipcode;
 	@Length(min=1, message="수취자 주소는 필수입력 사향입니다.")
 	@NotEmpty(message="수취자 주소는 필수입력 사향입니다.")
-	private String receiver_addr;
+	private String receiver_addr1;
+	private String receiver_addr2;
 	
 	@Length(min=1, message="수취자 휴대번호는 필수입력 사향입니다.")
 	@NotEmpty(message="수취자 휴대번호는 필수입력 사향입니다.")
@@ -50,7 +55,7 @@ public class OrderVo {
 	private String order_check_password;
 	
 	
-	private List<CartVo> cart_list;
+	private List<OrderProductVo> order_list;
 	
 	
 	
@@ -60,31 +65,31 @@ public class OrderVo {
 	//회원주문테스트 생성자
 	public OrderVo(String orderer_name, String orderer_email, String orderer_telephone,
 			String receiver_name, String receiver_addr, String receiver_telephone, int pay_amount, Long member_no,
-			List<CartVo> cart_list) {
+			List<OrderProductVo> order_list) {
 		this.orderer_name = orderer_name;
 		this.orderer_email = orderer_email;
 		this.orderer_telephone = orderer_telephone;
 		this.receiver_name = receiver_name;
-		this.receiver_addr = receiver_addr;
+		this.receiver_addr1 = receiver_addr;
 		this.receiver_telephone = receiver_telephone;
 		this.pay_amount = pay_amount;
 		this.member_no = member_no;
-		this.cart_list = cart_list;
+		this.order_list = order_list;
 	}
 	
 	//비회원주문테스트 생성자
 	public OrderVo(String orderer_name, String orderer_email, String orderer_telephone,
 			String receiver_name, String receiver_addr, String receiver_telephone, int pay_amount,
-			String order_check_password, List<CartVo> cart_list) {
+			String order_check_password, List<OrderProductVo> order_list) {
 		this.orderer_name = orderer_name;
 		this.orderer_email = orderer_email;
 		this.orderer_telephone = orderer_telephone;
 		this.receiver_name = receiver_name;
-		this.receiver_addr = receiver_addr;
+		this.receiver_addr1 = receiver_addr;
 		this.receiver_telephone = receiver_telephone;
 		this.pay_amount = pay_amount;
 		this.order_check_password = order_check_password;
-		this.cart_list = cart_list;
+		this.order_list = order_list;
 	}
 	
 	
@@ -125,12 +130,6 @@ public class OrderVo {
 	public void setOrderer_email(String orderer_email) {
 		this.orderer_email = orderer_email;
 	}
-	public String getOrderer_addr() {
-		return orderer_addr;
-	}
-	public void setOrderer_addr(String orderer_addr) {
-		this.orderer_addr = orderer_addr;
-	}
 	public String getOrderer_phone() {
 		return orderer_phone;
 	}
@@ -148,12 +147,6 @@ public class OrderVo {
 	}
 	public void setReceiver_name(String receiver_name) {
 		this.receiver_name = receiver_name;
-	}
-	public String getReceiver_addr() {
-		return receiver_addr;
-	}
-	public void setReceiver_addr(String receiver_addr) {
-		this.receiver_addr = receiver_addr;
 	}
 	public String getReceiver_telephone() {
 		return receiver_telephone;
@@ -197,22 +190,76 @@ public class OrderVo {
 	public void setMember_no(Long member_no) {
 		this.member_no = member_no;
 	}
-	public List<CartVo> getCart_list() {
-		return cart_list;
+
+	public List<OrderProductVo> getOrder_list() {
+		return order_list;
 	}
-	public void setCart_list(List<CartVo> cart_list) {
-		this.cart_list = cart_list;
+
+	public void setOrder_list(List<OrderProductVo> order_list) {
+		this.order_list = order_list;
+	}
+
+	public String getOrderer_zipcode() {
+		return orderer_zipcode;
+	}
+
+	public void setOrderer_zipcode(String orderer_zipcode) {
+		this.orderer_zipcode = orderer_zipcode;
+	}
+
+	public String getOrderer_addr1() {
+		return orderer_addr1;
+	}
+
+	public void setOrderer_addr1(String orderer_addr1) {
+		this.orderer_addr1 = orderer_addr1;
+	}
+
+	public String getOrderer_addr2() {
+		return orderer_addr2;
+	}
+
+	public void setOrderer_addr2(String orderer_addr2) {
+		this.orderer_addr2 = orderer_addr2;
+	}
+
+	public String getReceiver_zipcode() {
+		return receiver_zipcode;
+	}
+
+	public void setReceiver_zipcode(String receiver_zipcode) {
+		this.receiver_zipcode = receiver_zipcode;
+	}
+
+	public String getReceiver_addr1() {
+		return receiver_addr1;
+	}
+
+	public void setReceiver_addr1(String receiver_addr1) {
+		this.receiver_addr1 = receiver_addr1;
+	}
+
+	public String getReceiver_addr2() {
+		return receiver_addr2;
+	}
+
+	public void setReceiver_addr2(String receiver_addr2) {
+		this.receiver_addr2 = receiver_addr2;
 	}
 
 	@Override
 	public String toString() {
-		return "OrderVo [no=" + no + ", order_code=" + order_code + ", order_name=" + order_name + ", orderer_name="
-				+ orderer_name + ", orderer_email=" + orderer_email + ", orderer_addr=" + orderer_addr
-				+ ", orderer_phone=" + orderer_phone + ", orderer_telephone=" + orderer_telephone + ", receiver_name="
-				+ receiver_name + ", receiver_addr=" + receiver_addr + ", receiver_telephone=" + receiver_telephone
-				+ ", receiver_phone=" + receiver_phone + ", shipping_msg=" + shipping_msg + ", order_state="
-				+ order_state + ", order_check_password=" + order_check_password + ", pay_amount=" + pay_amount
-				+ ", member_no=" + member_no + ", cart_list=" + cart_list + "]";
+		return "OrderVo [no=" + no + ", order_code=" + order_code + ", order_name=" + order_name + ", order_date="
+				+ order_date + ", orderer_name=" + orderer_name + ", orderer_email=" + orderer_email
+				+ ", orderer_zipcode=" + orderer_zipcode + ", orderer_addr1=" + orderer_addr1 + ", orderer_addr2="
+				+ orderer_addr2 + ", orderer_phone=" + orderer_phone + ", orderer_telephone=" + orderer_telephone
+				+ ", receiver_name=" + receiver_name + ", receiver_zipcode=" + receiver_zipcode + ", receiver_addr1="
+				+ receiver_addr1 + ", receiver_addr2=" + receiver_addr2 + ", receiver_telephone=" + receiver_telephone
+				+ ", receiver_phone=" + receiver_phone + ", pay_amount=" + pay_amount + ", shipping_msg=" + shipping_msg
+				+ ", order_state=" + order_state + ", member_no=" + member_no + ", order_check_password="
+				+ order_check_password + ", order_list=" + order_list + "]";
 	}
+
+
 	
 }

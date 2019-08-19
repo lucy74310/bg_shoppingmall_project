@@ -39,6 +39,15 @@ public class OrderDao {
 	public int updateOrderProductState(OrderProductVo orderProductVo) {
 		return sqlSession.update("order.update_order_handling_state", orderProductVo);
 	}
+
+	/*주문서 가져오기*/
+	public OrderVo getOrder(Long order_no) {
+		return sqlSession.selectOne("order.select_order", order_no);
+	}
+
+	public List<OrderVo> getOrderList() {
+		return sqlSession.selectList("order.select_order_list");
+	}
 	
 	
 }

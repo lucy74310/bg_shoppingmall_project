@@ -54,7 +54,6 @@ public class OrderVo {
 	public void setOrder_name(String order_name) {
 		this.order_name = order_name;
 	}
-	
 	public String getOrder_date() {
 		return order_date;
 	}
@@ -72,24 +71,6 @@ public class OrderVo {
 	}
 	public void setOrderer_email(String orderer_email) {
 		this.orderer_email = orderer_email;
-	}
-	public String getOrderer_addr1() {
-		return orderer_addr1;
-	}
-	public void setOrderer_addr1(String orderer_addr) {
-		this.orderer_addr1 = orderer_addr;
-	}
-	public String getOrderer_zipcode() {
-		return orderer_zipcode;
-	}
-	public void setOrderer_zipcode(String orderer_zipcode) {
-		this.orderer_zipcode = orderer_zipcode;
-	}
-	public String getOrderer_addr2() {
-		return orderer_addr2;
-	}
-	public void setOrderer_addr2(String orderer_addr2) {
-		this.orderer_addr2 = orderer_addr2;
 	}
 	public String getOrderer_phone() {
 		return orderer_phone;
@@ -151,6 +132,36 @@ public class OrderVo {
 	public void setMember_no(Long member_no) {
 		this.member_no = member_no;
 	}
+	public List<OrderProductVo> getOrder_list() {
+		return order_list;
+	}
+	public void setOrder_list(List<OrderProductVo> order_list) {
+		this.order_list = order_list;
+	}
+
+	public String getOrderer_zipcode() {
+		return orderer_zipcode;
+	}
+
+	public void setOrderer_zipcode(String orderer_zipcode) {
+		this.orderer_zipcode = orderer_zipcode;
+	}
+
+	public String getOrderer_addr1() {
+		return orderer_addr1;
+	}
+
+	public void setOrderer_addr1(String orderer_addr1) {
+		this.orderer_addr1 = orderer_addr1;
+	}
+
+	public String getOrderer_addr2() {
+		return orderer_addr2;
+	}
+
+	public void setOrderer_addr2(String orderer_addr2) {
+		this.orderer_addr2 = orderer_addr2;
+	}
 
 	public String getReceiver_zipcode() {
 		return receiver_zipcode;
@@ -176,14 +187,6 @@ public class OrderVo {
 		this.receiver_addr2 = receiver_addr2;
 	}
 
-	public List<OrderProductVo> getOrder_list() {
-		return order_list;
-	}
-
-	public void setOrder_list(List<OrderProductVo> order_list) {
-		this.order_list = order_list;
-	}
-
 	@Override
 	public String toString() {
 		return "OrderVo [no=" + no + ", order_code=" + order_code + ", order_name=" + order_name + ", order_date="
@@ -196,6 +199,8 @@ public class OrderVo {
 				+ ", order_state=" + order_state + ", member_no=" + member_no + ", order_check_password="
 				+ order_check_password + ", order_list=" + order_list + "]";
 	}
+
+
 
 
 	

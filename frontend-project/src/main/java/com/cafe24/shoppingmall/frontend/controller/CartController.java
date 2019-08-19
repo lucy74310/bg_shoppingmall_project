@@ -45,8 +45,7 @@ public class CartController {
 		List<CategoryVo> categories = categoryService.getListAll();
 		Long member_no = securityUser.getNo();
 		List<CartVo> cart_list = cartService.getCartList(member_no);
-		
-		
+		System.out.println("cart_list : "  + cart_list);
 		model.addAttribute("categories", categories);
 		model.addAttribute("cart_list", cart_list);		
 		return "cart/cart";

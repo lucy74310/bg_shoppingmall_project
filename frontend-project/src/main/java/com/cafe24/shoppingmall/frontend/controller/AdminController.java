@@ -21,6 +21,8 @@ import com.cafe24.shoppingmall.frontend.service.CategoryService;
 import com.cafe24.shoppingmall.frontend.service.ProductService;
 import com.cafe24.shoppingmall.frontend.vo.CategoryVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
+import com.cafe24.shoppingmall.frontend.vo.OrderProductVo;
+import com.cafe24.shoppingmall.frontend.vo.OrderVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 
 @Controller
@@ -88,6 +90,8 @@ public class AdminController {
 		
 		return "admin/category";
 	}
+	
+	
 	@GetMapping({"/admin/user", "/admin/user/list"})
 	public String user(Model model) {
 		List<MemberVo> members = adminService.getMemberListAll();
@@ -97,5 +101,13 @@ public class AdminController {
 		return "admin/user-list";
 	}
 	
+	@GetMapping("/admin/order")
+	public String order(Model model) {
+		
+		List<OrderVo> order_list = adminService.getOrderList();
+		System.out.println(order_list);
+		model.addAttribute("orders", order_list);
+		return "admin/order-list";
+	}
 	
 }

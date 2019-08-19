@@ -102,13 +102,6 @@ public class CartVo {
 		this.po_name = po_name;
 	}
 	
-	public String getMain_url() {
-		return main_image_url;
-	}
-	public void setMain_url(String main_image_url) {
-		this.main_image_url = main_image_url;
-	}
-
 	@Override
 	public String toString() {
 		return "CartVo [no=" + no + ", member_no=" + member_no + ", non_member_no=" + non_member_no

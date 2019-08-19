@@ -12,8 +12,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cafe24.shoppingmall.frontend.dto.JSONResult;
+import com.cafe24.shoppingmall.frontend.dto.JSONResult2;
 import com.cafe24.shoppingmall.frontend.vo.ImageVo;
 import com.cafe24.shoppingmall.frontend.vo.MemberVo;
+import com.cafe24.shoppingmall.frontend.vo.OrderProductVo;
+import com.cafe24.shoppingmall.frontend.vo.OrderVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductCategoryVo;
 import com.cafe24.shoppingmall.frontend.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -121,4 +124,32 @@ public class AdminService {
 		return null;
 	}
 
+	public List<OrderVo> getOrderList() {
+		JSONResult2OrderList jsonResult = null;
+		
+		String uri = "/api/order/list";
+		
+		try {
+			jsonResult = restTemplate.getForObject(ProductService.restUrl+uri, JSONResult2OrderList.class);
+		} catch(HttpClientErrorException e) {
+			String responseBody = e.getResponseBodyAsString();
+			try {
+				jsonResult = om.readValue(responseBody, JSONResult2OrderList.class);
+			} catch (JsonParseException e1) {
+				e1.printStackTrace();
+			} catch (JsonMappingException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		
+		return jsonResult.getData();
+	}
+	
+	private static class JSONResult2OrderList extends JSONResult2<List<OrderVo>> {
+		
+	}
 }

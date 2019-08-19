@@ -19,14 +19,18 @@
 			   where substr(a.order_code,1,8) = date_format(now(),'%Y%m%d')), '7','0'))) as order_code)
 			, #{order_name}, now(), 
 			aes_encrypt(#{orderer_name}, 'bugwang'), 
-			aes_encrypt(#{orderer_email}, 'bugwang'), 
-			aes_encrypt(#{orderer_addr}, 'bugwang'),
+			aes_encrypt(#{orderer_email}, 'bugwang'),
+			aes_encrypt(#{orderer_zipcode}, 'bugwang'), 
+			aes_encrypt(#{orderer_addr1}, 'bugwang'),
+			aes_encrypt(#{orderer_addr2}, 'bugwang'),
 			aes_encrypt( #{orderer_phone}, 'bugwang'),
 			aes_encrypt( #{orderer_telephone}, 'bugwang'),
 			aes_encrypt( #{receiver_name}, 'bugwang'),
-			aes_encrypt( #{receiver_addr}, 'bugwang'),
-			aes_encrypt( #{receiver_telephone}, 'bugwang'),
+			aes_encrypt( #{receiver_zipcode}, 'bugwang'),
+			aes_encrypt( #{receiver_addr1}, 'bugwang'),
+			aes_encrypt( #{receiver_addr2}, 'bugwang'),
 			aes_encrypt( #{receiver_phone}, 'bugwang'),
+			aes_encrypt( #{receiver_telephone}, 'bugwang'),
 			 #{pay_amount}, #{shipping_msg}, #{order_state},
 			#{member_no}, 
 			sha2(#{order_check_password}, 512)
@@ -45,7 +49,8 @@
 			values
 			(null, 
 			#{order_no}, 
-			#{product_option_no}, 
+			#{product_option_no},
+			#{product_name}, 
 			#{po_name}, 
 			#{count}, 
 			#{price}, 
@@ -56,6 +61,7 @@
 		</selectKey> 
 	</insert>
 	
+	<!-- order product목록 가져옴 -->
 	<select id="get_member_order_history" resultType="orderproductvo" parameterType="long">
 			SELECT 
 				op.no, op.order_no, op.product_option_no, o.order_code, o.order_date , pi.url as main_image_url, 
@@ -69,6 +75,8 @@
 			
 	</select>
 	
+	
+	<!-- order product목록 가져옴 -->
 	<select id="get_nonmember_order_history" resultType="orderproductvo" parameterType="ordervo">
 		SELECT 
 				op.no, op.order_no, op.product_option_no, o.order_code, o.order_date , pi.url as main_image_url, 
@@ -83,6 +91,14 @@
 			AND o.order_code = #{order_code}
 			AND pi.is_main='Y'
 			ORDER BY order_date DESC
+	</select>
+	
+	<!-- order 가져옴 -->
+	<select id="select_order" resultType="ordervo" parameterType="long">
+		SELECT 
+			no, order_name, order_code, order_date, aes_decrypt( orderer_name, 'bugwang') as orderer_name
+		FROM orders where no = #{order_no}
+	
 	</select>
 	
 	<update id="update_order_state" parameterType="ordervo" >
@@ -100,4 +116,61 @@
 		order_no = #{order_no} and 
 		(product_option_no = #{product_option_no} or #{product_option_no} is null);
 	</update>
+	
+	
+	<resultMap id="get_order_list_type" type="ordervo">
+		<id property="no" column="no"/>
+	    <result property="order_code" column="order_code"/>
+	    <result property="order_name" column="order_name"/>
+	    <result property="order_date" column="order_date"/>
+	    <result property="orderer_name" column="orderer_name"/>
+	    <result property="orderer_email" column="orderer_email"/>
+	    <result property="orderer_zipcode" column="orderer_zipcode"/>
+	    <result property="orderer_addr1" column="orderer_addr1"/>
+	    <result property="orderer_addr2" column="orderer_addr2"/>
+	    <result property="orderer_phone" column="orderer_phone"/>
+	    <result property="orderer_telephone" column="orderer_telephone"/>
+	    <result property="receiver_name" column="receiver_name"/>
+	    <result property="receiver_zipcode" column="receiver_zipcode"/>
+	    <result property="receiver_addr1" column="receiver_addr1"/>
+	    <result property="receiver_addr2" column="receiver_addr2"/>
+	    <result property="receiver_telephone" column="receiver_telephone"/>
+	    <result property="receiver_phone" column="receiver_phone"/>
+	    <result property="pay_amount" column="pay_amount"/>
+	    <result property="receiver_phone" column="receiver_phone"/>
+	    <result property="shipping_msg" column="shipping_msg"/>
+	    <result property="order_state" column="order_state"/>
+	    <result property="member_no" column="member_no"/>
+	    <collection property="order_list" column="no" javaType="java.util.ArrayList" ofType="orderproductvo" select="get_order_product_list"/>
+	</resultMap>
+	<!-- 전체목록 -->
+	<select id="select_order_list" resultMap="get_order_list_type">
+		<![CDATA[
+		SELECT o.no, o.order_code,o.order_name,o.order_date, 
+		aes_decrypt(o.orderer_name, 'bugwang') as orderer_name, 
+		aes_decrypt(o.orderer_email, 'bugwang') as orderer_email, 
+		aes_decrypt(o.orderer_zipcode, 'bugwang') as orderer_zipcode, 
+		aes_decrypt(o.orderer_addr1, 'bugwang') as orderer_addr1, 
+		AES_DECRYPT(o.orderer_addr2, 'bugwang') as orderer_addr2, 
+		AES_DECRYPT(o.orderer_phone, 'bugwang') as orderer_phone, 
+		AES_DECRYPT(o.orderer_telephone, 'bugwang') as orderer_telephone, 
+		AES_DECRYPT(o.receiver_name, 'bugwang') as receiver_name, 
+		AES_DECRYPT(o.receiver_zipcode, 'bugwang') as receiver_zipcode, 
+		AES_DECRYPT(o.receiver_addr1, 'bugwang') as receiver_addr1, 
+		AES_DECRYPT(o.receiver_addr2, 'bugwang') as receiver_addr2, 
+		AES_DECRYPT(o.receiver_telephone, 'bugwang') as receiver_telephone, 
+		AES_DECRYPT(o.receiver_phone, 'bugwang') as receiver_phone,
+		o.pay_amount,o.shipping_msg,o.order_state, member_no 
+		FROM orders AS o;
+		
+		]]>
+	</select>
+	
+	<select id="get_order_product_list" resultType="orderproductvo">
+		select no, order_no, product_option_no, product_name, po_name, count, price, order_handling_state
+		from order_product where order_no = #{no};
+	
+	</select>
+	
+	
 </mapper>

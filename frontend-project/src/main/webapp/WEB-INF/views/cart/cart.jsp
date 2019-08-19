@@ -47,6 +47,7 @@
 			<div class="col-lg-9  p-5 bg-white rounded shadow-sm mb-5 custom">
 				<!-- Shopping cart table -->
 				<div class="table-responsive">
+				<form id="cart_list_info" method="post" action="${pageContext.servletContext.contextPath }/orderform" >
 					<table class="table">
 						<thead>
 							<tr>
@@ -68,7 +69,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<form id="cart_list_info" method="post" action="${pageContext.servletContext.contextPath }/orderform" >
+							
 							<c:if test="${not empty cart_list}">
 								<c:forEach items="${cart_list}" var="c" varStatus="status">
 									<tr>
@@ -100,14 +101,14 @@
 											<input type="hidden" name='cart_list[${status.index}].member_no' value="${c.member_no}"/>
 											<input type="hidden" name='cart_list[${status.index}].price' value="${c.price}"/>
 											<input type="hidden" name='cart_list[${status.index}].count' value="${c.count}"/>
-											<input type="hidden" name='cart_list[${status.index}].main_url' value="${c.main_url}"/>
+											<input type="hidden" name='cart_list[${status.index}].main_image_url' value="${c.main_url}"/>
 										</td>
 									</tr>
 								</c:forEach>
 							</c:if>
-							</form>
 						</tbody>
 					</table>
+					</form>
 				</div>
 				<!-- End -->
 				<button type="button" class="btn btn-info custom-btn order-all">전체주문</button>

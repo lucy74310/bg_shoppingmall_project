@@ -4,6 +4,7 @@ public class OrderProductVo {
 	private Long no;
 	private Long order_no;
 	private Long product_option_no;
+	private String product_name;
 	private String po_name;
 	private int count;
 	private Long price;
@@ -19,6 +20,19 @@ public class OrderProductVo {
 		this.count = count;
 		this.price = price;
 		this.order_handling_state = order_handling_state;
+	}
+	
+	public String getProduct_name() {
+		return product_name;
+	}
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+	public String getMain_image_url() {
+		return main_image_url;
+	}
+	public void setMain_image_url(String main_image_url) {
+		this.main_image_url = main_image_url;
 	}
 	public Long getNo() {
 		return no;
@@ -71,9 +85,7 @@ public class OrderProductVo {
 	@Override
 	public String toString() {
 		return "OrderProductVo [no=" + no + ", order_no=" + order_no + ", product_option_no=" + product_option_no
-				+ ", po_name=" + po_name + ", count=" + count + ", price=" + price + ", order_handling_state="
-				+ order_handling_state + ", main_image_url=" + main_image_url + "]";
+				+ ", product_name=" + product_name + ", po_name=" + po_name + ", count=" + count + ", price=" + price
+				+ ", order_handling_state=" + order_handling_state + ", main_image_url=" + main_image_url + "]";
 	}
-
-	
 }

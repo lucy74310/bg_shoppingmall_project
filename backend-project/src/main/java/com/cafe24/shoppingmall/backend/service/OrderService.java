@@ -19,30 +19,35 @@ public class OrderService {
 	
 	// 주문서 insert
 	@Transactional
-	public Long addOrder(OrderVo orderVo) {
+	public OrderVo addOrder(OrderVo orderVo) {
+		System.out.println(orderVo);
 		Long order_no = null;
-		if(orderVo.getCart_list() != null) {
-			int product_count = orderVo.getCart_list().size();
-			String[] product_name = orderVo.getCart_list().get(0).getPo_name().split("\\|");
-			for(String s : product_name) {
-				System.out.println(s);
-			}
+		if(orderVo.getOrder_list() != null) {
+			int product_count = orderVo.getOrder_list().size();
+			String product_name = orderVo.getOrder_list().get(0).getProduct_name();
+			
 			if(product_count > 1) {
-				orderVo.setOrder_name(product_name[0] + " 외 " + (product_count-1) + "개");
+				orderVo.setOrder_name(product_name + " 외 " + (product_count-1) + "개");
 			} else if (product_count == 1) {
-				orderVo.setOrder_name(product_name[0]);
+				orderVo.setOrder_name(product_name);
 			}
 			orderVo.setOrder_state("결제완료");
 			order_no = orderDao.insertOrder(orderVo);
-			
-			for(CartVo c : orderVo.getCart_list()) {
+			System.out.println("주문서 insert ing");
+			for(OrderProductVo c : orderVo.getOrder_list()) {
 				OrderProductVo opvo = new OrderProductVo(order_no,
-						c.getProduct_option_no(), c.getPo_name(), c.getCount(),
-						c.getPrice(), "배송완료");
+						c.getProduct_option_no(),c.getProduct_name(), c.getPo_name(), c.getCount(),
+						c.getPrice(), "배송완료", c.getMain_image_url());
 				orderDao.insertOrderProduct(opvo);
 			}
 		}
-		return order_no;
+		System.out.println("주문서 insert done");
+		OrderVo insertOrder = null;
+		if(order_no != null) {
+			insertOrder = orderDao.getOrder(order_no);
+		}
+		System.out.println("주문서 info : " + insertOrder.toString());
+		return insertOrder;
 	}
 	// 회원 주문내역조회 
 	public List<OrderProductVo> getMemberHistory(Long member_no) {
@@ -62,6 +67,11 @@ public class OrderService {
 	}
 	public int orderProductStateChange(OrderProductVo orderProductVo) {
 		return orderDao.updateOrderProductState(orderProductVo);
+	}
+	
+	//주문목록조회
+	public List<OrderVo> getList() {
+		return orderDao.getOrderList();
 	}
 	
 	
