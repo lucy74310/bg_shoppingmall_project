@@ -183,6 +183,20 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
+		<!-- Zipkin -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zipkin</artifactId>
+			<version>1.3.2.RELEASE</version>
+		</dependency>
+		<!-- Zipkin Sleuth-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+			<version>1.3.2.RELEASE</version>
+		</dependency>
+
+
 
 	</dependencies>
 
